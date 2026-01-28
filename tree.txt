@@ -1,0 +1,83 @@
+📦pet_shop
+ ┣ 📂.next
+ ┃ ┗ ...
+ ┣ 📂.vscode
+ ┃ ┗ 📜settings.json
+ ┣ 📂migrations
+ ┃ ┣ 📜1762706948911_create_ products_and_users.ts
+ ┃ ┣ 📜1763388106447_create_session.ts
+ ┃ ┣ 📜1764093601083_add_admin_col.ts
+ ┃ ┣ 📜1765999330032_create_order.ts
+ ┃ ┗ 📜1766001491719_create_order_items.ts
+ ┣ 📂node_modules
+ ┃ ┗ ...
+ ┣ 📂public
+ ┃ ┗ 📂uploads
+ ┃ ┃ ┣ 📜catfood.webp
+ ┃ ┃ ┣ 📜cattoy.webp
+ ┃ ┃ ┣ 📜dogfood.webp
+ ┃ ┃ ┣ 📜dogtoy.webp
+ ┃ ┃ ┗ 📜hamsterfood.webp
+ ┣ 📂seeds
+ ┃ ┗ 📜1765049644188_new_seed.ts
+ ┣ 📂src
+ ┃ ┣ 📂actions
+ ┃ ┃ ┣ 📜admin.ts
+ ┃ ┃ ┣ 📜products.ts
+ ┃ ┃ ┗ 📜user.ts
+ ┃ ┣ 📂app
+ ┃ ┃ ┣ 📂admin
+ ┃ ┃ ┃ ┣ 📜addProductButton.tsx
+ ┃ ┃ ┃ ┣ 📜adminForm.tsx
+ ┃ ┃ ┃ ┗ 📜page.tsx
+ ┃ ┃ ┣ 📂basket
+ ┃ ┃ ┃ ┣ 📜page.tsx
+ ┃ ┃ ┃ ┗ 📜removeFromCartButton.tsx
+ ┃ ┃ ┣ 📂confirmation
+ ┃ ┃ ┃ ┣ 📜orderButton.tsx
+ ┃ ┃ ┃ ┗ 📜page.tsx
+ ┃ ┃ ┣ 📂confirmed
+ ┃ ┃ ┃ ┗ 📜page.tsx
+ ┃ ┃ ┣ 📂login
+ ┃ ┃ ┃ ┣ 📜loginButton.tsx
+ ┃ ┃ ┃ ┗ 📜page.tsx
+ ┃ ┃ ┣ 📂password_change
+ ┃ ┃ ┃ ┗ 📜page.tsx
+ ┃ ┃ ┣ 📂password_change2
+ ┃ ┃ ┃ ┣ 📜page.tsx
+ ┃ ┃ ┃ ┗ 📜verifyCode.tsx
+ ┃ ┃ ┣ 📂password_change3
+ ┃ ┃ ┃ ┗ 📜page.tsx
+ ┃ ┃ ┣ 📂password_change4
+ ┃ ┃ ┃ ┗ 📜page.tsx
+ ┃ ┃ ┣ 📂products
+ ┃ ┃ ┃ ┣ 📜addToCartButton.tsx
+ ┃ ┃ ┃ ┣ 📜addToFavouritesButton.tsx
+ ┃ ┃ ┃ ┣ 📜page.tsx
+ ┃ ┃ ┃ ┗ 📜removeFromFavouritesButton.tsx
+ ┃ ┃ ┣ 📂register
+ ┃ ┃ ┃ ┣ 📜page.tsx
+ ┃ ┃ ┃ ┗ 📜registerButton.tsx
+ ┃ ┃ ┣ 📂shipping_info
+ ┃ ┃ ┃ ┣ 📜LinkToConfirmation.tsx
+ ┃ ┃ ┃ ┗ 📜page.tsx
+ ┃ ┃ ┣ 📂user
+ ┃ ┃ ┃ ┣ 📜logoutButton.tsx
+ ┃ ┃ ┃ ┗ 📜page.tsx
+ ┃ ┃ ┣ 📜favicon.ico
+ ┃ ┃ ┣ 📜globals.css
+ ┃ ┃ ┣ 📜layout.tsx
+ ┃ ┃ ┣ 📜navbar.tsx
+ ┃ ┃ ┗ 📜page.tsx
+ ┃ ┗ 📂lib
+ ┃ ┃ ┣ 📜db-types.ts
+ ┃ ┃ ┣ 📜db.ts
+ ┃ ┃ ┗ 📜hashing.ts
+ ┣ 📜db.sqlite
+ ┣ 📜eslint.config.mjs
+ ┣ 📜kysely.config.ts
+ ┣ 📜next-env.d.ts
+ ┣ 📜next.config.ts
+ ┣ 📜package-lock.json
+ ┣ 📜package.json
+ ┗ 📜tsconfig.json

@@ -1,0 +1,30 @@
+.navbar {
+    display: flex;
+    padding: 1rem 2rem;
+    align-items: center;
+    justify-content: space-around;
+    background-color: #ffffff;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.548);
+    border-bottom-left-radius: 0.75rem;
+    border-bottom-right-radius: 0.75rem;
+  }
+  
+  .navItem {
+    border-radius: 0.75rem;
+  }
+  
+  .navLink {
+    display: block;
+    padding: 0.5rem 0.9rem;
+    border-radius: 0.75rem;
+    text-decoration: none;
+    color: #1f2937; /* dark gray, not link-blue */
+    font-weight: 500;
+    transition: background-color 0.2s ease, color 0.2s ease;
+  }
+  
+  .navLink:hover {
+    background-color: #22c55e; /* green hover */
+    color: #ffffff; /* explicitly not blue */
+  }
+  

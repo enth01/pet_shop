@@ -1,0 +1,198 @@
+"use server";
+
+import getDB from "@/lib/db";
+import { cookies } from "next/headers";
+import { revalidatePath } from "next/cache";
+import { redirect } from "next/navigation";
+import { Resend } from "resend";
+import { writeFile } from "fs/promises";
+
+/* ----------------------------------------
+   Helpers
+----------------------------------------- */
+
+async function requireAdmin() {
+  const cookieStore = await cookies();
+  const sessionId = cookieStore.get("session")?.value;
+  if (!sessionId) redirect("/");
+
+  const db = getDB();
+
+  const session = await db
+    .selectFrom("session")
+    .selectAll()
+    .where("session_id", "=", sessionId)
+    .executeTakeFirst();
+
+  if (!session) redirect("/");
+
+  const user = await db
+    .selectFrom("users")
+    .selectAll()
+    .where("id", "=", session.user_id)
+    .executeTakeFirst();
+
+  if (!user || user.is_admin === 0) redirect("/");
+
+  return { db, user };
+}
+
+/* ----------------------------------------
+   PRODUCTS
+----------------------------------------- */
+
+export async function addProduct(
+  name: string,
+  description: string,
+  category: string,
+  price: number,
+  image: File | null
+) {
+  const { db } = await requireAdmin();
+
+  if (!image) {
+    return { error: "Image is required" };
+  }
+
+  const buffer = Buffer.from(await image.arrayBuffer());
+  const fileName = `${Date.now()}_${image.name}`;
+
+  await import("fs/promises").then(fs =>
+    fs.writeFile(`public/uploads/${fileName}`, buffer)
+  );
+
+  await db
+    .insertInto("products")
+    .values({
+      name,
+      description,
+      category,
+      price,
+      image: fileName,
+    })
+    .execute();
+
+  revalidatePath("/admin");
+  revalidatePath("/products");
+
+  return { success: true };
+}
+
+export async function updateProduct(
+  id: number,
+  data: {
+    name?: string;
+    description?: string;
+    category?: string;
+    price?: number;
+    image?: File;
+  }
+) {
+  const db = getDB();
+
+  let imageName: string | undefined;
+
+  if (data.image) {
+    const bytes = await data.image.arrayBuffer();
+    const buffer = Buffer.from(bytes);
+    imageName = Date.now() + "_" + data.image.name;
+
+    await writeFile(
+      `./public/uploads/${imageName}`,
+      buffer
+    );
+  }
+
+  await db
+    .updateTable("products")
+    .set({
+      name: data.name,
+      description: data.description,
+      category: data.category,
+      price: data.price,
+      ...(imageName ? { image: imageName } : {}),
+    })
+    .where("id", "=", id)
+    .execute();
+
+  revalidatePath("/admin");
+}
+
+export async function deleteProduct(id: number) {
+  const { db } = await requireAdmin();
+
+  await db.deleteFrom("favorite_products").where("product_id", "=", id).execute();
+  await db.deleteFrom("order_product").where("product_id", "=", id).execute();
+  await db.deleteFrom("products").where("id", "=", id).execute();
+
+  revalidatePath("/admin");
+  revalidatePath("/products");
+}
+
+/* ----------------------------------------
+   USERS
+----------------------------------------- */
+
+export async function deleteUserAndData(userId: number) {
+  const { db, user } = await requireAdmin();
+
+  if (user.id === userId) {
+    return { error: "You cannot delete yourself." };
+  }
+
+  const target = await db
+    .selectFrom("users")
+    .selectAll()
+    .where("id", "=", userId)
+    .executeTakeFirst();
+
+  if (!target || target.is_admin === 1) {
+    return { error: "Cannot delete this user." };
+  }
+
+  await db.deleteFrom("favorite_products").where("user_id", "=", userId).execute();
+  await db.deleteFrom("order_product")
+    .where("order_id", "in",
+      db.selectFrom("orders").select("id").where("user_id", "=", userId)
+    )
+    .execute();
+  await db.deleteFrom("orders").where("user_id", "=", userId).execute();
+  await db.deleteFrom("session").where("user_id", "=", userId).execute();
+  await db.deleteFrom("users").where("id", "=", userId).execute();
+
+  revalidatePath("/admin");
+}
+
+/* ----------------------------------------
+   ORDERS
+----------------------------------------- */
+
+export async function markOrderAsSent(orderId: number, email: string) {
+  const { db } = await requireAdmin();
+
+  await db
+    .updateTable("orders")
+    .set({ confirmed: 1 })
+    .where("id", "=", orderId)
+    .execute();
+
+  const resend = new Resend(process.env.RESEND_API_KEY!);
+
+  await resend.emails.send({
+    from: "Shop <onboarding@resend.dev>",
+    to: email,
+    subject: "Your order has been sent",
+    html: "<p>Your order has been sent.</p>",
+  });
+
+  revalidatePath("/admin");
+}
+
+export async function deleteOrder(orderId: number) {
+  const { db } = await requireAdmin();
+
+  await db.deleteFrom("order_product").where("order_id", "=", orderId).execute();
+  await db.deleteFrom("orders").where("id", "=", orderId).execute();
+
+  revalidatePath("/admin");
+}
