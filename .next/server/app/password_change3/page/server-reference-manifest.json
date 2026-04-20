@@ -1,0 +1,20 @@
+{
+  "node": {
+    "4053df4365de20f19f09c4db3e3bca7e1c4bae86d5": {
+      "workers": {
+        "app/password_change3/page": {
+          "moduleId": "[project]/.next-internal/server/app/password_change3/page/actions.js { ACTIONS_MODULE0 => \"[project]/src/actions/user.ts [app-rsc] (ecmascript)\" } [app-rsc] (server actions loader, ecmascript)",
+          "async": false,
+          "exportedName": "passwordChange3",
+          "filename": "src/actions/user.ts"
+        }
+      },
+      "layer": {
+        "app/password_change3/page": "action-browser"
+      },
+      "exportedName": "passwordChange3",
+      "filename": "src/actions/user.ts"
+    }
+  },
+  "edge": {}
+}

@@ -24,7 +24,7 @@ export default function AddProductForm() {
         onClick={async () => {
           const res = await addProduct(name, description, category, price, image);
           if (res?.error) alert(res.error);
-          else alert("Product added");
+          else alert("Produkt pridaný");
         }}
       >
         Add product

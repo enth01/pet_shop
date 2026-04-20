@@ -11,19 +11,19 @@ export default async function NavBar() {
   const defaultReturn = (
     <nav className={styles.navbar}>
       <div className={styles.navItem}>
-        <Link className={styles.navLink} href="/">Home</Link>
+        <Link className={styles.navLink} href="/">Domov</Link>
       </div>
       <div className={styles.navItem}>
-        <Link className={styles.navLink} href="/products">Products</Link>
+        <Link className={styles.navLink} href="/products">Produkty</Link>
       </div>
       <div className={styles.navItem}>
-        <Link className={styles.navLink} href="/login">Login</Link>
+        <Link className={styles.navLink} href="/login">Prihlásenie</Link>
       </div>
       <div className={styles.navItem}>
-        <Link className={styles.navLink} href="/register">Register</Link>
+        <Link className={styles.navLink} href="/register">Registrácia</Link>
       </div>
       <div className={styles.navItem}>
-        <Link className={styles.navLink} href="/basket">Basket</Link>
+        <Link className={styles.navLink} href="/basket">Košík</Link>
       </div>
     </nav>
   );
@@ -31,19 +31,19 @@ export default async function NavBar() {
   const adminReturn = (
     <nav className={styles.navbar}>
       <div className={styles.navItem}>
-        <Link className={styles.navLink} href="/">Home</Link>
+        <Link className={styles.navLink} href="/">Domov</Link>
       </div>
       <div className={styles.navItem}>
-        <Link className={styles.navLink} href="/products">Products</Link>
+        <Link className={styles.navLink} href="/products">Produkty</Link>
       </div>
       <div className={styles.navItem}>
-        <Link className={styles.navLink} href="/admin">Admin page</Link>
+        <Link className={styles.navLink} href="/admin">Admin</Link>
       </div>
       <div className={styles.navItem}>
-        <Link className={styles.navLink} href="/user">User page</Link>
+        <Link className={styles.navLink} href="/user">Vaše konto</Link>
       </div>
       <div className={styles.navItem}>
-        <Link className={styles.navLink} href="/basket">Basket</Link>
+        <Link className={styles.navLink} href="/basket">Košík</Link>
       </div>
     </nav>
   );
@@ -51,16 +51,16 @@ export default async function NavBar() {
   const userReturn = (
     <nav className={styles.navbar}>
       <div className={styles.navItem}>
-        <Link className={styles.navLink} href="/">Home</Link>
+        <Link className={styles.navLink} href="/">Domov</Link>
       </div>
       <div className={styles.navItem}>
-        <Link className={styles.navLink} href="/products">Products</Link>
+        <Link className={styles.navLink} href="/products">Produkty</Link>
       </div>
       <div className={styles.navItem}>
-        <Link className={styles.navLink} href="/user">User page</Link>
+        <Link className={styles.navLink} href="/user">Vaše konto</Link>
       </div>
       <div className={styles.navItem}>
-        <Link className={styles.navLink} href="/basket">Basket</Link>
+        <Link className={styles.navLink} href="/basket">Košík</Link>
       </div>
     </nav>
   );

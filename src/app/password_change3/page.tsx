@@ -4,7 +4,7 @@ import { passwordChange3 } from "@/actions/user";
 export default function PasswordChange3Page() {
   return (
     <form
-      action={passwordChange3} // now it exists
+      action={passwordChange3}
       className="card max-w-md mx-auto flex flex-col gap-4"
     >
       <h1>Set New Password</h1>

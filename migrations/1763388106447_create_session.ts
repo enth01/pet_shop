@@ -1,7 +1,7 @@
 import { sql, type Kysely } from "kysely";
 
 export async function up(db: Kysely<unknown>): Promise<void> {
-  await sql`CREATE TABLE session (
+	await sql`CREATE TABLE session (
 		id integer primary key autoincrement not null,
 		user_id integer not null,
 		session_id text not null,

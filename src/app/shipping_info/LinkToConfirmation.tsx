@@ -13,6 +13,11 @@ export default function LinkToConfirmation() {
         const meno = (document.getElementById("meno") as HTMLInputElement).value;
         const priezvisko = (document.getElementById("priezvisko") as HTMLInputElement).value;
 
+        if (!ulica || !popisne_cislo_domu || !mesto || !zip_code || !krajina || !telefon || !email || !meno || !priezvisko) {
+            alert("Musia byť vyplnené všetky polia");
+            return;
+        };
+
         await makeTemporaryOrder(
             ulica,
             popisne_cislo_domu,

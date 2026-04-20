@@ -1,0 +1,20 @@
+{
+  "node": {
+    "00d155b082e3fba48cb0040387aeed432b9b58657c": {
+      "workers": {
+        "app/confirmation/page": {
+          "moduleId": "[project]/.next-internal/server/app/confirmation/page/actions.js { ACTIONS_MODULE0 => \"[project]/src/actions/products.ts [app-rsc] (ecmascript)\" } [app-rsc] (server actions loader, ecmascript)",
+          "async": false,
+          "exportedName": "makeOrder",
+          "filename": "src/actions/products.ts"
+        }
+      },
+      "layer": {
+        "app/confirmation/page": "action-browser"
+      },
+      "exportedName": "makeOrder",
+      "filename": "src/actions/products.ts"
+    }
+  },
+  "edge": {}
+}

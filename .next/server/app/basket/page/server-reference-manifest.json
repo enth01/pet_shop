@@ -1,0 +1,20 @@
+{
+  "node": {
+    "402fa5e5bb4d424a3be8b07de53bdee9987c344fb0": {
+      "workers": {
+        "app/basket/page": {
+          "moduleId": "[project]/.next-internal/server/app/basket/page/actions.js { ACTIONS_MODULE0 => \"[project]/src/actions/products.ts [app-rsc] (ecmascript)\" } [app-rsc] (server actions loader, ecmascript)",
+          "async": false,
+          "exportedName": "removeFromBasket",
+          "filename": "src/actions/products.ts"
+        }
+      },
+      "layer": {
+        "app/basket/page": "action-browser"
+      },
+      "exportedName": "removeFromBasket",
+      "filename": "src/actions/products.ts"
+    }
+  },
+  "edge": {}
+}

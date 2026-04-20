@@ -13,11 +13,20 @@ export default function ProductEditor({
   const [editing, setEditing] = useState<Selectable<Products> | null>(null);
   const [newImage, setNewImage] = useState<File | null>(null);
 
+  // Helper to handle field updates immutably
+  const handleFieldChange = (field: keyof Selectable<Products>, value: string | number) => {
+    if (!editing) return;
+    setEditing({
+      ...editing,
+      [field]: value,
+    });
+  };
+
   return (
     <section className="admin-box">
       <h2>Products</h2>
 
-      {products.map(p => (
+      {products.map((p) => (
         <div key={p.id} className="admin-row">
           <span>{p.name}</span>
           <button onClick={() => setEditing(p)}>Edit</button>
@@ -30,21 +39,25 @@ export default function ProductEditor({
           <h3>Edit product</h3>
 
           <input
-            defaultValue={editing.name}
-            onChange={e => (editing.name = e.target.value)}
+            placeholder="Name"
+            value={editing.name}
+            onChange={(e) => handleFieldChange("name", e.target.value)}
           />
           <input
-            defaultValue={editing.description}
-            onChange={e => (editing.description = e.target.value)}
+            placeholder="Description"
+            value={editing.description ?? ""}
+            onChange={(e) => handleFieldChange("description", e.target.value)}
           />
           <input
-            defaultValue={editing.category}
-            onChange={e => (editing.category = e.target.value)}
+            placeholder="Category"
+            value={editing.category ?? ""}
+            onChange={(e) => handleFieldChange("category", e.target.value)}
           />
           <input
             type="number"
-            defaultValue={editing.price}
-            onChange={e => (editing.price = Number(e.target.value))}
+            placeholder="Price"
+            value={editing.price}
+            onChange={(e) => handleFieldChange("price", Number(e.target.value))}
           />
           <input
             type="file"
@@ -54,25 +67,27 @@ export default function ProductEditor({
             }}
           />
 
-          <button
-            onClick={async () => {
-              if (!editing) return;
+          <div className="admin-actions">
+            <button
+              onClick={async () => {
+                if (!editing) return;
 
-              await updateProduct(editing.id, {
-                name: editing.name,
-                description: editing.description,
-                category: editing.category,
-                price: editing.price,
-                image: newImage ? newImage : undefined,
-              });
+                await updateProduct(editing.id, {
+                  name: editing.name,
+                  description: editing.description,
+                  category: editing.category,
+                  price: editing.price,
+                  image: newImage ? newImage : undefined,
+                });
 
-              setEditing(null);
-              setNewImage(null);
-            }}
-          >
-            Save
-          </button>
-          <button onClick={() => setEditing(null)}>Cancel</button>
+                setEditing(null);
+                setNewImage(null);
+              }}
+            >
+              Save
+            </button>
+            <button onClick={() => setEditing(null)}>Cancel</button>
+          </div>
         </dialog>
       )}
     </section>

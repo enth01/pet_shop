@@ -75,7 +75,7 @@ export default async function UserPage() {
         {orders.length === 0 && <p>No orders yet.</p>}
         {orders.map(order => (
           <div key={order.id} className="order">
-            <p>Order #{order.id}</p>
+            <p>Objednavka číslo #{order.id}</p>
             <p>Status: {order.confirmed ? "Confirmed" : "Pending"}</p>
           </div>
         ))}

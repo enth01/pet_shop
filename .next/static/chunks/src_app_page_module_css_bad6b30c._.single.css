@@ -1,0 +1,50 @@
+/* [project]/src/app/page.module.css [app-client] (css) */
+.page-module___8aEwW__home {
+  padding: 2rem 3rem;
+}
+
+.page-module___8aEwW__latest h2 {
+  margin-bottom: 1.5rem;
+  font-size: 1.8rem;
+}
+
+.page-module___8aEwW__productRow {
+  justify-content: space-around;
+  gap: 2rem;
+  display: flex;
+}
+
+.page-module___8aEwW__productCard {
+  text-align: center;
+  background: #fff;
+  border-radius: .75rem;
+  width: 220px;
+  padding: 1.5rem;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, .08);
+}
+
+.page-module___8aEwW__productCard h3 {
+  margin: .8rem 0 .4rem;
+}
+
+.page-module___8aEwW__price {
+  margin-bottom: 1rem;
+  font-weight: 600;
+}
+
+.page-module___8aEwW__button {
+  color: #1f2937;
+  background-color: #e5e7eb;
+  border-radius: .75rem;
+  padding: .5rem 1rem;
+  text-decoration: none;
+  transition: background-color .2s, color .2s;
+  display: inline-block;
+}
+
+.page-module___8aEwW__button:hover {
+  color: #fff;
+  background-color: #22c55e;
+}
+
+/*# sourceMappingURL=src_app_page_module_css_bad6b30c._.single.css.map*/

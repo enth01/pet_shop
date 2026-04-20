@@ -1,2 +1,4 @@
 node_modules
 dokumentacia
+.env.local
+db.sqlite

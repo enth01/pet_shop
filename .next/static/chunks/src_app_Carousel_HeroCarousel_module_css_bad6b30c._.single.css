@@ -1,0 +1,48 @@
+/* [project]/src/app/carousel/HeroCarousel.module.css [app-client] (css) */
+.HeroCarousel-module__iuJDSq__carousel {
+  border-radius: .75rem;
+  width: 100%;
+  height: 360px;
+  margin-bottom: 3rem;
+  overflow: hidden;
+}
+
+.HeroCarousel-module__iuJDSq__slider {
+  height: 100%;
+  transition: transform .6s;
+  display: flex;
+}
+
+.HeroCarousel-module__iuJDSq__slide {
+  min-width: 100%;
+  position: relative;
+}
+
+.HeroCarousel-module__iuJDSq__slide img {
+  object-fit: cover;
+}
+
+.HeroCarousel-module__iuJDSq__overlay {
+  color: #fff;
+  background: rgba(0, 0, 0, .35);
+  flex-direction: column;
+  justify-content: center;
+  padding-left: 4rem;
+  display: flex;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+}
+
+.HeroCarousel-module__iuJDSq__overlay h1 {
+  margin-bottom: .5rem;
+  font-size: 2.5rem;
+}
+
+.HeroCarousel-module__iuJDSq__overlay p {
+  font-size: 1.2rem;
+}
+
+/*# sourceMappingURL=src_app_carousel_HeroCarousel_module_css_bad6b30c._.single.css.map*/

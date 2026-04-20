@@ -58,7 +58,12 @@ export default async function ConfirmationPage() {
     )
     .execute();
 
-  const rows = products.map((product) => {
+    const productsFixPrice = products.map((product) => ({
+      ...product,
+      price: product.price / 100,
+    }));
+
+  const rows = productsFixPrice.map((product) => {
     const cartItem = cart.find((c) => c.id === product.id);
     const quantity = cartItem ? cartItem.quantity : 0;
     const total = product.price * quantity;

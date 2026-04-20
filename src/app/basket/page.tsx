@@ -25,6 +25,7 @@ export default async function BasketPage() {
 
   const products_with_quantity = products.map(product => ({
     ...product,
+    price: product.price / 100,
     quantity: kosik2.find((item: { id: number }) => item.id === product.id)?.quantity || 0,
   }));
 

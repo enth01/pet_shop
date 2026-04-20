@@ -1,0 +1,6 @@
+{
+  "version": 3,
+  "sources": [],
+  "sections": [
+    {"offset": {"line": 1, "column": 0}, "map": {"version":3,"sources":["turbopack:///[project]/src/app/page.module.css"],"sourcesContent":[".home {\r\n    padding: 2rem 3rem;\r\n  }\r\n  \r\n  .latest h2 {\r\n    font-size: 1.8rem;\r\n    margin-bottom: 1.5rem;\r\n  }\r\n  \r\n  .productRow {\r\n    display: flex;\r\n    justify-content: space-around;\r\n    gap: 2rem;\r\n  }\r\n  \r\n  .productCard {\r\n    background: white;\r\n    border-radius: 0.75rem;\r\n    padding: 1.5rem;\r\n    width: 220px;\r\n    text-align: center;\r\n    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);\r\n  }\r\n  \r\n  .productCard h3 {\r\n    margin: 0.8rem 0 0.4rem;\r\n  }\r\n  \r\n  .price {\r\n    font-weight: 600;\r\n    margin-bottom: 1rem;\r\n  }\r\n  \r\n  .button {\r\n    display: inline-block;\r\n    padding: 0.5rem 1rem;\r\n    border-radius: 0.75rem;\r\n    text-decoration: none;\r\n    color: #1f2937;\r\n    background-color: #e5e7eb;\r\n    transition: background-color 0.2s ease, color 0.2s ease;\r\n  }\r\n  \r\n  .button:hover {\r\n    background-color: #22c55e;\r\n    color: white;\r\n  }\r\n"],"names":[],"mappings":"AAAA;;;;AAIE;;;;;AAKA;;;;;;AAMA;;;;;;;;;AASA;;;;AAIA;;;;;AAKA;;;;;;;;;;AAUA"}}]
+}

@@ -16,6 +16,7 @@
     background: white;
     cursor: pointer;
     transition: background-color 0.2s ease, color 0.2s ease;
+    text-transform: capitalize;
   }
   
   .filterButton:hover {

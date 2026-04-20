@@ -2,6 +2,7 @@ import getDB from "@/lib/db";
 import { cookies } from "next/headers";
 import LinkToConfirmationButton from "./LinkToConfirmation";
 import { updateAddress } from "@/actions/user";
+import styles from "../form.module.css"; // Adjust path as necessary
 
 export default async function ShippingInfoPage() {
   const db = getDB();
@@ -57,159 +58,111 @@ export default async function ShippingInfoPage() {
   }
 
   return (
-    <div className="flex flex-col items-center p-8">
-      <h1 className="text-3xl font-bold mb-6">Shipping info</h1>
-      <form
-        className="flex flex-col gap-4 w-80 bg-gray-100 p-6 rounded-xl shadow"
-        action={updateAddress}
-      >
-        <label className="flex flex-col">
+    <div className={styles.container}>
+      <h1 className={styles.title}>Shipping info</h1>
+      
+      <form className={styles.form} action={updateAddress}>
+        <label className={styles.field}>
           Ulica
-        <br />
-        <input
+          <input
             name="street"
             id="ulica"
             type="text"
-            className="border rounded p-2 w-full"
+            className={styles.input}
             defaultValue={userData.street}
           />
         </label>
 
-        <br />
-        <br />
-
-        <label className="flex flex-col">
+        <label className={styles.field}>
           Popisne cislo domu
-        <br />
-        <input
+          <input
             name="house_number"
             type="text"
             id="popisne_cislo_domu"
-            className="border rounded p-2 w-full"
+            className={styles.input}
             defaultValue={userData.house_number}
           />
         </label>
 
-        <br />
-        <br />
-
-        <label className="flex flex-col">
+        <label className={styles.field}>
           Mesto
-        <br />
-        <input
+          <input
             name="city"
             type="text"
             id="mesto"
-            className="border rounded p-2 w-full"
+            className={styles.input}
             defaultValue={userData.city}
           />
         </label>
 
-        <br />
-        <br />
-
-        <label className="flex flex-col">
+        <label className={styles.field}>
           ZIP code
-        <br />
-        <input
+          <input
             name="zip_code"
             type="text"
             id="zip_code"
-            className="border rounded p-2 w-full"
+            className={styles.input}
             defaultValue={userData.zip_code}
           />
         </label>
 
-        <br />
-        <br />
-
-        <label className="flex flex-col">
+        <label className={styles.field}>
           Krajina
-        <br />
-        <input
+          <input
             name="country"
             type="text"
             id="krajina"
-            className="border rounded p-2 w-full"
+            className={styles.input}
             defaultValue={userData.country}
           />
         </label>
 
-        <br />
-        <br />
-
-        <label className="flex flex-col">
+        <label className={styles.field}>
           Telefonne cislo
-        <br />
-        <input
+          <input
             name="phone_number"
             type="text"
             id="telefon"
-            className="border rounded p-2 w-full"
+            className={styles.input}
             defaultValue={userData.phone_number}
           />
         </label>
 
-        <br />
-        <br />
-
-        <label className="flex flex-col">
+        <label className={styles.field}>
           Email
-        <br />
-        <input
+          <input
             name="email"
             type="email"
             id="email"
-            className="border rounded p-2 w-full"
+            className={styles.input}
             defaultValue={userData.email}
           />
         </label>
 
-        <br />
-        <br />
-
-        <label className="flex flex-col">
+        <label className={styles.field}>
           Meno
-        <br />
-        <input
+          <input
             name="name"
             type="text"
             id="meno"
-            className="border rounded p-2 w-full"
+            className={styles.input}
             defaultValue={userData.name}
           />
         </label>
 
-        <br />
-        <br />
-
-        <label className="flex flex-col">
+        <label className={styles.field}>
           Priezvisko
-        <br />
-        <input
+          <input
             name="surname"
             type="text"
             id="priezvisko"
-            className="border rounded p-2 w-full"
+            className={styles.input}
             defaultValue={userData.surname}
           />
         </label>
 
-        <br />
-        <br />
-
-        <div className="flex gap-4 mt-4">
+        <div className={styles.buttonContainer}>
           <LinkToConfirmationButton />
-        <br />
-        <br />
-        <button
-            type="submit"
-            className="btn"
-          >
-            Save
-          </button>
-        <br />
-        <br />
         </div>
       </form>
     </div>

@@ -1,7 +1,7 @@
 import { sql, type Kysely } from "kysely";
 
 export async function up(db: Kysely<unknown>): Promise<void> {
-  await sql`CREATE TABLE orders (
+	await sql`CREATE TABLE orders (
 		id integer primary key autoincrement not null,
 		name text not null,
 		surname text not null,

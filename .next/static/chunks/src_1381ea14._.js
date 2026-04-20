@@ -1,0 +1,347 @@
+(globalThis.TURBOPACK || (globalThis.TURBOPACK = [])).push([typeof document === "object" ? document.currentScript : undefined,
+"[project]/src/lib/db.ts [app-client] (ecmascript)", ((__turbopack_context__) => {
+"use strict";
+
+__turbopack_context__.s([
+    "default",
+    ()=>getDB
+]);
+var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$better$2d$sqlite3$2f$lib$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/node_modules/better-sqlite3/lib/index.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$kysely$2f$dist$2f$esm$2f$dialect$2f$sqlite$2f$sqlite$2d$dialect$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/node_modules/kysely/dist/esm/dialect/sqlite/sqlite-dialect.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$kysely$2f$dist$2f$esm$2f$kysely$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/node_modules/kysely/dist/esm/kysely.js [app-client] (ecmascript)");
+;
+;
+function getDB() {
+    const dialect = new __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$kysely$2f$dist$2f$esm$2f$dialect$2f$sqlite$2f$sqlite$2d$dialect$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["SqliteDialect"]({
+        database: new __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$better$2d$sqlite3$2f$lib$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["default"]("db.sqlite")
+    });
+    const db = new __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$kysely$2f$dist$2f$esm$2f$kysely$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Kysely"]({
+        dialect
+    });
+    return db;
+}
+if (typeof globalThis.$RefreshHelpers$ === 'object' && globalThis.$RefreshHelpers !== null) {
+    __turbopack_context__.k.registerExports(__turbopack_context__.m, globalThis.$RefreshHelpers$);
+}
+}),
+"[project]/src/app/components/HeroCarousel.module.css [app-client] (css module)", ((__turbopack_context__) => {
+
+__turbopack_context__.v({
+  "carousel": "HeroCarousel-module__qKMwcW__carousel",
+  "overlay": "HeroCarousel-module__qKMwcW__overlay",
+  "slide": "HeroCarousel-module__qKMwcW__slide",
+  "slider": "HeroCarousel-module__qKMwcW__slider",
+});
+}),
+"[project]/src/app/components/HeroCarousel.tsx [app-client] (ecmascript)", ((__turbopack_context__) => {
+"use strict";
+
+__turbopack_context__.s([
+    "default",
+    ()=>HeroCarousel
+]);
+var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/node_modules/next/dist/compiled/react/jsx-dev-runtime.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$image$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/node_modules/next/image.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/node_modules/next/dist/compiled/react/index.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$app$2f$components$2f$HeroCarousel$2e$module$2e$css__$5b$app$2d$client$5d$__$28$css__module$29$__ = __turbopack_context__.i("[project]/src/app/components/HeroCarousel.module.css [app-client] (css module)");
+;
+var _s = __turbopack_context__.k.signature();
+"use client";
+;
+;
+;
+// each image now has its own overlay text
+const slides = [
+    {
+        src: "/banner_images/banner1.png",
+        title: "Everything your pet needs",
+        subtitle: "Food, toys, and happiness delivered"
+    },
+    {
+        src: "/banner_images/banner2.jpeg",
+        title: "Pamper your furry friend",
+        subtitle: "Comfortable beds, cozy clothes, and more"
+    },
+    {
+        src: "/banner_images/banner3.jpg",
+        title: "Healthy treats, happy pets",
+        subtitle: "Organic snacks and supplements for your pets"
+    }
+];
+function HeroCarousel() {
+    _s();
+    const [index, setIndex] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])(0);
+    (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useEffect"])({
+        "HeroCarousel.useEffect": ()=>{
+            const interval = setInterval({
+                "HeroCarousel.useEffect.interval": ()=>{
+                    setIndex({
+                        "HeroCarousel.useEffect.interval": (prev)=>(prev + 1) % slides.length
+                    }["HeroCarousel.useEffect.interval"]);
+                }
+            }["HeroCarousel.useEffect.interval"], 4000);
+            return ({
+                "HeroCarousel.useEffect": ()=>clearInterval(interval)
+            })["HeroCarousel.useEffect"];
+        }
+    }["HeroCarousel.useEffect"], []);
+    return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+        className: __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$app$2f$components$2f$HeroCarousel$2e$module$2e$css__$5b$app$2d$client$5d$__$28$css__module$29$__["default"].carousel,
+        children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+            className: __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$app$2f$components$2f$HeroCarousel$2e$module$2e$css__$5b$app$2d$client$5d$__$28$css__module$29$__["default"].slider,
+            style: {
+                transform: "translateX(-".concat(index * 100, "%)")
+            },
+            children: slides.map((slide, i)=>/*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                    className: __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$app$2f$components$2f$HeroCarousel$2e$module$2e$css__$5b$app$2d$client$5d$__$28$css__module$29$__["default"].slide,
+                    children: [
+                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$image$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["default"], {
+                            src: slide.src,
+                            alt: "Banner ".concat(i + 1),
+                            fill: true,
+                            priority: i === 0
+                        }, void 0, false, {
+                            fileName: "[project]/src/app/components/HeroCarousel.tsx",
+                            lineNumber: 45,
+                            columnNumber: 13
+                        }, this),
+                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                            className: __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$app$2f$components$2f$HeroCarousel$2e$module$2e$css__$5b$app$2d$client$5d$__$28$css__module$29$__["default"].overlay,
+                            children: [
+                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("h1", {
+                                    children: slide.title
+                                }, void 0, false, {
+                                    fileName: "[project]/src/app/components/HeroCarousel.tsx",
+                                    lineNumber: 52,
+                                    columnNumber: 15
+                                }, this),
+                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
+                                    children: slide.subtitle
+                                }, void 0, false, {
+                                    fileName: "[project]/src/app/components/HeroCarousel.tsx",
+                                    lineNumber: 53,
+                                    columnNumber: 15
+                                }, this)
+                            ]
+                        }, void 0, true, {
+                            fileName: "[project]/src/app/components/HeroCarousel.tsx",
+                            lineNumber: 51,
+                            columnNumber: 13
+                        }, this)
+                    ]
+                }, i, true, {
+                    fileName: "[project]/src/app/components/HeroCarousel.tsx",
+                    lineNumber: 44,
+                    columnNumber: 11
+                }, this))
+        }, void 0, false, {
+            fileName: "[project]/src/app/components/HeroCarousel.tsx",
+            lineNumber: 39,
+            columnNumber: 7
+        }, this)
+    }, void 0, false, {
+        fileName: "[project]/src/app/components/HeroCarousel.tsx",
+        lineNumber: 38,
+        columnNumber: 5
+    }, this);
+}
+_s(HeroCarousel, "c3fuAdVwNN91t4bNS1qBXl5hAWY=");
+_c = HeroCarousel;
+var _c;
+__turbopack_context__.k.register(_c, "HeroCarousel");
+if (typeof globalThis.$RefreshHelpers$ === 'object' && globalThis.$RefreshHelpers !== null) {
+    __turbopack_context__.k.registerExports(__turbopack_context__.m, globalThis.$RefreshHelpers$);
+}
+}),
+"[project]/src/app/page.module.css [app-client] (css module)", ((__turbopack_context__) => {
+
+__turbopack_context__.v({
+  "button": "page-module___8aEwW__button",
+  "home": "page-module___8aEwW__home",
+  "latest": "page-module___8aEwW__latest",
+  "price": "page-module___8aEwW__price",
+  "productCard": "page-module___8aEwW__productCard",
+  "productRow": "page-module___8aEwW__productRow",
+});
+}),
+"[project]/src/actions/data:3dd4cf [app-client] (ecmascript) <text/javascript>", ((__turbopack_context__) => {
+"use strict";
+
+/* __next_internal_action_entry_do_not_use__ [{"40e1439d139434a6a0981a1f66939369b0da0ddd3f":"addToBasket"},"src/actions/products.ts",""] */ __turbopack_context__.s([
+    "addToBasket",
+    ()=>addToBasket
+]);
+var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$build$2f$webpack$2f$loaders$2f$next$2d$flight$2d$loader$2f$action$2d$client$2d$wrapper$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/node_modules/next/dist/build/webpack/loaders/next-flight-loader/action-client-wrapper.js [app-client] (ecmascript)");
+"use turbopack no side effects";
+;
+var addToBasket = /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$build$2f$webpack$2f$loaders$2f$next$2d$flight$2d$loader$2f$action$2d$client$2d$wrapper$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["createServerReference"])("40e1439d139434a6a0981a1f66939369b0da0ddd3f", __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$build$2f$webpack$2f$loaders$2f$next$2d$flight$2d$loader$2f$action$2d$client$2d$wrapper$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["callServer"], void 0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$build$2f$webpack$2f$loaders$2f$next$2d$flight$2d$loader$2f$action$2d$client$2d$wrapper$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["findSourceMapURL"], "addToBasket"); //# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi4vcHJvZHVjdHMudHMiXSwic291cmNlc0NvbnRlbnQiOlsiXCJ1c2Ugc2VydmVyXCJcclxuXHJcbmltcG9ydCB7IGNvb2tpZXMgfSBmcm9tIFwibmV4dC9oZWFkZXJzXCJcclxuaW1wb3J0IHsgZ2V0VXNlciB9IGZyb20gXCIuL3VzZXJcIlxyXG5pbXBvcnQgZ2V0REIgZnJvbSBcIkAvbGliL2RiXCJcclxuaW1wb3J0IHsgcmV2YWxpZGF0ZVBhdGggfSBmcm9tIFwibmV4dC9jYWNoZVwiXHJcbmltcG9ydCB7IHJlZGlyZWN0IH0gZnJvbSBcIm5leHQvbmF2aWdhdGlvblwiXHJcbmltcG9ydCB7IFJlc2VuZCB9IGZyb20gJ3Jlc2VuZCc7XHJcblxyXG5leHBvcnQgYXN5bmMgZnVuY3Rpb24gYWRkVG9CYXNrZXQoaWQ6IG51bWJlcikge1xyXG4gICAgY29uc3Qga2Vrc2lreSA9IGF3YWl0IGNvb2tpZXMoKVxyXG4gICAgbGV0IGtvc2lrID0ga2Vrc2lreS5nZXQoXCJjYXJ0XCIpPy52YWx1ZSA/PyBcIltdXCJcclxuXHJcbiAgICBpZiAoa29zaWsgPT09IFwiXCIpIHtcclxuICAgICAgICBrb3NpayA9IFwiW11cIlxyXG4gICAgfVxyXG5cclxuICAgIGNvbnN0IGJhc2tldCA9IEpTT04ucGFyc2Uoa29zaWspXHJcblxyXG4gICAgY29uc3QgaXRlbSA9IGJhc2tldC5maW5kKChpdGVtOiB7IGlkOiBudW1iZXIsIHF1YW50aXR5OiBudW1iZXIgfSkgPT4gaXRlbS5pZCA9PT0gaWQpXHJcblxyXG4gICAgaWYgKGl0ZW0pIHtcclxuICAgICAgICBpdGVtLnF1YW50aXR5ICs9IDFcclxuICAgICAgICBrZWtzaWt5LnNldChcImNhcnRcIiwgSlNPTi5zdHJpbmdpZnkoYmFza2V0KSwgeyBwYXRoOiBcIi9cIiB9KVxyXG4gICAgICAgIHJldHVyblxyXG4gICAgfVxyXG5cclxuICAgIGJhc2tldC5wdXNoKHtcclxuICAgICAgICBpZDogaWQsXHJcbiAgICAgICAgcXVhbnRpdHk6IDFcclxuICAgIH0pXHJcblxyXG4gICAga2Vrc2lreS5zZXQoXCJjYXJ0XCIsIEpTT04uc3RyaW5naWZ5KGJhc2tldCksIHsgcGF0aDogXCIvXCIgfSlcclxufVxyXG5cclxuZXhwb3J0IGFzeW5jIGZ1bmN0aW9uIHJlbW92ZUZyb21CYXNrZXQoaWQ6IG51bWJlcikge1xyXG4gICAgY29uc3Qga2Vrc2lreSA9IGF3YWl0IGNvb2tpZXMoKVxyXG4gICAgbGV0IGtvc2lrID0ga2Vrc2lreS5nZXQoXCJjYXJ0XCIpPy52YWx1ZSA/PyBcIltdXCJcclxuXHJcbiAgICBpZiAoa29zaWsgPT09IFwiXCIpIHtcclxuICAgICAgICBrb3NpayA9IFwiW11cIlxyXG4gICAgfVxyXG5cclxuICAgIGNvbnN0IGJhc2tldCA9IEpTT04ucGFyc2Uoa29zaWspXHJcblxyXG4gICAgY29uc3QgaXRlbSA9IGJhc2tldC5maW5kKChpdGVtOiB7IGlkOiBudW1iZXIsIHF1YW50aXR5OiBudW1iZXIgfSkgPT4gaXRlbS5pZCA9PT0gaWQpXHJcblxyXG4gICAgaWYgKGl0ZW0pIHtcclxuICAgICAgICBpdGVtLnF1YW50aXR5IC09IDFcclxuICAgICAgICBrZWtzaWt5LnNldChcImNhcnRcIiwgSlNPTi5zdHJpbmdpZnkoYmFza2V0KSwgeyBwYXRoOiBcIi9cIiB9KVxyXG4gICAgICAgIGlmIChpdGVtLnF1YW50aXR5IDw9IDApIHtcclxuICAgICAgICAgICAgYmFza2V0LnNwbGljZShiYXNrZXQuaW5kZXhPZihpdGVtKSwgMSlcclxuICAgICAgICAgICAga2Vrc2lreS5zZXQoXCJjYXJ0XCIsIEpTT04uc3RyaW5naWZ5KGJhc2tldCksIHsgcGF0aDogXCIvXCIgfSlcclxuICAgICAgICB9XHJcbiAgICB9XHJcbn1cclxuXHJcbmV4cG9ydCBhc3luYyBmdW5jdGlvbiBpc0luRmF2b3VyaXRlcyhpZDogbnVtYmVyKTogUHJvbWlzZTxib29sZWFuPiB7XHJcbiAgICBjb25zdCBkYiA9IGdldERCKCk7XHJcbiAgICBjb25zdCB1c2VyID0gYXdhaXQgZ2V0VXNlcigpO1xyXG5cclxuICAgIGlmICh1c2VyID09IG51bGwpIHtcclxuICAgICAgICByZXR1cm4gZmFsc2U7XHJcbiAgICB9XHJcblxyXG4gICAgY29uc3QgZmF2b3VyaXRlID0gYXdhaXQgZGJcclxuICAgICAgICAuc2VsZWN0RnJvbShcImZhdm9yaXRlX3Byb2R1Y3RzXCIpXHJcbiAgICAgICAgLndoZXJlKFwicHJvZHVjdF9pZFwiLCBcIj1cIiwgaWQpXHJcbiAgICAgICAgLndoZXJlKFwidXNlcl9pZFwiLCBcIj1cIiwgdXNlci5pZClcclxuICAgICAgICAuc2VsZWN0QWxsKClcclxuICAgICAgICAuZXhlY3V0ZVRha2VGaXJzdCgpO1xyXG5cclxuICAgIGlmIChmYXZvdXJpdGUpIHJldHVybiB0cnVlXHJcblxyXG4gICAgcmV0dXJuIGZhbHNlXHJcbn1cclxuXHJcbmV4cG9ydCBhc3luYyBmdW5jdGlvbiBhZGRUb0Zhdm91cml0ZXMoaWQ6IG51bWJlcikge1xyXG4gICAgY29uc3QgZGIgPSBnZXREQigpO1xyXG4gICAgY29uc3QgdXNlciA9IGF3YWl0IGdldFVzZXIoKTtcclxuXHJcbiAgICBpZiAodXNlciA9PSBudWxsKSB7XHJcbiAgICAgICAgcmV0dXJuO1xyXG4gICAgfVxyXG5cclxuICAgIGNvbnN0IGZhdm91cml0ZSA9IGF3YWl0IGRiXHJcbiAgICAgICAgLnNlbGVjdEZyb20oXCJmYXZvcml0ZV9wcm9kdWN0c1wiKVxyXG4gICAgICAgIC53aGVyZShcInByb2R1Y3RfaWRcIiwgXCI9XCIsIGlkKVxyXG4gICAgICAgIC53aGVyZShcInVzZXJfaWRcIiwgXCI9XCIsIHVzZXIuaWQpXHJcbiAgICAgICAgLnNlbGVjdEFsbCgpXHJcbiAgICAgICAgLmV4ZWN1dGVUYWtlRmlyc3QoKTtcclxuXHJcbiAgICBpZiAoZmF2b3VyaXRlKSB7XHJcbiAgICAgICAgcmV0dXJuO1xyXG4gICAgfVxyXG5cclxuICAgIFxyXG4gICAgYXdhaXQgZGIuaW5zZXJ0SW50byhcImZhdm9yaXRlX3Byb2R1Y3RzXCIpLnZhbHVlcyh7IHVzZXJfaWQ6IHVzZXIuaWQsIHByb2R1Y3RfaWQ6IGlkIH0pLmV4ZWN1dGVUYWtlRmlyc3QoKTtcclxuICAgIHJldmFsaWRhdGVQYXRoKFwicHJvZHVjdHNcIilcclxufVxyXG5cclxuZXhwb3J0IGFzeW5jIGZ1bmN0aW9uIHJlbW92ZUZyb21GYXZvdXJpdGVzKGlkOiBudW1iZXIpIHtcclxuICAgIGNvbnN0IGRiID0gZ2V0REIoKTtcclxuICAgIGNvbnN0IHVzZXIgPSBhd2FpdCBnZXRVc2VyKCk7XHJcblxyXG4gICAgaWYgKHVzZXIgPT0gbnVsbCkge1xyXG4gICAgICAgIHJldHVybjtcclxuICAgIH1cclxuXHJcbiAgICBjb25zdCBmYXZvdXJpdGUgPSBhd2FpdCBkYlxyXG4gICAgLnNlbGVjdEZyb20oXCJmYXZvcml0ZV9wcm9kdWN0c1wiKVxyXG4gICAgLndoZXJlKFwicHJvZHVjdF9pZFwiLCBcIj1cIiwgaWQpXHJcbiAgICAud2hlcmUoXCJ1c2VyX2lkXCIsIFwiPVwiLCB1c2VyLmlkKVxyXG4gICAgLnNlbGVjdEFsbCgpXHJcbiAgICAuZXhlY3V0ZVRha2VGaXJzdCgpO1xyXG5cclxuICAgIGlmICghZmF2b3VyaXRlKSB7XHJcbiAgICAgICAgcmV0dXJuO1xyXG4gICAgfVxyXG5cclxuICAgIGF3YWl0IGRiLmRlbGV0ZUZyb20oXCJmYXZvcml0ZV9wcm9kdWN0c1wiKS53aGVyZShcInByb2R1Y3RfaWRcIiwgXCI9XCIsIGlkKS53aGVyZShcInVzZXJfaWRcIiwgXCI9XCIsIHVzZXIuaWQpLmV4ZWN1dGVUYWtlRmlyc3QoKTtcclxuICAgIHJldmFsaWRhdGVQYXRoKFwicHJvZHVjdHNcIilcclxufVxyXG5cclxuZXhwb3J0IGFzeW5jIGZ1bmN0aW9uIG1ha2VUZW1wb3JhcnlPcmRlcih1bGljYTogc3RyaW5nLCBwb3Bpc25lX2Npc2xvX2RvbXU6IHN0cmluZywgbWVzdG86IHN0cmluZywgemlwX2NvZGU6IHN0cmluZywga3JhamluYTogc3RyaW5nLCB0ZWxlZm9uOiBzdHJpbmcsIGVtYWlsOiBzdHJpbmcsIG1lbm86IHN0cmluZywgcHJpZXp2aXNrbzogc3RyaW5nKSB7XHJcbiAgICBjb25zdCBrZWtzaWt5ID0gYXdhaXQgY29va2llcygpXHJcbiAgICBsZXQgb3JkZXIgPSBrZWtzaWt5LmdldChcIm9yZGVyXCIpPy52YWx1ZSA/PyBcIlwiXHJcbiAgICBjb25zdCBiYXNrZXQgPSBrZWtzaWt5LmdldChcImNhcnRcIik/LnZhbHVlID8/IFwiW11cIlxyXG5cclxuICAgIGlmIChvcmRlciAhPSBcIlwiKSB7XHJcbiAgICAgICAga2Vrc2lreS5zZXQoXCJvcmRlclwiLCBcIlwiLCB7IHBhdGg6IFwiL1wiLCBtYXhBZ2U6IDAgfSlcclxuICAgIH1cclxuXHJcbiAgICBvcmRlciA9IEpTT04uc3RyaW5naWZ5KHtcclxuICAgICAgICBcInVsaWNhXCI6IHVsaWNhLFxyXG4gICAgICAgIFwicG9waXNuZV9jaXNsb19kb211XCI6IHBvcGlzbmVfY2lzbG9fZG9tdSxcclxuICAgICAgICBcIm1lc3RvXCI6IG1lc3RvLFxyXG4gICAgICAgIFwiemlwX2NvZGVcIjogemlwX2NvZGUsXHJcbiAgICAgICAgXCJrcmFqaW5hXCI6IGtyYWppbmEsXHJcbiAgICAgICAgXCJ0ZWxlZm9uXCI6IHRlbGVmb24sXHJcbiAgICAgICAgXCJlbWFpbFwiOiBlbWFpbCxcclxuICAgICAgICBcIm1lbm9cIjogbWVubyxcclxuICAgICAgICBcInByaWV6dmlza29cIjogcHJpZXp2aXNrbyxcclxuICAgICAgICBcImNhcnRcIjogSlNPTi5wYXJzZShiYXNrZXQpXHJcbiAgICB9KVxyXG5cclxuICAgIGtla3Npa3kuc2V0KFwib3JkZXJcIiwgb3JkZXIsIHsgcGF0aDogXCIvXCIgfSlcclxuICAgIHJlZGlyZWN0KFwiL2NvbmZpcm1hdGlvblwiKTtcclxufVxyXG5cclxuZXhwb3J0IGFzeW5jIGZ1bmN0aW9uIG1ha2VPcmRlcigpIHtcclxuICAgIGNvbnN0IGNvb2tpZVN0b3JlID0gYXdhaXQgY29va2llcygpO1xyXG4gICAgY29uc3Qgb3JkZXJDb29raWUgPSBjb29raWVTdG9yZS5nZXQoXCJvcmRlclwiKT8udmFsdWU7XHJcbiAgICBjb25zdCBkYiA9IGdldERCKCk7XHJcbiAgICBpZiAoIW9yZGVyQ29va2llKSByZXR1cm47XHJcbiAgICBjb25zdCBvcmRlciA9IEpTT04ucGFyc2Uob3JkZXJDb29raWUpO1xyXG4gICAgXHJcbiAgICBsZXQgdG90YWxfcHJpY2UgPSAwO1xyXG4gICAgXHJcbiAgICBmb3IgKGNvbnN0IGl0ZW0gb2Ygb3JkZXIuY2FydCkge1xyXG4gICAgICAgIGNvbnN0IHByb2R1Y3QgPSBhd2FpdCBkYlxyXG4gICAgICAgIC5zZWxlY3RGcm9tKFwicHJvZHVjdHNcIilcclxuICAgICAgICAud2hlcmUoXCJpZFwiLCBcIj1cIiwgaXRlbS5pZClcclxuICAgICAgICAuc2VsZWN0QWxsKClcclxuICAgICAgICAuZXhlY3V0ZVRha2VGaXJzdCgpO1xyXG4gICAgICAgIFxyXG4gICAgICAgIGlmICghcHJvZHVjdCkgY29udGludWU7XHJcbiAgICAgICAgXHJcbiAgICAgICAgdG90YWxfcHJpY2UgKz0gaXRlbS5xdWFudGl0eSAqIHByb2R1Y3QucHJpY2U7XHJcbiAgICB9XHJcbiAgICBcclxuICAgIGNvbnN0IHJlc2VuZCA9IG5ldyBSZXNlbmQoJ3JlX1J2dVFWZHlXX0F1Y0tBVVYySFRBSG52UUVHU3h4ZlhkOScpO1xyXG4gICAgXHJcbiAgICBhd2FpdCByZXNlbmQuZW1haWxzLnNlbmQoe1xyXG4gICAgICAgIGZyb206IFwiUmVzZW5kIDxvbmJvYXJkaW5nQHJlc2VuZC5kZXY+XCIsXHJcbiAgICAgICAgdG86IG9yZGVyLmVtYWlsLFxyXG4gICAgICAgIHN1YmplY3Q6IFwiT3JkZXIgY29uZmlybWF0aW9uXCIsXHJcbiAgICAgICAgaHRtbDogXCI8cD5XZSBhcmUgY29uZmlybWluZyB5b3VyIG9yZGVyLjwvcD5cIiArXHJcbiAgICAgICAgXCI8cD5TaGlwcGluZyBpbmZvOjwvcD5cIiArXHJcbiAgICAgICAgXCI8cD5VbGljYTogXCIgKyBvcmRlci51bGljYSArIFwiPC9wPlwiICtcclxuICAgICAgICBcIjxwPlBvcGlzbmUgY2lzbG8gZG9tdTogXCIgKyBvcmRlci5wb3Bpc25lX2Npc2xvX2RvbXUgKyBcIjwvcD5cIiArXHJcbiAgICAgICAgXCI8cD5NZXN0bzogXCIgKyBvcmRlci5tZXN0byArIFwiPC9wPlwiICtcclxuICAgICAgICBcIjxwPlppcCBjb2RlOiBcIiArIG9yZGVyLnppcF9jb2RlICsgXCI8L3A+XCIgK1xyXG4gICAgICAgIFwiPHA+S3JhamluYTogXCIgKyBvcmRlci5rcmFqaW5hICsgXCI8L3A+XCIgK1xyXG4gICAgICAgIFwiPHA+VGVsZWZvbjogXCIgKyBvcmRlci50ZWxlZm9uICsgXCI8L3A+XCIgK1xyXG4gICAgICAgIFwiPHA+RW1haWw6IFwiICsgb3JkZXIuZW1haWwgKyBcIjwvcD5cIiArXHJcbiAgICAgICAgXCI8cD5NZW5vOiBcIiArIG9yZGVyLm1lbm8gKyBcIjwvcD5cIiArXHJcbiAgICAgICAgXCI8cD5QcmllenZpc2tvOiBcIiArIG9yZGVyLnByaWV6dmlza28gKyBcIjwvcD5cIiArXHJcbiAgICAgICAgXCI8cD5Ub3RhbDogXCIgKyB0b3RhbF9wcmljZSArIFwi4oKsPC9wPlwiLFxyXG4gICAgfSk7XHJcbiAgICBjb29raWVTdG9yZS5kZWxldGUoXCJjYXJ0XCIpO1xyXG4gICAgY29va2llU3RvcmUuZGVsZXRlKFwib3JkZXJcIik7XHJcbiAgICBjb25zb2xlLmxvZyhvcmRlci5lbWFpbCk7XHJcbiAgICByZWRpcmVjdChcIi9jb25maXJtZWRcIik7XHJcbiAgfVxyXG4iXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IjRSQVNzQiJ9
+if (typeof globalThis.$RefreshHelpers$ === 'object' && globalThis.$RefreshHelpers !== null) {
+    __turbopack_context__.k.registerExports(__turbopack_context__.m, globalThis.$RefreshHelpers$);
+}
+}),
+"[project]/src/app/products/addToCartButton.tsx [app-client] (ecmascript)", ((__turbopack_context__) => {
+"use strict";
+
+__turbopack_context__.s([
+    "default",
+    ()=>AddToCartButton
+]);
+var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/node_modules/next/dist/compiled/react/jsx-dev-runtime.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$actions$2f$data$3a$3dd4cf__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$text$2f$javascript$3e$__ = __turbopack_context__.i("[project]/src/actions/data:3dd4cf [app-client] (ecmascript) <text/javascript>");
+"use client";
+;
+;
+function AddToCartButton(props) {
+    return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
+        className: "btn",
+        onClick: ()=>(0, __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$actions$2f$data$3a$3dd4cf__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$text$2f$javascript$3e$__["addToBasket"])(props.id),
+        children: "Add to cart"
+    }, void 0, false, {
+        fileName: "[project]/src/app/products/addToCartButton.tsx",
+        lineNumber: 6,
+        columnNumber: 12
+    }, this);
+}
+_c = AddToCartButton;
+var _c;
+__turbopack_context__.k.register(_c, "AddToCartButton");
+if (typeof globalThis.$RefreshHelpers$ === 'object' && globalThis.$RefreshHelpers !== null) {
+    __turbopack_context__.k.registerExports(__turbopack_context__.m, globalThis.$RefreshHelpers$);
+}
+}),
+"[project]/src/app/page.tsx [app-client] (ecmascript)", ((__turbopack_context__) => {
+"use strict";
+
+__turbopack_context__.s([
+    "default",
+    ()=>Home
+]);
+var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/node_modules/next/dist/compiled/react/jsx-dev-runtime.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$db$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/src/lib/db.ts [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$image$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/node_modules/next/image.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$app$2f$components$2f$HeroCarousel$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/src/app/components/HeroCarousel.tsx [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$app$2f$page$2e$module$2e$css__$5b$app$2d$client$5d$__$28$css__module$29$__ = __turbopack_context__.i("[project]/src/app/page.module.css [app-client] (css module)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$app$2f$products$2f$addToCartButton$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/src/app/products/addToCartButton.tsx [app-client] (ecmascript)");
+"use client";
+;
+;
+;
+;
+;
+;
+async function Home() {
+    const latestProducts = await (0, __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$db$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["default"])().selectFrom("products").selectAll().orderBy("id", "desc").limit(4).execute();
+    return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("main", {
+        className: __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$app$2f$page$2e$module$2e$css__$5b$app$2d$client$5d$__$28$css__module$29$__["default"].home,
+        children: [
+            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$app$2f$components$2f$HeroCarousel$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["default"], {}, void 0, false, {
+                fileName: "[project]/src/app/page.tsx",
+                lineNumber: 19,
+                columnNumber: 13
+            }, this),
+            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("section", {
+                className: __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$app$2f$page$2e$module$2e$css__$5b$app$2d$client$5d$__$28$css__module$29$__["default"].latest,
+                children: [
+                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("h2", {
+                        children: "Our latest additions"
+                    }, void 0, false, {
+                        fileName: "[project]/src/app/page.tsx",
+                        lineNumber: 22,
+                        columnNumber: 17
+                    }, this),
+                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                        className: __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$app$2f$page$2e$module$2e$css__$5b$app$2d$client$5d$__$28$css__module$29$__["default"].productRow,
+                        children: latestProducts.map((product)=>/*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                className: __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$app$2f$page$2e$module$2e$css__$5b$app$2d$client$5d$__$28$css__module$29$__["default"].productCard,
+                                children: [
+                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$image$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["default"], {
+                                        src: "/uploads/" + product.image,
+                                        alt: product.name,
+                                        width: 200,
+                                        height: 200
+                                    }, void 0, false, {
+                                        fileName: "[project]/src/app/page.tsx",
+                                        lineNumber: 27,
+                                        columnNumber: 29
+                                    }, this),
+                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("h3", {
+                                        children: product.name
+                                    }, void 0, false, {
+                                        fileName: "[project]/src/app/page.tsx",
+                                        lineNumber: 33,
+                                        columnNumber: 29
+                                    }, this),
+                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
+                                        className: __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$app$2f$page$2e$module$2e$css__$5b$app$2d$client$5d$__$28$css__module$29$__["default"].price,
+                                        children: [
+                                            product.price,
+                                            " €"
+                                        ]
+                                    }, void 0, true, {
+                                        fileName: "[project]/src/app/page.tsx",
+                                        lineNumber: 34,
+                                        columnNumber: 29
+                                    }, this),
+                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                        className: __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$app$2f$page$2e$module$2e$css__$5b$app$2d$client$5d$__$28$css__module$29$__["default"].actions,
+                                        children: [
+                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$app$2f$products$2f$addToCartButton$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["default"], {
+                                                id: product.id
+                                            }, void 0, false, {
+                                                fileName: "[project]/src/app/page.tsx",
+                                                lineNumber: 36,
+                                                columnNumber: 33
+                                            }, this),
+                                            userLoggedIn && (product.is_in_fav ? /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(RemoveFromFavouritesButton, {
+                                                id: product.id
+                                            }, void 0, false, {
+                                                fileName: "[project]/src/app/page.tsx",
+                                                lineNumber: 39,
+                                                columnNumber: 41
+                                            }, this) : /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(AddToFavouritesButton, {
+                                                id: product.id
+                                            }, void 0, false, {
+                                                fileName: "[project]/src/app/page.tsx",
+                                                lineNumber: 41,
+                                                columnNumber: 41
+                                            }, this))
+                                        ]
+                                    }, void 0, true, {
+                                        fileName: "[project]/src/app/page.tsx",
+                                        lineNumber: 35,
+                                        columnNumber: 29
+                                    }, this)
+                                ]
+                            }, product.id, true, {
+                                fileName: "[project]/src/app/page.tsx",
+                                lineNumber: 26,
+                                columnNumber: 25
+                            }, this))
+                    }, void 0, false, {
+                        fileName: "[project]/src/app/page.tsx",
+                        lineNumber: 24,
+                        columnNumber: 17
+                    }, this)
+                ]
+            }, void 0, true, {
+                fileName: "[project]/src/app/page.tsx",
+                lineNumber: 21,
+                columnNumber: 13
+            }, this)
+        ]
+    }, void 0, true, {
+        fileName: "[project]/src/app/page.tsx",
+        lineNumber: 18,
+        columnNumber: 9
+    }, this);
+}
+_c = Home;
+var _c;
+__turbopack_context__.k.register(_c, "Home");
+if (typeof globalThis.$RefreshHelpers$ === 'object' && globalThis.$RefreshHelpers !== null) {
+    __turbopack_context__.k.registerExports(__turbopack_context__.m, globalThis.$RefreshHelpers$);
+}
+}),
+]);
+
+//# sourceMappingURL=src_1381ea14._.js.map

@@ -1,0 +1,7 @@
+{
+  "version": 3,
+  "sources": [],
+  "sections": [
+    {"offset": {"line": 3, "column": 0}, "map": {"version":3,"sources":[],"names":[],"mappings":"","debugId":null}},
+    {"offset": {"line": 15, "column": 0}, "map": {"version":3,"sources":["file:///C:/Users/kmec7/Desktop/pet_shop/src/app/confirmed/page.tsx"],"sourcesContent":["export default function ConfirmationPage() {\r\n    return (\r\n        <h1 style={{ textAlign: \"center\", marginTop: \"5rem\" }}>Potvrdenie bolo poslané na váš mail</h1>\r\n    );\r\n}\r\n"],"names":[],"mappings":";;;;;;AAAe,SAAS;IACpB,qBACI,8OAAC;QAAG,OAAO;YAAE,WAAW;YAAU,WAAW;QAAO;kBAAG;;;;;;AAE/D","debugId":null}}]
+}

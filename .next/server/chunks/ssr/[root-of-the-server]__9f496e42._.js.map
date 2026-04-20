@@ -1,0 +1,7 @@
+{
+  "version": 3,
+  "sources": [],
+  "sections": [
+    {"offset": {"line": 3, "column": 0}, "map": {"version":3,"sources":[],"names":[],"mappings":"","debugId":null}},
+    {"offset": {"line": 15, "column": 0}, "map": {"version":3,"sources":["file:///C:/Users/kmec7/Desktop/pet_shop/src/app/password_change2/page.tsx"],"sourcesContent":["im\r\n\r\nexport default async function PasswordChange2Page() {\r\n    return (\r\n        <div className=\"card max-w-md mx-auto flex flex-col gap-4\">\r\n            <h1>Verify Code</h1>\r\n                <input\r\n                    placeholder=\"Enter code\"\r\n                    className=\"border p-2 rounded\"\r\n                />\r\n            <p>Check your email for the 4-digit code.</p>\r\n            <button className=\"btn\" onClick={verifyCode}>Verify</button>\r\n        </div>\r\n    );\r\n}\r\n"],"names":[],"mappings":";;;;;;AAAA;AAEe,eAAe;IAC1B,qBACI,8OAAC;QAAI,WAAU;;0BACX,8OAAC;0BAAG;;;;;;0BACA,8OAAC;gBACG,aAAY;gBACZ,WAAU;;;;;;0BAElB,8OAAC;0BAAE;;;;;;0BACH,8OAAC;gBAAO,WAAU;gBAAM,SAAS;0BAAY;;;;;;;;;;;;AAGzD","debugId":null}}]
+}

@@ -92,27 +92,27 @@ export async function login(username: string, password: string) {
 export async function logout() {
     const keksiky = await cookies()
     const sessionId = keksiky.get("session")?.value
-    
+
     if (!sessionId) {
-      return { error: "Not logged in, did not find session id" }
+        return { error: "Not logged in, did not find session id" }
     }
-    
+
     const db = getDB()
-    
+
     const session = await db
-      .selectFrom("session")
-      .selectAll()
-      .where("session_id", "=", sessionId)
-      .executeTakeFirst()
+        .selectFrom("session")
+        .selectAll()
+        .where("session_id", "=", sessionId)
+        .executeTakeFirst()
 
     if (!session) {
-      return { error: "session not found" }
+        return { error: "session not found" }
     }
 
     await db
-      .deleteFrom("session")
-      .where("session_id", "=", sessionId)
-      .execute()
+        .deleteFrom("session")
+        .where("session_id", "=", sessionId)
+        .execute()
 
     keksiky.delete("session");
 
@@ -184,6 +184,11 @@ export async function getUser() {
         return null;
     }
 
+    if (session.expiration < Date.now()) {
+        logout();
+        return null;
+    }
+
     const user = await db
         .selectFrom("users")
         .where("id", "=", session.user_id)
@@ -198,7 +203,7 @@ export async function getUser() {
 }
 
 export async function passwordChange() {
-    const resend = new Resend('re_RvuQVdyW_AucKAUV2HTAHnvQEGSxxfXd9');
+    const resend = new Resend(process.env.RESEND_API_KEY!);
     const keksiky = await cookies();
     const user = await getUser();
 
@@ -208,13 +213,21 @@ export async function passwordChange() {
 
     const randomNumber = Math.floor(1000 + Math.random() * 9000);
     const stringNumber = randomNumber.toString();
-    keksiky.set("number", stringNumber, { path: "/" });
-    
+    const hashedNumber = await hashPassword(stringNumber)
+
+    keksiky.set("number", hashedNumber, {
+        httpOnly: true,
+        secure: process.env.NODE_ENV === "production",
+        sameSite: "lax",
+        path: "/",
+        maxAge: 300
+    });
+
     await resend.emails.send({
-      from: "Resend <onboarding@resend.dev>",
-      to: user.email,
-      subject: "Password change",
-      html: "<p>Your code is: " + stringNumber + "</p>",
+        from: "Resend <onboarding@resend.dev>",
+        to: user.email,
+        subject: "Password change",
+        html: "<p>Your code is: " + stringNumber + "</p>",
     });
 
     redirect("/password_change2");
@@ -223,10 +236,10 @@ export async function passwordChange() {
 export async function passwordChange3(formData: FormData) {
     const db = getDB();
     const user = await getUser();
-    const password1 = formData.get("password1");
-    const password2 = formData.get("password2");
-    
-    if (!user) {
+    const password1 = formData.get("password1") as string | null;
+    const password2 = formData.get("password2") as string | null;
+
+    if (!user || !password1 || !password2) {
         return;
     }
 
@@ -234,72 +247,92 @@ export async function passwordChange3(formData: FormData) {
         return;
     }
 
+    if (password1.length < 8) {
+        return;
+    }
+
     const hashedPassword = await hashPassword(password1 as string);
     await db
-    .updateTable("users")
-    .set({ password: hashedPassword })
-    .where("id", "=", user.id)
-    .execute();
+        .updateTable("users")
+        .set({ password: hashedPassword })
+        .where("id", "=", user.id)
+        .execute();
 
     redirect("/password_change4");
 }
 
-// actions/user.ts (add)
 export async function updateAddress(formData: FormData) {
     const user = await getUser();
     if (!user) return;
-  
-    const db = getDB();
-  
-    const data = {
-      street: formData.get("street") as string,
-      house_number: formData.get("house_number") as string,
-      city: formData.get("city") as string,
-      zip_code: formData.get("zip_code") as string,
-      country: formData.get("country") as string,
-      phone_number: formData.get("phone_number") as string,
-      name: formData.get("name") as string,
-      surname: formData.get("surname") as string,
-    };
-  
-    const existing = await db
-      .selectFrom("user_address")
-      .select("id")
-      .where("user_id", "=", user.id)
-      .executeTakeFirst();
-  
-    if (existing) {
-      await db
-        .updateTable("user_address")
-        .set(data)
-        .where("user_id", "=", user.id)
-        .execute();
-    } else {
-      await db
-        .insertInto("user_address")
-        .values({ ...data, user_id: user.id })
-        .execute();
-    }
-  
-    redirect("/user");
-  }
 
-  export async function updateEmail(newEmail: string) {
+    const db = getDB();
+
+    const data = {
+        street: formData.get("street") as string,
+        house_number: formData.get("house_number") as string,
+        city: formData.get("city") as string,
+        zip_code: formData.get("zip_code") as string,
+        country: formData.get("country") as string,
+        phone_number: formData.get("phone_number") as string,
+        name: formData.get("name") as string,
+        surname: formData.get("surname") as string,
+    };
+
+    const existing = await db
+        .selectFrom("user_address")
+        .select("id")
+        .where("user_id", "=", user.id)
+        .executeTakeFirst();
+
+    if (existing) {
+        await db
+            .updateTable("user_address")
+            .set(data)
+            .where("user_id", "=", user.id)
+            .execute();
+    } else {
+        await db
+            .insertInto("user_address")
+            .values({ ...data, user_id: user.id })
+            .execute();
+    }
+
+    redirect("/user");
+}
+
+export async function updateEmail(newEmail: string) {
     const db = getDB();
     const user = await getUser();
     if (!user) return { error: "Not logged in" };
-  
+
     if (!validator.isEmail(newEmail)) return { error: "Invalid email" };
-  
+
     const exists = await db
-      .selectFrom("users")
-      .where("email", "=", newEmail)
-      .selectAll()
-      .executeTakeFirst();
-  
+        .selectFrom("users")
+        .where("email", "=", newEmail)
+        .selectAll()
+        .executeTakeFirst();
+
     if (exists) return { error: "Email already in use" };
-  
-    await db.updateTable("users").set({ email: newEmail }).where("id", "=", user.id).execute();
+
+    await db
+        .updateTable("users")
+        .set({ email: newEmail })
+        .where("id", "=", user.id)
+        .execute();
+
     return { success: true };
-  }
-  
+}
+
+
+export async function verifyCode(input: string) {
+    const keksiky = await cookies();
+    const code = keksiky.get("number")?.value ?? "";
+    const isCodeValid = await checkPassword(input, code);
+
+    if (isCodeValid) {
+        return { success: true };
+    } else {
+        return { error: "Invalid code" };
+    }
+}

@@ -1,7 +1,7 @@
 import { sql, type Kysely } from "kysely";
 
 export async function up(db: Kysely<unknown>): Promise<void> {
-  await sql`CREATE TABLE products (
+	await sql`CREATE TABLE products (
 		id integer primary key autoincrement not null,
 		name text not null,
 		description text not null,
@@ -10,10 +10,10 @@ export async function up(db: Kysely<unknown>): Promise<void> {
 		category text not null
 	) STRICT`.execute(db);
 
-  await sql`CREATE TABLE users (
+	await sql`CREATE TABLE users (
 		id integer primary key autoincrement not null,
-		username text not null,
-		email text not null,
+		username text not null unique,
+		email text not null unique,
 		password text not null
 	) STRICT`.execute(db);
 

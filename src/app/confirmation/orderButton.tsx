@@ -10,7 +10,7 @@ export default function OrderButton() {
             }}
             className="btn"
         >
-            Place Order
+            Objednať
         </button>
     )
 }

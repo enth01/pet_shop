@@ -1,0 +1,35 @@
+{
+  "node": {
+    "60b90846dd0bea0f1ad2130e78ae5cdd39ad4fc912": {
+      "workers": {
+        "app/register/page": {
+          "moduleId": "[project]/.next-internal/server/app/register/page/actions.js { ACTIONS_MODULE0 => \"[project]/src/actions/user.ts [app-rsc] (ecmascript)\" } [app-rsc] (server actions loader, ecmascript)",
+          "async": false,
+          "exportedName": "login",
+          "filename": "src/actions/user.ts"
+        }
+      },
+      "layer": {
+        "app/register/page": "action-browser"
+      },
+      "exportedName": "login",
+      "filename": "src/actions/user.ts"
+    },
+    "7039f1ab3c03bd70047a2696fd011cbd3a7f570f0f": {
+      "workers": {
+        "app/register/page": {
+          "moduleId": "[project]/.next-internal/server/app/register/page/actions.js { ACTIONS_MODULE0 => \"[project]/src/actions/user.ts [app-rsc] (ecmascript)\" } [app-rsc] (server actions loader, ecmascript)",
+          "async": false,
+          "exportedName": "register",
+          "filename": "src/actions/user.ts"
+        }
+      },
+      "layer": {
+        "app/register/page": "action-browser"
+      },
+      "exportedName": "register",
+      "filename": "src/actions/user.ts"
+    }
+  },
+  "edge": {}
+}

@@ -1,0 +1,97 @@
+/* [project]/src/app/components/HeroCarousel.module.css [app-client] (css) */
+.HeroCarousel-module__qKMwcW__carousel {
+  border-radius: .75rem;
+  width: 100%;
+  height: 360px;
+  margin-bottom: 3rem;
+  overflow: hidden;
+}
+
+.HeroCarousel-module__qKMwcW__slider {
+  height: 100%;
+  transition: transform .6s;
+  display: flex;
+}
+
+.HeroCarousel-module__qKMwcW__slide {
+  min-width: 100%;
+  position: relative;
+}
+
+.HeroCarousel-module__qKMwcW__slide img {
+  object-fit: cover;
+}
+
+.HeroCarousel-module__qKMwcW__overlay {
+  color: #fff;
+  background: rgba(0, 0, 0, .35);
+  flex-direction: column;
+  justify-content: center;
+  padding-left: 4rem;
+  display: flex;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+}
+
+.HeroCarousel-module__qKMwcW__overlay h1 {
+  margin-bottom: .5rem;
+  font-size: 2.5rem;
+}
+
+.HeroCarousel-module__qKMwcW__overlay p {
+  font-size: 1.2rem;
+}
+
+/* [project]/src/app/page.module.css [app-client] (css) */
+.page-module___8aEwW__home {
+  padding: 2rem 3rem;
+}
+
+.page-module___8aEwW__latest h2 {
+  margin-bottom: 1.5rem;
+  font-size: 1.8rem;
+}
+
+.page-module___8aEwW__productRow {
+  justify-content: space-around;
+  gap: 2rem;
+  display: flex;
+}
+
+.page-module___8aEwW__productCard {
+  text-align: center;
+  background: #fff;
+  border-radius: .75rem;
+  width: 220px;
+  padding: 1.5rem;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, .08);
+}
+
+.page-module___8aEwW__productCard h3 {
+  margin: .8rem 0 .4rem;
+}
+
+.page-module___8aEwW__price {
+  margin-bottom: 1rem;
+  font-weight: 600;
+}
+
+.page-module___8aEwW__button {
+  color: #1f2937;
+  background-color: #e5e7eb;
+  border-radius: .75rem;
+  padding: .5rem 1rem;
+  text-decoration: none;
+  transition: background-color .2s, color .2s;
+  display: inline-block;
+}
+
+.page-module___8aEwW__button:hover {
+  color: #fff;
+  background-color: #22c55e;
+}
+
+/*# sourceMappingURL=src_app_3f1e2254._.css.map*/

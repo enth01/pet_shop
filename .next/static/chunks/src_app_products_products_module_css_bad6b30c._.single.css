@@ -1,0 +1,85 @@
+/* [project]/src/app/products/products.module.css [app-client] (css) */
+.products-module__E8alaG__page {
+  padding: 2rem 3rem;
+}
+
+.products-module__E8alaG__filters {
+  flex-wrap: wrap;
+  gap: .8rem;
+  margin-bottom: 2rem;
+  display: flex;
+}
+
+.products-module__E8alaG__filterButton {
+  cursor: pointer;
+  text-transform: capitalize;
+  background: #fff;
+  border: 1px solid #e5e7eb;
+  border-radius: .75rem;
+  padding: .4rem .9rem;
+  transition: background-color .2s, color .2s;
+}
+
+.products-module__E8alaG__filterButton:hover {
+  color: #fff;
+  background-color: #22c55e;
+}
+
+.products-module__E8alaG__active {
+  color: #fff;
+  background-color: #22c55e;
+  border-color: #22c55e;
+}
+
+.products-module__E8alaG__grid {
+  flex-wrap: wrap;
+  justify-content: space-around;
+  gap: 2rem;
+  display: flex;
+}
+
+.products-module__E8alaG__card {
+  text-align: center;
+  background: #fff;
+  border-radius: .75rem;
+  width: 260px;
+  padding: 1.5rem;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, .08);
+}
+
+.products-module__E8alaG__card h3 {
+  margin: .8rem 0 .4rem;
+}
+
+.products-module__E8alaG__description {
+  color: #4b5563;
+  margin-bottom: .6rem;
+  font-size: .9rem;
+}
+
+.products-module__E8alaG__price {
+  margin-bottom: 1rem;
+  font-weight: 600;
+}
+
+.products-module__E8alaG__actions {
+  flex-direction: column;
+  gap: .5rem;
+  display: flex;
+}
+
+.products-module__E8alaG__actions button {
+  cursor: pointer;
+  background-color: #e5e7eb;
+  border: none;
+  border-radius: .75rem;
+  padding: .4rem;
+  transition: background-color .2s, color .2s;
+}
+
+.products-module__E8alaG__actions button:hover {
+  color: #fff;
+  background-color: #22c55e;
+}
+
+/*# sourceMappingURL=src_app_products_products_module_css_bad6b30c._.single.css.map*/

@@ -1,0 +1,32 @@
+/* [project]/src/app/navbar.module.css [app-client] (css) */
+.navbar-module__tF4lJa__navbar {
+  background-color: #fff;
+  border-bottom-right-radius: .75rem;
+  border-bottom-left-radius: .75rem;
+  justify-content: space-around;
+  align-items: center;
+  padding: 1rem 2rem;
+  display: flex;
+  box-shadow: 0 0 10px rgba(0, 0, 0, .55);
+}
+
+.navbar-module__tF4lJa__navItem {
+  border-radius: .75rem;
+}
+
+.navbar-module__tF4lJa__navLink {
+  color: #1f2937;
+  border-radius: .75rem;
+  padding: .5rem .9rem;
+  font-weight: 500;
+  text-decoration: none;
+  transition: background-color .2s, color .2s;
+  display: block;
+}
+
+.navbar-module__tF4lJa__navLink:hover {
+  color: #fff;
+  background-color: #22c55e;
+}
+
+/*# sourceMappingURL=src_app_navbar_module_css_bad6b30c._.single.css.map*/

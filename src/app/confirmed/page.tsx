@@ -1,5 +1,5 @@
 export default function ConfirmationPage() {
     return (
-        <h1>Confirmation has been sent to your mail</h1>
+        <h1 style={{ textAlign: "center", marginTop: "5rem" }}>Potvrdenie bolo poslané na váš mail</h1>
     );
 }

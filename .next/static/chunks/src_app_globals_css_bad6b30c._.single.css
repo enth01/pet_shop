@@ -1,0 +1,68 @@
+/* [project]/src/app/globals.css [app-client] (css) */
+body {
+  background-color: #f0f0f0;
+  flex-direction: column;
+  min-height: 100vh;
+  margin: 0 1rem;
+  font-family: Arial, Helvetica, sans-serif;
+  display: flex;
+}
+
+.admin {
+  padding: 2rem;
+}
+
+.admin-tabs button {
+  background: #fff;
+  border: 2px solid #2f9e44;
+  border-radius: .75rem;
+  margin-right: 1rem;
+  padding: .5rem 1rem;
+}
+
+.admin-tabs button:hover {
+  color: #fff;
+  background: #2f9e44;
+}
+
+.admin-box {
+  border: 2px solid #2f9e44;
+  border-radius: .75rem;
+  margin-top: 2rem;
+  padding: 1.5rem;
+}
+
+.admin-row {
+  justify-content: space-between;
+  margin: .5rem 0;
+  display: flex;
+}
+
+.card {
+  color: #0f1f1a;
+  background: rgba(229, 246, 239, .063);
+  border-radius: .75rem;
+  padding: 1.5rem;
+}
+
+.btn {
+  color: #000;
+  cursor: pointer;
+  background: #2ecc71;
+  border: none;
+  border-radius: .75rem;
+  padding: .5rem 1rem;
+  text-decoration: none;
+}
+
+.btn:hover {
+  background: #27ae60;
+}
+
+input {
+  border: 1px solid #2ecc71;
+  border-radius: .75rem;
+  padding: .5rem;
+}
+
+/*# sourceMappingURL=src_app_globals_css_bad6b30c._.single.css.map*/

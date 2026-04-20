@@ -6,6 +6,7 @@ import getDB from "@/lib/db"
 import { revalidatePath } from "next/cache"
 import { redirect } from "next/navigation"
 import { Resend } from 'resend';
+import { get } from "http"
 
 export async function addToBasket(id: number) {
     const keksiky = await cookies()
@@ -94,9 +95,8 @@ export async function addToFavourites(id: number) {
         return;
     }
 
-    
     await db.insertInto("favorite_products").values({ user_id: user.id, product_id: id }).executeTakeFirst();
-    revalidatePath("products")
+    revalidatePath("/products")
 }
 
 export async function removeFromFavourites(id: number) {
@@ -108,18 +108,23 @@ export async function removeFromFavourites(id: number) {
     }
 
     const favourite = await db
-    .selectFrom("favorite_products")
-    .where("product_id", "=", id)
-    .where("user_id", "=", user.id)
-    .selectAll()
-    .executeTakeFirst();
+        .selectFrom("favorite_products")
+        .where("product_id", "=", id)
+        .where("user_id", "=", user.id)
+        .selectAll()
+        .executeTakeFirst();
 
     if (!favourite) {
         return;
     }
 
-    await db.deleteFrom("favorite_products").where("product_id", "=", id).where("user_id", "=", user.id).executeTakeFirst();
-    revalidatePath("products")
+    await db
+        .deleteFrom("favorite_products")
+        .where("product_id", "=", id)
+        .where("user_id", "=", user.id)
+        .executeTakeFirst();
+
+    revalidatePath("/products")
 }
 
 export async function makeTemporaryOrder(ulica: string, popisne_cislo_domu: string, mesto: string, zip_code: string, krajina: string, telefon: string, email: string, meno: string, priezvisko: string) {
@@ -154,42 +159,97 @@ export async function makeOrder() {
     const db = getDB();
     if (!orderCookie) return;
     const order = JSON.parse(orderCookie);
-    
+
+    const user = await getUser();
+    if (user == null) return;
+
+    const result = await db
+        .insertInto("orders")
+        .values({
+            name: order.meno,
+            surname: order.priezvisko,
+            street: order.ulica,
+            house_number: order.popisne_cislo_domu,
+            city: order.mesto,
+            country: order.krajina,
+            zip_code: order.zip_code,
+            phone_number: order.telefon,
+            email: order.email,
+            confirmed: 0,
+            user_id: user.id,
+        })
+        .executeTakeFirst();
+
+    const orderId = Number(result.insertId);
+
+    if (!orderId) {
+        return { error: "Failed to create order" };
+    }
+
     let total_price = 0;
-    
+
     for (const item of order.cart) {
         const product = await db
-        .selectFrom("products")
-        .where("id", "=", item.id)
-        .selectAll()
-        .executeTakeFirst();
-        
+            .selectFrom("products")
+            .where("id", "=", item.id)
+            .selectAll()
+            .executeTakeFirst();
+
         if (!product) continue;
-        
+
         total_price += item.quantity * product.price;
+
+        await db
+            .insertInto("order_product")
+            .values({
+                order_id: orderId,
+                product_id: item.id,
+                quantity: item.quantity,
+            })
+            .execute();
     }
-    
-    const resend = new Resend('re_RvuQVdyW_AucKAUV2HTAHnvQEGSxxfXd9');
-    
+
+    const resend = new Resend(process.env.RESEND_API_KEY!);
+
     await resend.emails.send({
         from: "Resend <onboarding@resend.dev>",
         to: order.email,
-        subject: "Order confirmation",
-        html: "<p>We are confirming your order.</p>" +
-        "<p>Shipping info:</p>" +
-        "<p>Ulica: " + order.ulica + "</p>" +
-        "<p>Popisne cislo domu: " + order.popisne_cislo_domu + "</p>" +
-        "<p>Mesto: " + order.mesto + "</p>" +
-        "<p>Zip code: " + order.zip_code + "</p>" +
-        "<p>Krajina: " + order.krajina + "</p>" +
-        "<p>Telefon: " + order.telefon + "</p>" +
-        "<p>Email: " + order.email + "</p>" +
-        "<p>Meno: " + order.meno + "</p>" +
-        "<p>Priezvisko: " + order.priezvisko + "</p>" +
-        "<p>Total: " + total_price + "€</p>",
+        subject: "Potvrdenie objednávky",
+        html: `
+        <div style="font-family: Arial, sans-serif; line-height: 1.6; color: #0f1f1a; background-color: #f0f0f0; padding: 40px; margin: 0;">
+          <div style="max-width: 600px; margin: 0 auto; background-color: #ffffff; border-radius: 12px; overflow: hidden; box-shadow: 0 4px 10px rgba(0,0,0,0.08);">
+            
+            <div style="background-color: #22c55e; padding: 20px; text-align: center;">
+              <h1 style="color: #ffffff; margin: 0; font-size: 24px;">Potvrdenie objednávky</h1>
+            </div>
+    
+            <div style="padding: 30px;">
+              <p style="font-size: 18px; font-weight: bold; margin-top: 0;">
+                Ahoj ${order.meno} ${order.priezvisko},
+              </p>
+              <p>Ďakujeme za Vašu objednávku v našom obchode. Číslo vašej objednávky je <strong>${orderId}</strong>.</p>
+              
+              <div style="background-color: #f9fafb; border: 1px solid #e5e7eb; border-radius: 12px; padding: 20px; margin: 20px 0;">
+                <p style="margin: 0; color: #4b5563;">Celková suma na zaplatenie:</p>
+                <p style="font-size: 24px; font-weight: bold; color: #22c55e; margin: 5px 0;">${total_price / 100} €</p>
+              </div>
+    
+              <h3 style="border-bottom: 2px solid #f0f0f0; padding-bottom: 10px; margin-top: 30px;">Doručovacia adresa</h3>
+              <p style="margin-bottom: 0;">
+                ${order.ulica}, ${order.popisne_cislo_domu}, ${order.mesto}
+              </p>
+            </div>
+    
+            <div style="background-color: #f9fafb; padding: 20px; text-align: center; font-size: 12px; color: #6b7280;">
+              <p style="margin: 0;">&copy; 2026 Vaša Stránka. Všetky práva vyhradené.</p>
+            </div>
+            
+          </div>
+        </div>
+        `,
     });
+
     cookieStore.delete("cart");
     cookieStore.delete("order");
-    console.log(order.email);
     redirect("/confirmed");
-  }
+}

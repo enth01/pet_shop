@@ -1,0 +1,65 @@
+/* [project]/src/app/login/login.module.css [app-client] (css) */
+.login-module__WEZH7G__container {
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 5rem;
+  padding: 4rem 2rem;
+  display: flex;
+}
+
+.login-module__WEZH7G__title {
+  color: #0f1f1a;
+  margin-bottom: 2rem;
+  font-size: 2rem;
+  font-weight: 700;
+}
+
+.login-module__WEZH7G__form {
+  background: #fff;
+  border-radius: .75rem;
+  flex-direction: column;
+  gap: 1.5rem;
+  width: 100%;
+  max-width: 400px;
+  padding: 2.5rem;
+  display: flex;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, .08);
+}
+
+.login-module__WEZH7G__field {
+  text-transform: capitalize;
+  flex-direction: column;
+  gap: .5rem;
+  font-weight: 500;
+  display: flex;
+}
+
+.login-module__WEZH7G__input {
+  border: 1px solid #e5e7eb;
+  border-radius: .75rem;
+  padding: .75rem;
+  font-size: 1rem;
+  transition: border-color .2s;
+}
+
+.login-module__WEZH7G__input:focus {
+  border-color: #22c55e;
+  outline: none;
+}
+
+.login-module__WEZH7G__loginButton {
+  cursor: pointer;
+  text-transform: capitalize;
+  background: #fff;
+  border: 2px solid #22c55e;
+  border-radius: .75rem;
+  padding: .75rem 1.5rem;
+  transition: background-color .2s, color .2s;
+}
+
+.login-module__WEZH7G__loginButton:hover {
+  color: #fff;
+  background-color: #22c55e;
+}
+
+/*# sourceMappingURL=src_app_login_login_module_4cd27284.css.map*/

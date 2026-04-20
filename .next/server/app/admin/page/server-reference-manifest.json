@@ -1,0 +1,95 @@
+{
+  "node": {
+    "7cf877b74621c96d870492a87e922e1abaa22e61c7": {
+      "workers": {
+        "app/admin/page": {
+          "moduleId": "[project]/.next-internal/server/app/admin/page/actions.js { ACTIONS_MODULE0 => \"[project]/src/actions/admin.ts [app-rsc] (ecmascript)\" } [app-rsc] (server actions loader, ecmascript)",
+          "async": false,
+          "exportedName": "addProduct",
+          "filename": "src/actions/admin.ts"
+        }
+      },
+      "layer": {
+        "app/admin/page": "action-browser"
+      },
+      "exportedName": "addProduct",
+      "filename": "src/actions/admin.ts"
+    },
+    "407e9b21a8038ae630ad1d21c33485af102b67fb80": {
+      "workers": {
+        "app/admin/page": {
+          "moduleId": "[project]/.next-internal/server/app/admin/page/actions.js { ACTIONS_MODULE0 => \"[project]/src/actions/admin.ts [app-rsc] (ecmascript)\" } [app-rsc] (server actions loader, ecmascript)",
+          "async": false,
+          "exportedName": "deleteProduct",
+          "filename": "src/actions/admin.ts"
+        }
+      },
+      "layer": {
+        "app/admin/page": "action-browser"
+      },
+      "exportedName": "deleteProduct",
+      "filename": "src/actions/admin.ts"
+    },
+    "606882643c7bf7c37ecaa546c94707759d16d2f8b8": {
+      "workers": {
+        "app/admin/page": {
+          "moduleId": "[project]/.next-internal/server/app/admin/page/actions.js { ACTIONS_MODULE0 => \"[project]/src/actions/admin.ts [app-rsc] (ecmascript)\" } [app-rsc] (server actions loader, ecmascript)",
+          "async": false,
+          "exportedName": "updateProduct",
+          "filename": "src/actions/admin.ts"
+        }
+      },
+      "layer": {
+        "app/admin/page": "action-browser"
+      },
+      "exportedName": "updateProduct",
+      "filename": "src/actions/admin.ts"
+    },
+    "40c825e44ced23e593919b5ae971b58f55de82712e": {
+      "workers": {
+        "app/admin/page": {
+          "moduleId": "[project]/.next-internal/server/app/admin/page/actions.js { ACTIONS_MODULE0 => \"[project]/src/actions/admin.ts [app-rsc] (ecmascript)\" } [app-rsc] (server actions loader, ecmascript)",
+          "async": false,
+          "exportedName": "deleteUserAndData",
+          "filename": "src/actions/admin.ts"
+        }
+      },
+      "layer": {
+        "app/admin/page": "action-browser"
+      },
+      "exportedName": "deleteUserAndData",
+      "filename": "src/actions/admin.ts"
+    },
+    "404a1d8144d5c8d04cde4664566903e2c4db622355": {
+      "workers": {
+        "app/admin/page": {
+          "moduleId": "[project]/.next-internal/server/app/admin/page/actions.js { ACTIONS_MODULE0 => \"[project]/src/actions/admin.ts [app-rsc] (ecmascript)\" } [app-rsc] (server actions loader, ecmascript)",
+          "async": false,
+          "exportedName": "deleteOrder",
+          "filename": "src/actions/admin.ts"
+        }
+      },
+      "layer": {
+        "app/admin/page": "action-browser"
+      },
+      "exportedName": "deleteOrder",
+      "filename": "src/actions/admin.ts"
+    },
+    "60fe80351755c03e8de7e7d582aa7b0501e5713136": {
+      "workers": {
+        "app/admin/page": {
+          "moduleId": "[project]/.next-internal/server/app/admin/page/actions.js { ACTIONS_MODULE0 => \"[project]/src/actions/admin.ts [app-rsc] (ecmascript)\" } [app-rsc] (server actions loader, ecmascript)",
+          "async": false,
+          "exportedName": "markOrderAsSent",
+          "filename": "src/actions/admin.ts"
+        }
+      },
+      "layer": {
+        "app/admin/page": "action-browser"
+      },
+      "exportedName": "markOrderAsSent",
+      "filename": "src/actions/admin.ts"
+    }
+  },
+  "edge": {}
+}

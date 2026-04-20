@@ -2,45 +2,43 @@
 
 import { useState } from "react"
 import LoginButton from "./loginButton";
+import styles from "../form.module.css"; // Importing the new module
 
 export default function LoginPage() {
-
   const [username, setUsername] = useState("")
   const [password, setPassword] = useState("")
 
   return (
-    <div className="flex flex-col items-center p-8">
-      <h1 className="text-3xl font-bold mb-6">Login</h1>
+    <div className={styles.container}>
+      <h1 className={styles.title}>Login</h1>
 
       <form
-        className="flex flex-col gap-4 w-80 bg-gray-100 p-6 rounded-xl shadow"
+        className={styles.form}
         onSubmit={(e) => e.preventDefault()}
       >
-        <label className="flex flex-col">
-          username
-          <br />
+        <label className={styles.field}>
+          Username
           <input
             type="text"
-            className="border rounded p-2 w-full"
+            className={styles.input}
+            placeholder="Enter your username"
             value={username}
             onChange={(e) => setUsername(e.target.value)}
           />
         </label>
-        <br />
-        <br />
-        <label className="flex flex-col">
-          password
-          <br />
+
+        <label className={styles.field}>
+          Password
           <input
             type="password"
-            className="border rounded p-2 w-full"
+            className={styles.input}
+            placeholder="Enter your password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
           />
         </label>
-        <br />
-        <br />
-        <LoginButton username={ username } password={ password } />
+
+        <LoginButton username={username} password={password} />
       </form>
     </div>
   );
