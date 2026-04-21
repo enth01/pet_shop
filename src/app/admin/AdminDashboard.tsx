@@ -9,32 +9,32 @@ import OrdersManager from "./OrdersManager";
 import type { Selectable } from "kysely";
 
 export default function AdminDashboard(props: {
-  products: Selectable<Products>[];
-  users: Pick<Selectable<Users>, "id" | "username" | "email" | "is_admin">[];
-  orders: Selectable<Orders>[];
+    products: Selectable<Products>[];
+    users: Pick<Selectable<Users>, "id" | "username" | "email" | "is_admin">[];
+    orders: Selectable<Orders>[];
 }) {
-  const [tab, setTab] = useState<"products" | "users" | "orders">("products");
+    const [tab, setTab] = useState<"products" | "users" | "orders">("products");
 
-  return (
-    <main className="admin">
-      <h1>Admin panel</h1>
+    return (
+        <main className="admin">
+            <h1>Admin panel</h1>
 
-      <nav className="admin-tabs">
-        <button onClick={() => setTab("products")}>Products</button>
-        <button onClick={() => setTab("users")}>Users</button>
-        <button onClick={() => setTab("orders")}>Orders</button>
-      </nav>
+            <nav className="admin-tabs">
+                <button onClick={() => setTab("products")}>Products</button>
+                <button onClick={() => setTab("users")}>Users</button>
+                <button onClick={() => setTab("orders")}>Orders</button>
+            </nav>
 
-      {tab === "products" && (
-        <>
-          <AddProductForm />
-          <ProductEditor products={props.products} />
-        </>
-      )}
+            {tab === "products" && (
+                <>
+                    <AddProductForm />
+                    <ProductEditor products={props.products} />
+                </>
+            )}
 
-      {tab === "users" && <UserManager users={props.users} />}
+            {tab === "users" && <UserManager users={props.users} />}
 
-      {tab === "orders" && <OrdersManager orders={props.orders} />}
-    </main>
-  );
+            {tab === "orders" && <OrdersManager orders={props.orders} />}
+        </main>
+    );
 }

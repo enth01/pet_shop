@@ -1,4 +1,3 @@
-// user/page.tsx
 import getDB from "@/lib/db";
 import { cookies } from "next/headers";
 import LogoutButton from "./logoutButton";
@@ -6,6 +5,8 @@ import Link from "next/link";
 import { getFavoriteProducts } from "@/actions/products";
 import productStyles from "../products/products.module.css";
 import SingleProduct from "../products/singleProduct";
+import { deleteAddress } from "@/actions/user";
+import DeleteAddressButton from "./deleteAddressButton";
 
 export default async function UserPage() {
     const cookieStore = await cookies();
@@ -68,7 +69,10 @@ export default async function UserPage() {
                         <p>{address.street} {address.house_number}</p>
                         <p>{address.city}, {address.zip_code}</p>
                         <p>{address.country}</p>
-                        <Link href="/user/address" className="btn mt-2">Edit address</Link>
+                        <Link href="/user/address" className="btn">Edit address</Link>
+                        <br />
+                        <br />
+                        <DeleteAddressButton />
                     </>
                 ) : (
                     <Link href="/user/address" className="btn">Add address</Link>
@@ -81,7 +85,7 @@ export default async function UserPage() {
                 {orders.map(order => (
                     <div key={order.id} className="order">
                         <p>Objednavka číslo #{order.id}</p>
-                        <p>Status: {order.confirmed ? "Confirmed" : "Pending"}</p>
+                        <p>Status: {order.confirmed ? "Odoslaná" : "Spracúva sa"}</p>
                     </div>
                 ))}
             </section>

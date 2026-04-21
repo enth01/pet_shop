@@ -1,5 +1,4 @@
 {
-  "/_not-found/page": "app/_not-found/page.js",
   "/admin/page": "app/admin/page.js",
   "/basket/page": "app/basket/page.js",
   "/confirmation/page": "app/confirmation/page.js",
@@ -15,6 +14,5 @@
   "/register/page": "app/register/page.js",
   "/shipping_info/page": "app/shipping_info/page.js",
   "/user/address/page": "app/user/address/page.js",
-  "/user/email/page": "app/user/email/page.js",
   "/user/page": "app/user/page.js"
 }

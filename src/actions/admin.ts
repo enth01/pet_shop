@@ -158,7 +158,7 @@ export async function markOrderAsSent(orderId: number, email: string) {
     const resend = new Resend(process.env.RESEND_API_KEY!);
 
     await resend.emails.send({
-        from: "Shop <onboarding@resend.dev>",
+        from: "PetShop <onboarding@resend.dev>",
         to: email,
         subject: "Vaša objednávka je na ceste! 🚚",
         html: `
@@ -175,12 +175,6 @@ export async function markOrderAsSent(orderId: number, email: string) {
                 Skvelé správy!
               </p>
               <p>Vaša objednávka č. <strong>${orderId}</strong> bola práve odoslaná a čoskoro bude u Vás.</p>
-              
-              <div style="margin: 30px 0;">
-                <a href="#" style="background-color: #22c55e; color: white; padding: 12px 24px; text-decoration: none; border-radius: 12px; font-weight: bold;">
-                  Sledovať balík
-                </a>
-              </div>
 
               <p style="font-size: 14px; color: #6b7280; margin-top: 20px;">
                 Ak máte akékoľvek otázky, neváhajte nás kontaktovať odpoveďou na tento e-mail.

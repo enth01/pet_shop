@@ -3,9 +3,9 @@
     border-radius: 0.75rem;
     padding: 1.5rem;
     color: #e5f6ef;
-  }
-  
-  .btn {
+}
+
+.btn {
     background: #2ecc71;
     padding: 0.5rem 1rem;
     border-radius: 0.75rem;
@@ -13,11 +13,10 @@
     text-decoration: none;
     border: none;
     cursor: pointer;
-  }
-  
-  .order {
+}
+
+.order {
     border-top: 1px solid #2ecc71;
     padding-top: 0.5rem;
     margin-top: 0.5rem;
-  }
-  
+}

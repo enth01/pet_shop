@@ -68,12 +68,12 @@ async function NavBar() {
                 }, void 0, false, {
                     fileName: "[project]/src/app/navbar.tsx",
                     lineNumber: 14,
-                    columnNumber: 9
+                    columnNumber: 17
                 }, this)
             }, void 0, false, {
                 fileName: "[project]/src/app/navbar.tsx",
                 lineNumber: 13,
-                columnNumber: 7
+                columnNumber: 13
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$rsc$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                 className: __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$app$2f$navbar$2e$module$2e$css__$5b$app$2d$rsc$5d$__$28$css__module$29$__["default"].navItem,
@@ -84,12 +84,12 @@ async function NavBar() {
                 }, void 0, false, {
                     fileName: "[project]/src/app/navbar.tsx",
                     lineNumber: 17,
-                    columnNumber: 9
+                    columnNumber: 17
                 }, this)
             }, void 0, false, {
                 fileName: "[project]/src/app/navbar.tsx",
                 lineNumber: 16,
-                columnNumber: 7
+                columnNumber: 13
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$rsc$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                 className: __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$app$2f$navbar$2e$module$2e$css__$5b$app$2d$rsc$5d$__$28$css__module$29$__["default"].navItem,
@@ -100,12 +100,12 @@ async function NavBar() {
                 }, void 0, false, {
                     fileName: "[project]/src/app/navbar.tsx",
                     lineNumber: 20,
-                    columnNumber: 9
+                    columnNumber: 17
                 }, this)
             }, void 0, false, {
                 fileName: "[project]/src/app/navbar.tsx",
                 lineNumber: 19,
-                columnNumber: 7
+                columnNumber: 13
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$rsc$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                 className: __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$app$2f$navbar$2e$module$2e$css__$5b$app$2d$rsc$5d$__$28$css__module$29$__["default"].navItem,
@@ -116,12 +116,12 @@ async function NavBar() {
                 }, void 0, false, {
                     fileName: "[project]/src/app/navbar.tsx",
                     lineNumber: 23,
-                    columnNumber: 9
+                    columnNumber: 17
                 }, this)
             }, void 0, false, {
                 fileName: "[project]/src/app/navbar.tsx",
                 lineNumber: 22,
-                columnNumber: 7
+                columnNumber: 13
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$rsc$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                 className: __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$app$2f$navbar$2e$module$2e$css__$5b$app$2d$rsc$5d$__$28$css__module$29$__["default"].navItem,
@@ -132,18 +132,18 @@ async function NavBar() {
                 }, void 0, false, {
                     fileName: "[project]/src/app/navbar.tsx",
                     lineNumber: 26,
-                    columnNumber: 9
+                    columnNumber: 17
                 }, this)
             }, void 0, false, {
                 fileName: "[project]/src/app/navbar.tsx",
                 lineNumber: 25,
-                columnNumber: 7
+                columnNumber: 13
             }, this)
         ]
     }, void 0, true, {
         fileName: "[project]/src/app/navbar.tsx",
         lineNumber: 12,
-        columnNumber: 5
+        columnNumber: 9
     }, this);
     const adminReturn = /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$rsc$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["jsxDEV"])("nav", {
         className: __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$app$2f$navbar$2e$module$2e$css__$5b$app$2d$rsc$5d$__$28$css__module$29$__["default"].navbar,
@@ -157,12 +157,12 @@ async function NavBar() {
                 }, void 0, false, {
                     fileName: "[project]/src/app/navbar.tsx",
                     lineNumber: 34,
-                    columnNumber: 9
+                    columnNumber: 17
                 }, this)
             }, void 0, false, {
                 fileName: "[project]/src/app/navbar.tsx",
                 lineNumber: 33,
-                columnNumber: 7
+                columnNumber: 13
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$rsc$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                 className: __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$app$2f$navbar$2e$module$2e$css__$5b$app$2d$rsc$5d$__$28$css__module$29$__["default"].navItem,
@@ -173,12 +173,12 @@ async function NavBar() {
                 }, void 0, false, {
                     fileName: "[project]/src/app/navbar.tsx",
                     lineNumber: 37,
-                    columnNumber: 9
+                    columnNumber: 17
                 }, this)
             }, void 0, false, {
                 fileName: "[project]/src/app/navbar.tsx",
                 lineNumber: 36,
-                columnNumber: 7
+                columnNumber: 13
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$rsc$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                 className: __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$app$2f$navbar$2e$module$2e$css__$5b$app$2d$rsc$5d$__$28$css__module$29$__["default"].navItem,
@@ -189,12 +189,12 @@ async function NavBar() {
                 }, void 0, false, {
                     fileName: "[project]/src/app/navbar.tsx",
                     lineNumber: 40,
-                    columnNumber: 9
+                    columnNumber: 17
                 }, this)
             }, void 0, false, {
                 fileName: "[project]/src/app/navbar.tsx",
                 lineNumber: 39,
-                columnNumber: 7
+                columnNumber: 13
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$rsc$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                 className: __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$app$2f$navbar$2e$module$2e$css__$5b$app$2d$rsc$5d$__$28$css__module$29$__["default"].navItem,
@@ -205,12 +205,12 @@ async function NavBar() {
                 }, void 0, false, {
                     fileName: "[project]/src/app/navbar.tsx",
                     lineNumber: 43,
-                    columnNumber: 9
+                    columnNumber: 17
                 }, this)
             }, void 0, false, {
                 fileName: "[project]/src/app/navbar.tsx",
                 lineNumber: 42,
-                columnNumber: 7
+                columnNumber: 13
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$rsc$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                 className: __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$app$2f$navbar$2e$module$2e$css__$5b$app$2d$rsc$5d$__$28$css__module$29$__["default"].navItem,
@@ -221,18 +221,18 @@ async function NavBar() {
                 }, void 0, false, {
                     fileName: "[project]/src/app/navbar.tsx",
                     lineNumber: 46,
-                    columnNumber: 9
+                    columnNumber: 17
                 }, this)
             }, void 0, false, {
                 fileName: "[project]/src/app/navbar.tsx",
                 lineNumber: 45,
-                columnNumber: 7
+                columnNumber: 13
             }, this)
         ]
     }, void 0, true, {
         fileName: "[project]/src/app/navbar.tsx",
         lineNumber: 32,
-        columnNumber: 5
+        columnNumber: 9
     }, this);
     const userReturn = /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$rsc$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["jsxDEV"])("nav", {
         className: __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$app$2f$navbar$2e$module$2e$css__$5b$app$2d$rsc$5d$__$28$css__module$29$__["default"].navbar,
@@ -246,12 +246,12 @@ async function NavBar() {
                 }, void 0, false, {
                     fileName: "[project]/src/app/navbar.tsx",
                     lineNumber: 54,
-                    columnNumber: 9
+                    columnNumber: 17
                 }, this)
             }, void 0, false, {
                 fileName: "[project]/src/app/navbar.tsx",
                 lineNumber: 53,
-                columnNumber: 7
+                columnNumber: 13
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$rsc$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                 className: __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$app$2f$navbar$2e$module$2e$css__$5b$app$2d$rsc$5d$__$28$css__module$29$__["default"].navItem,
@@ -262,12 +262,12 @@ async function NavBar() {
                 }, void 0, false, {
                     fileName: "[project]/src/app/navbar.tsx",
                     lineNumber: 57,
-                    columnNumber: 9
+                    columnNumber: 17
                 }, this)
             }, void 0, false, {
                 fileName: "[project]/src/app/navbar.tsx",
                 lineNumber: 56,
-                columnNumber: 7
+                columnNumber: 13
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$rsc$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                 className: __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$app$2f$navbar$2e$module$2e$css__$5b$app$2d$rsc$5d$__$28$css__module$29$__["default"].navItem,
@@ -278,12 +278,12 @@ async function NavBar() {
                 }, void 0, false, {
                     fileName: "[project]/src/app/navbar.tsx",
                     lineNumber: 60,
-                    columnNumber: 9
+                    columnNumber: 17
                 }, this)
             }, void 0, false, {
                 fileName: "[project]/src/app/navbar.tsx",
                 lineNumber: 59,
-                columnNumber: 7
+                columnNumber: 13
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$rsc$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                 className: __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$app$2f$navbar$2e$module$2e$css__$5b$app$2d$rsc$5d$__$28$css__module$29$__["default"].navItem,
@@ -294,18 +294,18 @@ async function NavBar() {
                 }, void 0, false, {
                     fileName: "[project]/src/app/navbar.tsx",
                     lineNumber: 63,
-                    columnNumber: 9
+                    columnNumber: 17
                 }, this)
             }, void 0, false, {
                 fileName: "[project]/src/app/navbar.tsx",
                 lineNumber: 62,
-                columnNumber: 7
+                columnNumber: 13
             }, this)
         ]
     }, void 0, true, {
         fileName: "[project]/src/app/navbar.tsx",
         lineNumber: 52,
-        columnNumber: 5
+        columnNumber: 9
     }, this);
     if (!sessionId) {
         return defaultReturn;
@@ -458,32 +458,32 @@ function RootLayout({ children }) {
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$rsc$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["jsxDEV"])("head", {}, void 0, false, {
                 fileName: "[project]/src/app/layout.tsx",
                 lineNumber: 8,
-                columnNumber: 7
+                columnNumber: 13
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$rsc$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["jsxDEV"])("body", {
                 children: [
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$rsc$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$app$2f$navbar$2e$tsx__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["default"], {}, void 0, false, {
                         fileName: "[project]/src/app/layout.tsx",
                         lineNumber: 11,
-                        columnNumber: 9
+                        columnNumber: 17
                     }, this),
                     children,
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$rsc$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$app$2f$footer$2e$tsx__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["default"], {}, void 0, false, {
                         fileName: "[project]/src/app/layout.tsx",
                         lineNumber: 13,
-                        columnNumber: 9
+                        columnNumber: 17
                     }, this)
                 ]
             }, void 0, true, {
                 fileName: "[project]/src/app/layout.tsx",
                 lineNumber: 10,
-                columnNumber: 7
+                columnNumber: 13
             }, this)
         ]
     }, void 0, true, {
         fileName: "[project]/src/app/layout.tsx",
         lineNumber: 7,
-        columnNumber: 5
+        columnNumber: 9
     }, this);
 }
 }),

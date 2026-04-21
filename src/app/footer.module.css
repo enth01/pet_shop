@@ -6,62 +6,61 @@
     border-top-right-radius: 0.75rem;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.548);
     margin-top: auto;
-  }
-  
-  .content {
+}
+
+.content {
     display: flex;
     justify-content: space-evenly;
     gap: 3rem;
-  }
-  
-  .section {
+}
+
+.section {
     max-width: 300px;
-  }
-  
-  .section h3 {
+}
+
+.section h3 {
     font-size: 1.4rem;
     margin-bottom: 0.6rem;
-  }
-  
-  .section h4 {
+}
+
+.section h4 {
     font-size: 1.1rem;
     margin-bottom: 0.6rem;
-  }
-  
-  .section p {
+}
+
+.section p {
     font-size: 0.95rem;
     color: #374151;
-  }
-  
-  .section ul {
+}
+
+.section ul {
     list-style: none;
     padding: 0;
     margin: 0;
-  }
-  
-  .section li {
+}
+
+.section li {
     margin-bottom: 0.4rem;
-  }
-  
-  .section a {
+}
+
+.section a {
     text-decoration: none;
     color: #1f2937;
     padding: 0.3rem 0.5rem;
     border-radius: 0.75rem;
     transition: background-color 0.2s ease, color 0.2s ease;
-  }
-  
-  .section a:hover {
+}
+
+.section a:hover {
     background-color: #22c55e;
     color: white;
-  }
-  
-  .bottom {
+}
+
+.bottom {
     margin-top: 2rem;
     padding-top: 1rem;
     border-top: 1px solid #e5e7eb;
     text-align: center;
     font-size: 0.85rem;
     color: #6b7280;
-  }
-  
+}

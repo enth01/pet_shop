@@ -1,37 +1,37 @@
 .home {
     padding: 2rem 3rem;
-  }
-  
-  .latest h2 {
+}
+
+.latest h2 {
     font-size: 1.8rem;
     margin-bottom: 1.5rem;
-  }
-  
-  .productRow {
+}
+
+.productRow {
     display: flex;
     justify-content: space-around;
     gap: 2rem;
-  }
-  
-  .productCard {
+}
+
+.productCard {
     background: white;
     border-radius: 0.75rem;
     padding: 1.5rem;
     width: 220px;
     text-align: center;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
-  }
-  
-  .productCard h3 {
+}
+
+.productCard h3 {
     margin: 0.8rem 0 0.4rem;
-  }
-  
-  .price {
+}
+
+.price {
     font-weight: 600;
     margin-bottom: 1rem;
-  }
-  
-  .button {
+}
+
+.button {
     display: inline-block;
     padding: 0.5rem 1rem;
     border-radius: 0.75rem;
@@ -39,9 +39,9 @@
     color: #1f2937;
     background-color: #e5e7eb;
     transition: background-color 0.2s ease, color 0.2s ease;
-  }
-  
-  .button:hover {
+}
+
+.button:hover {
     background-color: #22c55e;
     color: white;
-  }
+}

@@ -1,15 +1,15 @@
 .page {
     padding: 2rem 3rem;
-  }
-  
-  .filters {
+}
+
+.filters {
     display: flex;
     gap: 0.8rem;
     margin-bottom: 2rem;
     flex-wrap: wrap;
-  }
-  
-  .filterButton {
+}
+
+.filterButton {
     padding: 0.4rem 0.9rem;
     border-radius: 0.75rem;
     border: 1px solid #e5e7eb;
@@ -17,67 +17,66 @@
     cursor: pointer;
     transition: background-color 0.2s ease, color 0.2s ease;
     text-transform: capitalize;
-  }
-  
-  .filterButton:hover {
+}
+
+.filterButton:hover {
     background-color: #22c55e;
     color: white;
-  }
-  
-  .active {
+}
+
+.active {
     background-color: #22c55e;
     color: white;
     border-color: #22c55e;
-  }
-  
-  .grid {
+}
+
+.grid {
     display: flex;
     flex-wrap: wrap;
     justify-content: space-around;
     gap: 2rem;
-  }
-  
-  .card {
+}
+
+.card {
     width: 260px;
     background: white;
     border-radius: 0.75rem;
     padding: 1.5rem;
     text-align: center;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
-  }
-  
-  .card h3 {
+}
+
+.card h3 {
     margin: 0.8rem 0 0.4rem;
-  }
-  
-  .description {
+}
+
+.description {
     font-size: 0.9rem;
     color: #4b5563;
     margin-bottom: 0.6rem;
-  }
-  
-  .price {
+}
+
+.price {
     font-weight: 600;
     margin-bottom: 1rem;
-  }
-  
-  .actions {
+}
+
+.actions {
     display: flex;
     flex-direction: column;
     gap: 0.5rem;
-  }
-  
-  .actions button {
+}
+
+.actions button {
     padding: 0.4rem;
     border-radius: 0.75rem;
     border: none;
     cursor: pointer;
     background-color: #e5e7eb;
     transition: background-color 0.2s ease, color 0.2s ease;
-  }
-  
-  .actions button:hover {
+}
+
+.actions button:hover {
     background-color: #22c55e;
     color: white;
-  }
-  
+}

@@ -4,57 +4,56 @@ import Image from "next/image";
 import { useEffect, useState } from "react";
 import styles from "./HeroCarousel.module.css";
 
-// each image now has its own overlay text
 const slides = [
-  {
-    src: "/banner_images/banner1.png",
-    title: "Všetko čo Váš miláčik potrebuje",
-    subtitle: "Jedlo, hračky a iné doplnky",
-  },
-  {
-    src: "/banner_images/banner2.jpeg",
-    title: "Pohodlie ako nikde inde",
-    subtitle: "Hebké postele, deky a viac",
-  },
-  {
-    src: "/banner_images/banner3.jpg",
-    title: "Zdravé maškrty, šťastné zvieratká",
-    subtitle: "Mňamky a výživové doplnky z prírodných ingrediencií",
-  },
+    {
+        src: "/banner_images/banner1.png",
+        title: "Všetko čo Váš miláčik potrebuje",
+        subtitle: "Jedlo, hračky a iné doplnky",
+    },
+    {
+        src: "/banner_images/banner2.jpeg",
+        title: "Pohodlie ako nikde inde",
+        subtitle: "Hebké postele, deky a viac",
+    },
+    {
+        src: "/banner_images/banner3.jpg",
+        title: "Zdravé maškrty, šťastné zvieratká",
+        subtitle: "Mňamky a výživové doplnky z prírodných ingrediencií",
+    },
 ];
 
 export default function HeroCarousel() {
-  const [index, setIndex] = useState(0);
+    const [index, setIndex] = useState(0);
 
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setIndex((prev) => (prev + 1) % slides.length);
-    }, 4000);
+    useEffect(() => {
+        const interval = setInterval(() => {
+            setIndex((prev) => (prev + 1) % slides.length);
+        }, 4000);
 
-    return () => clearInterval(interval);
-  }, []);
+        return () => clearInterval(interval);
+    }, []);
 
-  return (
-    <div className={styles.carousel}>
-      <div
-        className={styles.slider}
-        style={{ transform: `translateX(-${index * 100}%)` }}
-      >
-        {slides.map((slide, i) => (
-          <div className={styles.slide} key={i}>
-            <Image
-              src={slide.src}
-              alt={`Banner ${i + 1}`}
-              fill
-              priority={i === 0}
-            />
-            <div className={styles.overlay}>
-              <h1>{slide.title}</h1>
-              <p>{slide.subtitle}</p>
+    return (
+        <div className={styles.carousel}>
+            <div
+                className={styles.slider}
+                style={{ transform: `translateX(-${index * 100}%)` }}
+            >
+                {slides.map((slide, i) => (
+                    <div className={styles.slide} key={i}>
+                        <Image
+                            src={slide.src}
+                            alt={`Banner ${i + 1}`}
+                            fill
+                            priority={i === 0}
+                        />
+                        <div className={styles.overlay}>
+                            <h1>{slide.title}</h1>
+                            <p>{slide.subtitle}</p>
+                        </div>
+                    </div>
+                ))}
             </div>
-          </div>
-        ))}
-      </div>
-    </div>
-  );
+        </div>
+    );
 }

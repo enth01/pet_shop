@@ -1,4 +1,3 @@
-// lib/types.ts
 import type { Selectable, Insertable } from "kysely";
 import type { Users, Orders, Products, UserAddress } from "@/lib/db-types";
 

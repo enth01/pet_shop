@@ -36,7 +36,9 @@ module.exports = mod;
 "[project]/src/actions/user.ts [app-rsc] (ecmascript)", ((__turbopack_context__) => {
 "use strict";
 
-/* __next_internal_action_entry_do_not_use__ [{"007a158d3aca296f5cbd316c5c39829db4f895b8c4":"logout","00f68349053daf54e69fb707297ec58b3c0e6dc3a9":"getUser","4042198a465f2f95dc7fa6782dd1769ed3a861305e":"verifyCode","4042d6eadec4f0682f618743f683eca9b55c7bdbc2":"updateEmail","4053df4365de20f19f09c4db3e3bca7e1c4bae86d5":"passwordChange3","4064458dc0a2a5a2b4ab3c8c3a50378646e0182575":"updateAddress","40ea7360969dcde56bb5883b1e6763b5c13bc6d5af":"passwordChange","60b90846dd0bea0f1ad2130e78ae5cdd39ad4fc912":"login","7039f1ab3c03bd70047a2696fd011cbd3a7f570f0f":"register"},"",""] */ __turbopack_context__.s([
+/* __next_internal_action_entry_do_not_use__ [{"002f7f5d8d772eb91f07fb463207f3ec0d0d5c5458":"deleteAddress","007a158d3aca296f5cbd316c5c39829db4f895b8c4":"logout","00f68349053daf54e69fb707297ec58b3c0e6dc3a9":"getUser","4042198a465f2f95dc7fa6782dd1769ed3a861305e":"verifyCode","4042d6eadec4f0682f618743f683eca9b55c7bdbc2":"updateEmail","4053df4365de20f19f09c4db3e3bca7e1c4bae86d5":"passwordChange3","4064458dc0a2a5a2b4ab3c8c3a50378646e0182575":"updateAddress","40ea7360969dcde56bb5883b1e6763b5c13bc6d5af":"passwordChange","60b90846dd0bea0f1ad2130e78ae5cdd39ad4fc912":"login","7039f1ab3c03bd70047a2696fd011cbd3a7f570f0f":"register"},"",""] */ __turbopack_context__.s([
+    "deleteAddress",
+    ()=>deleteAddress,
     "getUser",
     ()=>getUser,
     "login",
@@ -226,10 +228,10 @@ async function passwordChange(mail) {
         secure: ("TURBOPACK compile-time value", "development") === "production",
         sameSite: "lax",
         path: "/",
-        maxAge: 600 // 10 minutes
+        maxAge: 600
     });
     await resend.emails.send({
-        from: "Resend <onboarding@resend.dev>",
+        from: "PetShop <onboarding@resend.dev>",
         to: mail,
         subject: "Password change",
         html: "<p>Your code is: " + stringNumber + "</p>"
@@ -280,6 +282,13 @@ async function updateAddress(formData) {
     }
     (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$client$2f$components$2f$navigation$2e$react$2d$server$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["redirect"])("/user");
 }
+async function deleteAddress() {
+    const db = (0, __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$db$2e$ts__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["default"])();
+    const user = await getUser();
+    if (!user) return;
+    await db.deleteFrom("user_address").where("user_id", "=", user.id).execute();
+    (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$client$2f$components$2f$navigation$2e$react$2d$server$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["redirect"])("/user");
+}
 async function updateEmail(newEmail) {
     const db = (0, __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$db$2e$ts__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["default"])();
     const user = await getUser();
@@ -323,6 +332,7 @@ async function verifyCode(input) {
     passwordChange,
     passwordChange3,
     updateAddress,
+    deleteAddress,
     updateEmail,
     verifyCode
 ]);
@@ -333,6 +343,7 @@ async function verifyCode(input) {
 (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$build$2f$webpack$2f$loaders$2f$next$2d$flight$2d$loader$2f$server$2d$reference$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["registerServerReference"])(passwordChange, "40ea7360969dcde56bb5883b1e6763b5c13bc6d5af", null);
 (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$build$2f$webpack$2f$loaders$2f$next$2d$flight$2d$loader$2f$server$2d$reference$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["registerServerReference"])(passwordChange3, "4053df4365de20f19f09c4db3e3bca7e1c4bae86d5", null);
 (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$build$2f$webpack$2f$loaders$2f$next$2d$flight$2d$loader$2f$server$2d$reference$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["registerServerReference"])(updateAddress, "4064458dc0a2a5a2b4ab3c8c3a50378646e0182575", null);
+(0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$build$2f$webpack$2f$loaders$2f$next$2d$flight$2d$loader$2f$server$2d$reference$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["registerServerReference"])(deleteAddress, "002f7f5d8d772eb91f07fb463207f3ec0d0d5c5458", null);
 (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$build$2f$webpack$2f$loaders$2f$next$2d$flight$2d$loader$2f$server$2d$reference$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["registerServerReference"])(updateEmail, "4042d6eadec4f0682f618743f683eca9b55c7bdbc2", null);
 (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$build$2f$webpack$2f$loaders$2f$next$2d$flight$2d$loader$2f$server$2d$reference$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["registerServerReference"])(verifyCode, "4042198a465f2f95dc7fa6782dd1769ed3a861305e", null);
 }),

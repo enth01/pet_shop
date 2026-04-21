@@ -36,7 +36,9 @@ module.exports = mod;
 "[project]/src/actions/user.ts [app-rsc] (ecmascript)", ((__turbopack_context__) => {
 "use strict";
 
-/* __next_internal_action_entry_do_not_use__ [{"007a158d3aca296f5cbd316c5c39829db4f895b8c4":"logout","00ea7360969dcde56bb5883b1e6763b5c13bc6d5af":"passwordChange","00f68349053daf54e69fb707297ec58b3c0e6dc3a9":"getUser","4042198a465f2f95dc7fa6782dd1769ed3a861305e":"verifyCode","4042d6eadec4f0682f618743f683eca9b55c7bdbc2":"updateEmail","4053df4365de20f19f09c4db3e3bca7e1c4bae86d5":"passwordChange3","4064458dc0a2a5a2b4ab3c8c3a50378646e0182575":"updateAddress","60b90846dd0bea0f1ad2130e78ae5cdd39ad4fc912":"login","7039f1ab3c03bd70047a2696fd011cbd3a7f570f0f":"register"},"",""] */ __turbopack_context__.s([
+/* __next_internal_action_entry_do_not_use__ [{"002f7f5d8d772eb91f07fb463207f3ec0d0d5c5458":"deleteAddress","007a158d3aca296f5cbd316c5c39829db4f895b8c4":"logout","00f68349053daf54e69fb707297ec58b3c0e6dc3a9":"getUser","4042198a465f2f95dc7fa6782dd1769ed3a861305e":"verifyCode","4042d6eadec4f0682f618743f683eca9b55c7bdbc2":"updateEmail","4053df4365de20f19f09c4db3e3bca7e1c4bae86d5":"passwordChange3","4064458dc0a2a5a2b4ab3c8c3a50378646e0182575":"updateAddress","40ea7360969dcde56bb5883b1e6763b5c13bc6d5af":"passwordChange","60b90846dd0bea0f1ad2130e78ae5cdd39ad4fc912":"login","7039f1ab3c03bd70047a2696fd011cbd3a7f570f0f":"register"},"",""] */ __turbopack_context__.s([
+    "deleteAddress",
+    ()=>deleteAddress,
     "getUser",
     ()=>getUser,
     "login",
@@ -208,13 +210,9 @@ async function getUser() {
     }
     return user;
 }
-async function passwordChange() {
+async function passwordChange(mail) {
     const resend = new __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$resend$2f$dist$2f$index$2e$mjs__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["Resend"](process.env.RESEND_API_KEY);
     const keksiky = await (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$headers$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["cookies"])();
-    const user = await getUser();
-    if (!user) {
-        return;
-    }
     const randomNumber = Math.floor(1000 + Math.random() * 9000);
     const stringNumber = randomNumber.toString();
     const hashedNumber = await (0, __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$hashing$2e$ts__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["hashPassword"])(stringNumber);
@@ -225,9 +223,16 @@ async function passwordChange() {
         path: "/",
         maxAge: 300
     });
+    keksiky.set("reset_email", mail, {
+        httpOnly: true,
+        secure: ("TURBOPACK compile-time value", "development") === "production",
+        sameSite: "lax",
+        path: "/",
+        maxAge: 600
+    });
     await resend.emails.send({
-        from: "Resend <onboarding@resend.dev>",
-        to: user.email,
+        from: "PetShop <onboarding@resend.dev>",
+        to: mail,
         subject: "Password change",
         html: "<p>Your code is: " + stringNumber + "</p>"
     });
@@ -235,22 +240,21 @@ async function passwordChange() {
 }
 async function passwordChange3(formData) {
     const db = (0, __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$db$2e$ts__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["default"])();
-    const user = await getUser();
+    const keksiky = await (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$headers$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["cookies"])();
+    const resetEmail = keksiky.get("reset_email")?.value;
     const password1 = formData.get("password1");
     const password2 = formData.get("password2");
-    if (!user || !password1 || !password2) {
-        return;
-    }
-    if (password1 !== password2) {
-        return;
-    }
-    if (password1.length < 8) {
-        return;
+    if (!resetEmail || !password1 || !password2 || password1 !== password2 || password1.length < 8) {
+        return {
+            error: "Invalid request or passwords do not match"
+        };
     }
     const hashedPassword = await (0, __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$hashing$2e$ts__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["hashPassword"])(password1);
     await db.updateTable("users").set({
         password: hashedPassword
-    }).where("id", "=", user.id).execute();
+    }).where("email", "=", resetEmail).execute();
+    keksiky.delete("reset_email");
+    keksiky.delete("number");
     (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$client$2f$components$2f$navigation$2e$react$2d$server$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["redirect"])("/password_change4");
 }
 async function updateAddress(formData) {
@@ -276,6 +280,13 @@ async function updateAddress(formData) {
             user_id: user.id
         }).execute();
     }
+    (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$client$2f$components$2f$navigation$2e$react$2d$server$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["redirect"])("/user");
+}
+async function deleteAddress() {
+    const db = (0, __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$db$2e$ts__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["default"])();
+    const user = await getUser();
+    if (!user) return;
+    await db.deleteFrom("user_address").where("user_id", "=", user.id).execute();
     (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$client$2f$components$2f$navigation$2e$react$2d$server$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["redirect"])("/user");
 }
 async function updateEmail(newEmail) {
@@ -321,6 +332,7 @@ async function verifyCode(input) {
     passwordChange,
     passwordChange3,
     updateAddress,
+    deleteAddress,
     updateEmail,
     verifyCode
 ]);
@@ -328,9 +340,10 @@ async function verifyCode(input) {
 (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$build$2f$webpack$2f$loaders$2f$next$2d$flight$2d$loader$2f$server$2d$reference$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["registerServerReference"])(logout, "007a158d3aca296f5cbd316c5c39829db4f895b8c4", null);
 (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$build$2f$webpack$2f$loaders$2f$next$2d$flight$2d$loader$2f$server$2d$reference$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["registerServerReference"])(register, "7039f1ab3c03bd70047a2696fd011cbd3a7f570f0f", null);
 (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$build$2f$webpack$2f$loaders$2f$next$2d$flight$2d$loader$2f$server$2d$reference$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["registerServerReference"])(getUser, "00f68349053daf54e69fb707297ec58b3c0e6dc3a9", null);
-(0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$build$2f$webpack$2f$loaders$2f$next$2d$flight$2d$loader$2f$server$2d$reference$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["registerServerReference"])(passwordChange, "00ea7360969dcde56bb5883b1e6763b5c13bc6d5af", null);
+(0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$build$2f$webpack$2f$loaders$2f$next$2d$flight$2d$loader$2f$server$2d$reference$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["registerServerReference"])(passwordChange, "40ea7360969dcde56bb5883b1e6763b5c13bc6d5af", null);
 (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$build$2f$webpack$2f$loaders$2f$next$2d$flight$2d$loader$2f$server$2d$reference$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["registerServerReference"])(passwordChange3, "4053df4365de20f19f09c4db3e3bca7e1c4bae86d5", null);
 (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$build$2f$webpack$2f$loaders$2f$next$2d$flight$2d$loader$2f$server$2d$reference$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["registerServerReference"])(updateAddress, "4064458dc0a2a5a2b4ab3c8c3a50378646e0182575", null);
+(0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$build$2f$webpack$2f$loaders$2f$next$2d$flight$2d$loader$2f$server$2d$reference$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["registerServerReference"])(deleteAddress, "002f7f5d8d772eb91f07fb463207f3ec0d0d5c5458", null);
 (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$build$2f$webpack$2f$loaders$2f$next$2d$flight$2d$loader$2f$server$2d$reference$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["registerServerReference"])(updateEmail, "4042d6eadec4f0682f618743f683eca9b55c7bdbc2", null);
 (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$build$2f$webpack$2f$loaders$2f$next$2d$flight$2d$loader$2f$server$2d$reference$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["registerServerReference"])(verifyCode, "4042198a465f2f95dc7fa6782dd1769ed3a861305e", null);
 }),
@@ -523,7 +536,7 @@ async function makeOrder() {
     }
     const resend = new __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$resend$2f$dist$2f$index$2e$mjs__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["Resend"](process.env.RESEND_API_KEY);
     await resend.emails.send({
-        from: "Resend <onboarding@resend.dev>",
+        from: "PetShop <onboarding@resend.dev>",
         to: order.email,
         subject: "Potvrdenie objednávky",
         html: `
@@ -547,7 +560,7 @@ async function makeOrder() {
     
               <h3 style="border-bottom: 2px solid #f0f0f0; padding-bottom: 10px; margin-top: 30px;">Doručovacia adresa</h3>
               <p style="margin-bottom: 0;">
-                ${order.ulica}, ${order.popisne_cislo_domu}, ${order.mesto}
+                ${order.ulica} ${order.popisne_cislo_domu}, ${order.mesto}
               </p>
             </div>
     
@@ -693,7 +706,7 @@ async function BasketPage() {
                 }, void 0, false, {
                     fileName: "[project]/src/app/basket/page.tsx",
                     lineNumber: 13,
-                    columnNumber: 9
+                    columnNumber: 17
                 }, this),
                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$rsc$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
                     style: {
@@ -703,13 +716,13 @@ async function BasketPage() {
                 }, void 0, false, {
                     fileName: "[project]/src/app/basket/page.tsx",
                     lineNumber: 14,
-                    columnNumber: 9
+                    columnNumber: 17
                 }, this)
             ]
         }, void 0, true, {
             fileName: "[project]/src/app/basket/page.tsx",
             lineNumber: 12,
-            columnNumber: 7
+            columnNumber: 13
         }, this);
     }
     const kosik2 = JSON.parse(kosik);
@@ -738,7 +751,7 @@ async function BasketPage() {
             }, void 0, false, {
                 fileName: "[project]/src/app/basket/page.tsx",
                 lineNumber: 36,
-                columnNumber: 7
+                columnNumber: 13
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$rsc$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                 style: {
@@ -765,8 +778,8 @@ async function BasketPage() {
                                 children: "Product"
                             }, void 0, false, {
                                 fileName: "[project]/src/app/basket/page.tsx",
-                                lineNumber: 57,
-                                columnNumber: 11
+                                lineNumber: 56,
+                                columnNumber: 21
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$rsc$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                                 style: {
@@ -776,8 +789,8 @@ async function BasketPage() {
                                 children: "Quantity"
                             }, void 0, false, {
                                 fileName: "[project]/src/app/basket/page.tsx",
-                                lineNumber: 58,
-                                columnNumber: 11
+                                lineNumber: 57,
+                                columnNumber: 21
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$rsc$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                                 style: {
@@ -787,8 +800,8 @@ async function BasketPage() {
                                 children: "Price (€)"
                             }, void 0, false, {
                                 fileName: "[project]/src/app/basket/page.tsx",
-                                lineNumber: 59,
-                                columnNumber: 11
+                                lineNumber: 58,
+                                columnNumber: 21
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$rsc$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                                 style: {
@@ -798,14 +811,14 @@ async function BasketPage() {
                                 children: "Remove"
                             }, void 0, false, {
                                 fileName: "[project]/src/app/basket/page.tsx",
-                                lineNumber: 60,
-                                columnNumber: 11
+                                lineNumber: 59,
+                                columnNumber: 21
                             }, this)
                         ]
                     }, void 0, true, {
                         fileName: "[project]/src/app/basket/page.tsx",
-                        lineNumber: 48,
-                        columnNumber: 9
+                        lineNumber: 47,
+                        columnNumber: 17
                     }, this),
                     products_with_quantity.map((product, i)=>/*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$rsc$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                             style: {
@@ -823,8 +836,8 @@ async function BasketPage() {
                                     children: product.name
                                 }, void 0, false, {
                                     fileName: "[project]/src/app/basket/page.tsx",
-                                    lineNumber: 74,
-                                    columnNumber: 13
+                                    lineNumber: 72,
+                                    columnNumber: 25
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$rsc$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                                     style: {
@@ -834,8 +847,8 @@ async function BasketPage() {
                                     children: product.quantity
                                 }, void 0, false, {
                                     fileName: "[project]/src/app/basket/page.tsx",
-                                    lineNumber: 75,
-                                    columnNumber: 13
+                                    lineNumber: 73,
+                                    columnNumber: 25
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$rsc$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                                     style: {
@@ -845,8 +858,8 @@ async function BasketPage() {
                                     children: (product.price * product.quantity).toFixed(2)
                                 }, void 0, false, {
                                     fileName: "[project]/src/app/basket/page.tsx",
-                                    lineNumber: 76,
-                                    columnNumber: 13
+                                    lineNumber: 74,
+                                    columnNumber: 25
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$rsc$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                                     style: {
@@ -857,19 +870,19 @@ async function BasketPage() {
                                         id: product.id
                                     }, void 0, false, {
                                         fileName: "[project]/src/app/basket/page.tsx",
-                                        lineNumber: 78,
-                                        columnNumber: 15
+                                        lineNumber: 76,
+                                        columnNumber: 29
                                     }, this)
                                 }, void 0, false, {
                                     fileName: "[project]/src/app/basket/page.tsx",
-                                    lineNumber: 77,
-                                    columnNumber: 13
+                                    lineNumber: 75,
+                                    columnNumber: 25
                                 }, this)
                             ]
                         }, product.id, true, {
                             fileName: "[project]/src/app/basket/page.tsx",
-                            lineNumber: 65,
-                            columnNumber: 11
+                            lineNumber: 63,
+                            columnNumber: 21
                         }, this)),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$rsc$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                         style: {
@@ -887,14 +900,14 @@ async function BasketPage() {
                         ]
                     }, void 0, true, {
                         fileName: "[project]/src/app/basket/page.tsx",
-                        lineNumber: 86,
-                        columnNumber: 9
+                        lineNumber: 83,
+                        columnNumber: 17
                     }, this)
                 ]
             }, void 0, true, {
                 fileName: "[project]/src/app/basket/page.tsx",
                 lineNumber: 38,
-                columnNumber: 7
+                columnNumber: 13
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$rsc$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$client$2f$app$2d$dir$2f$link$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["default"], {
                 href: "/shipping_info",
@@ -910,14 +923,14 @@ async function BasketPage() {
                 children: "Checkout"
             }, void 0, false, {
                 fileName: "[project]/src/app/basket/page.tsx",
-                lineNumber: 100,
-                columnNumber: 7
+                lineNumber: 97,
+                columnNumber: 13
             }, this)
         ]
     }, void 0, true, {
         fileName: "[project]/src/app/basket/page.tsx",
         lineNumber: 35,
-        columnNumber: 5
+        columnNumber: 9
     }, this);
 }
 }),

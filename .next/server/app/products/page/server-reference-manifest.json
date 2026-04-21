@@ -15,21 +15,6 @@
       "exportedName": "logout",
       "filename": "src/actions/user.ts"
     },
-    "00ea7360969dcde56bb5883b1e6763b5c13bc6d5af": {
-      "workers": {
-        "app/products/page": {
-          "moduleId": "[project]/.next-internal/server/app/products/page/actions.js { ACTIONS_MODULE0 => \"[project]/src/actions/user.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE1 => \"[project]/src/actions/products.ts [app-rsc] (ecmascript)\" } [app-rsc] (server actions loader, ecmascript)",
-          "async": false,
-          "exportedName": "passwordChange",
-          "filename": "src/actions/user.ts"
-        }
-      },
-      "layer": {
-        "app/products/page": "rsc"
-      },
-      "exportedName": "passwordChange",
-      "filename": "src/actions/user.ts"
-    },
     "00f68349053daf54e69fb707297ec58b3c0e6dc3a9": {
       "workers": {
         "app/products/page": {
@@ -103,6 +88,21 @@
         "app/products/page": "rsc"
       },
       "exportedName": "updateAddress",
+      "filename": "src/actions/user.ts"
+    },
+    "40ea7360969dcde56bb5883b1e6763b5c13bc6d5af": {
+      "workers": {
+        "app/products/page": {
+          "moduleId": "[project]/.next-internal/server/app/products/page/actions.js { ACTIONS_MODULE0 => \"[project]/src/actions/user.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE1 => \"[project]/src/actions/products.ts [app-rsc] (ecmascript)\" } [app-rsc] (server actions loader, ecmascript)",
+          "async": false,
+          "exportedName": "passwordChange",
+          "filename": "src/actions/user.ts"
+        }
+      },
+      "layer": {
+        "app/products/page": "rsc"
+      },
+      "exportedName": "passwordChange",
       "filename": "src/actions/user.ts"
     },
     "60b90846dd0bea0f1ad2130e78ae5cdd39ad4fc912": {

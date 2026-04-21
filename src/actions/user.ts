@@ -223,11 +223,11 @@ export async function passwordChange(mail: string) {
         secure: process.env.NODE_ENV === "production",
         sameSite: "lax",
         path: "/",
-        maxAge: 600 // 10 minutes
+        maxAge: 600
     });
 
     await resend.emails.send({
-        from: "Resend <onboarding@resend.dev>",
+        from: "PetShop <onboarding@resend.dev>",
         to: mail,
         subject: "Password change",
         html: "<p>Your code is: " + stringNumber + "</p>",
@@ -296,6 +296,19 @@ export async function updateAddress(formData: FormData) {
             .values({ ...data, user_id: user.id })
             .execute();
     }
+
+    redirect("/user");
+}
+
+export async function deleteAddress(){
+    const db = getDB();
+    const user = await getUser();
+    if (!user) return;
+
+    await db
+        .deleteFrom("user_address")
+        .where("user_id", "=", user.id)
+        .execute();
 
     redirect("/user");
 }

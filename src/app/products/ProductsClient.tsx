@@ -30,8 +30,8 @@ export default function ProductsClient({
     const toggleCategory = (cat: string) => {
         setSelectedCategories((prev) =>
             prev.includes(cat)
-                ? prev.filter((c) => c !== cat) // Remove if already selected
-                : [...prev, cat]                // Add if not selected
+                ? prev.filter((c) => c !== cat)
+                : [...prev, cat]
         );
     };
 

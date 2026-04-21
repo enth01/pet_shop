@@ -213,7 +213,7 @@ export async function makeOrder() {
     const resend = new Resend(process.env.RESEND_API_KEY!);
 
     await resend.emails.send({
-        from: "Resend <onboarding@resend.dev>",
+        from: "PetShop <onboarding@resend.dev>",
         to: order.email,
         subject: "Potvrdenie objednávky",
         html: `
@@ -237,7 +237,7 @@ export async function makeOrder() {
     
               <h3 style="border-bottom: 2px solid #f0f0f0; padding-bottom: 10px; margin-top: 30px;">Doručovacia adresa</h3>
               <p style="margin-bottom: 0;">
-                ${order.ulica}, ${order.popisne_cislo_domu}, ${order.mesto}
+                ${order.ulica} ${order.popisne_cislo_domu}, ${order.mesto}
               </p>
             </div>
     

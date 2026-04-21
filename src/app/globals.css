@@ -1,4 +1,4 @@
-body{
+body {
     font-family: Arial, Helvetica, sans-serif;
     background-color: #f0f0f0;
     margin: 0 1rem;
@@ -9,42 +9,42 @@ body{
 
 .admin {
     padding: 2rem;
-  }
-  
-  .admin-tabs button {
+}
+
+.admin-tabs button {
     margin-right: 1rem;
     border-radius: 0.75rem;
     background: white;
     border: 2px solid #2f9e44;
     padding: 0.5rem 1rem;
-  }
-  
-  .admin-tabs button:hover {
+}
+
+.admin-tabs button:hover {
     background: #2f9e44;
     color: white;
-  }
-  
-  .admin-box {
+}
+
+.admin-box {
     margin-top: 2rem;
     padding: 1.5rem;
     border-radius: 0.75rem;
     border: 2px solid #2f9e44;
-  }
-  
-  .admin-row {
+}
+
+.admin-row {
     display: flex;
     justify-content: space-between;
     margin: 0.5rem 0;
-  }
-  
-  .card {
-    background: #e5f6ef10; /* subtle greenish background */
+}
+
+.card {
+    background: #e5f6ef10;
     border-radius: 0.75rem;
     padding: 1.5rem;
     color: #0f1f1a;
-  }
-  
-  .btn {
+}
+
+.btn {
     background: #2ecc71;
     border-radius: 0.75rem;
     padding: 0.5rem 1rem;
@@ -52,15 +52,14 @@ body{
     text-decoration: none;
     border: none;
     cursor: pointer;
-  }
-  
-  .btn:hover {
+}
+
+.btn:hover {
     background: #27ae60;
-  }
-  
-  input {
+}
+
+input {
     border-radius: 0.75rem;
     border: 1px solid #2ecc71;
     padding: 0.5rem;
-  }
-  
+}

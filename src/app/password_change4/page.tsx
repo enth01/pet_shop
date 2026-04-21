@@ -1,10 +1,20 @@
-export default function PasswordChange4Page() {
+import { getUser } from "@/actions/user";
+import Link from "next/link";
+
+export default async function PasswordChange4Page() {
+
+    const user = await getUser();
+
     return (
-      <div className="card max-w-md mx-auto flex flex-col gap-4 text-center">
-        <h1>Password Changed!</h1>
-        <p>Your new password has been set successfully.</p>
-        <a href="/login" className="btn">Back to Login</a>
-      </div>
+        <div className="card">
+            <h1>Password Changed!</h1>
+            <p>Your new password has been set successfully.</p>
+            {user && (
+                <Link href="/user"><button className="btn">Back to account</button></Link>
+            )}
+            {!user && (
+                <Link href="/login"><button className="btn">Back to login</button></Link>
+            )}
+        </div>
     );
-  }
-  
+}
