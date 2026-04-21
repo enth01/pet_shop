@@ -13,7 +13,7 @@ export async function up(db: Kysely<unknown>): Promise<void> {
 		phone_number text not null,
 		email text not null,
 		confirmed integer not null,
-		user_id integer not null,
+		user_id integer,
 		foreign key(user_id) references users(id)
 	) STRICT`.execute(db);
 }

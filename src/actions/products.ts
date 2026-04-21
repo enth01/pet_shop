@@ -6,7 +6,6 @@ import getDB from "@/lib/db"
 import { revalidatePath } from "next/cache"
 import { redirect } from "next/navigation"
 import { Resend } from 'resend';
-import { get } from "http"
 
 export async function addToBasket(id: number) {
     const keksiky = await cookies()
@@ -150,6 +149,7 @@ export async function makeTemporaryOrder(ulica: string, popisne_cislo_domu: stri
     })
 
     keksiky.set("order", order, { path: "/" })
+    console.log("here")
     redirect("/confirmation");
 }
 
@@ -161,7 +161,8 @@ export async function makeOrder() {
     const order = JSON.parse(orderCookie);
 
     const user = await getUser();
-    if (user == null) return;
+    let user_id = null;
+    if (user) user_id = user.id;
 
     const result = await db
         .insertInto("orders")
@@ -176,7 +177,7 @@ export async function makeOrder() {
             phone_number: order.telefon,
             email: order.email,
             confirmed: 0,
-            user_id: user.id,
+            user_id: user_id,
         })
         .executeTakeFirst();
 
@@ -252,4 +253,19 @@ export async function makeOrder() {
     cookieStore.delete("cart");
     cookieStore.delete("order");
     redirect("/confirmed");
+}
+
+export async function getFavoriteProducts() {
+    const db = getDB();
+    const user = await getUser();
+    if (!user) return [];
+
+    const favorites = await db
+        .selectFrom("products")
+        .innerJoin("favorite_products", "products.id", "favorite_products.product_id")
+        .where("favorite_products.user_id", "=", user.id)
+        .selectAll("products")
+        .execute();
+
+    return favorites.map(p => ({ ...p, is_in_fav: true }));
 }

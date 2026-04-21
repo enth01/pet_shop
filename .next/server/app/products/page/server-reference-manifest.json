@@ -150,6 +150,21 @@
       "exportedName": "makeOrder",
       "filename": "src/actions/products.ts"
     },
+    "00ea07deee1142d91f03a2ae3aad09462574ebbf02": {
+      "workers": {
+        "app/products/page": {
+          "moduleId": "[project]/.next-internal/server/app/products/page/actions.js { ACTIONS_MODULE0 => \"[project]/src/actions/user.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE1 => \"[project]/src/actions/products.ts [app-rsc] (ecmascript)\" } [app-rsc] (server actions loader, ecmascript)",
+          "async": false,
+          "exportedName": "getFavoriteProducts",
+          "filename": "src/actions/products.ts"
+        }
+      },
+      "layer": {
+        "app/products/page": "rsc"
+      },
+      "exportedName": "getFavoriteProducts",
+      "filename": "src/actions/products.ts"
+    },
     "4013e0daf469d3865f7b94b22a946e5cee5aae3d7f": {
       "workers": {
         "app/products/page": {

@@ -33,7 +33,7 @@ export interface Orders {
   phone_number: string;
   street: string;
   surname: string;
-  user_id: number;
+  user_id: number | null;
   zip_code: string;
 }
 

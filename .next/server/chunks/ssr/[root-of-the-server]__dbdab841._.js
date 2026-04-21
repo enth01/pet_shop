@@ -36,7 +36,7 @@ module.exports = mod;
 "[project]/src/actions/user.ts [app-rsc] (ecmascript)", ((__turbopack_context__) => {
 "use strict";
 
-/* __next_internal_action_entry_do_not_use__ [{"007a158d3aca296f5cbd316c5c39829db4f895b8c4":"logout","00ea7360969dcde56bb5883b1e6763b5c13bc6d5af":"passwordChange","00f68349053daf54e69fb707297ec58b3c0e6dc3a9":"getUser","4042198a465f2f95dc7fa6782dd1769ed3a861305e":"verifyCode","4042d6eadec4f0682f618743f683eca9b55c7bdbc2":"updateEmail","4053df4365de20f19f09c4db3e3bca7e1c4bae86d5":"passwordChange3","4064458dc0a2a5a2b4ab3c8c3a50378646e0182575":"updateAddress","60b90846dd0bea0f1ad2130e78ae5cdd39ad4fc912":"login","7039f1ab3c03bd70047a2696fd011cbd3a7f570f0f":"register"},"",""] */ __turbopack_context__.s([
+/* __next_internal_action_entry_do_not_use__ [{"007a158d3aca296f5cbd316c5c39829db4f895b8c4":"logout","00f68349053daf54e69fb707297ec58b3c0e6dc3a9":"getUser","4042198a465f2f95dc7fa6782dd1769ed3a861305e":"verifyCode","4042d6eadec4f0682f618743f683eca9b55c7bdbc2":"updateEmail","4053df4365de20f19f09c4db3e3bca7e1c4bae86d5":"passwordChange3","4064458dc0a2a5a2b4ab3c8c3a50378646e0182575":"updateAddress","40ea7360969dcde56bb5883b1e6763b5c13bc6d5af":"passwordChange","60b90846dd0bea0f1ad2130e78ae5cdd39ad4fc912":"login","7039f1ab3c03bd70047a2696fd011cbd3a7f570f0f":"register"},"",""] */ __turbopack_context__.s([
     "getUser",
     ()=>getUser,
     "login",
@@ -208,13 +208,9 @@ async function getUser() {
     }
     return user;
 }
-async function passwordChange() {
+async function passwordChange(mail) {
     const resend = new __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$resend$2f$dist$2f$index$2e$mjs__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["Resend"](process.env.RESEND_API_KEY);
     const keksiky = await (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$headers$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["cookies"])();
-    const user = await getUser();
-    if (!user) {
-        return;
-    }
     const randomNumber = Math.floor(1000 + Math.random() * 9000);
     const stringNumber = randomNumber.toString();
     const hashedNumber = await (0, __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$hashing$2e$ts__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["hashPassword"])(stringNumber);
@@ -225,9 +221,16 @@ async function passwordChange() {
         path: "/",
         maxAge: 300
     });
+    keksiky.set("reset_email", mail, {
+        httpOnly: true,
+        secure: ("TURBOPACK compile-time value", "development") === "production",
+        sameSite: "lax",
+        path: "/",
+        maxAge: 600 // 10 minutes
+    });
     await resend.emails.send({
         from: "Resend <onboarding@resend.dev>",
-        to: user.email,
+        to: mail,
         subject: "Password change",
         html: "<p>Your code is: " + stringNumber + "</p>"
     });
@@ -235,22 +238,21 @@ async function passwordChange() {
 }
 async function passwordChange3(formData) {
     const db = (0, __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$db$2e$ts__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["default"])();
-    const user = await getUser();
+    const keksiky = await (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$headers$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["cookies"])();
+    const resetEmail = keksiky.get("reset_email")?.value;
     const password1 = formData.get("password1");
     const password2 = formData.get("password2");
-    if (!user || !password1 || !password2) {
-        return;
-    }
-    if (password1 !== password2) {
-        return;
-    }
-    if (password1.length < 8) {
-        return;
+    if (!resetEmail || !password1 || !password2 || password1 !== password2 || password1.length < 8) {
+        return {
+            error: "Invalid request or passwords do not match"
+        };
     }
     const hashedPassword = await (0, __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$hashing$2e$ts__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["hashPassword"])(password1);
     await db.updateTable("users").set({
         password: hashedPassword
-    }).where("id", "=", user.id).execute();
+    }).where("email", "=", resetEmail).execute();
+    keksiky.delete("reset_email");
+    keksiky.delete("number");
     (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$client$2f$components$2f$navigation$2e$react$2d$server$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["redirect"])("/password_change4");
 }
 async function updateAddress(formData) {
@@ -328,7 +330,7 @@ async function verifyCode(input) {
 (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$build$2f$webpack$2f$loaders$2f$next$2d$flight$2d$loader$2f$server$2d$reference$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["registerServerReference"])(logout, "007a158d3aca296f5cbd316c5c39829db4f895b8c4", null);
 (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$build$2f$webpack$2f$loaders$2f$next$2d$flight$2d$loader$2f$server$2d$reference$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["registerServerReference"])(register, "7039f1ab3c03bd70047a2696fd011cbd3a7f570f0f", null);
 (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$build$2f$webpack$2f$loaders$2f$next$2d$flight$2d$loader$2f$server$2d$reference$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["registerServerReference"])(getUser, "00f68349053daf54e69fb707297ec58b3c0e6dc3a9", null);
-(0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$build$2f$webpack$2f$loaders$2f$next$2d$flight$2d$loader$2f$server$2d$reference$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["registerServerReference"])(passwordChange, "00ea7360969dcde56bb5883b1e6763b5c13bc6d5af", null);
+(0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$build$2f$webpack$2f$loaders$2f$next$2d$flight$2d$loader$2f$server$2d$reference$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["registerServerReference"])(passwordChange, "40ea7360969dcde56bb5883b1e6763b5c13bc6d5af", null);
 (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$build$2f$webpack$2f$loaders$2f$next$2d$flight$2d$loader$2f$server$2d$reference$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["registerServerReference"])(passwordChange3, "4053df4365de20f19f09c4db3e3bca7e1c4bae86d5", null);
 (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$build$2f$webpack$2f$loaders$2f$next$2d$flight$2d$loader$2f$server$2d$reference$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["registerServerReference"])(updateAddress, "4064458dc0a2a5a2b4ab3c8c3a50378646e0182575", null);
 (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$build$2f$webpack$2f$loaders$2f$next$2d$flight$2d$loader$2f$server$2d$reference$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["registerServerReference"])(updateEmail, "4042d6eadec4f0682f618743f683eca9b55c7bdbc2", null);
@@ -337,11 +339,13 @@ async function verifyCode(input) {
 "[project]/src/actions/products.ts [app-rsc] (ecmascript)", ((__turbopack_context__) => {
 "use strict";
 
-/* __next_internal_action_entry_do_not_use__ [{"00d155b082e3fba48cb0040387aeed432b9b58657c":"makeOrder","4013e0daf469d3865f7b94b22a946e5cee5aae3d7f":"isInFavourites","402fa5e5bb4d424a3be8b07de53bdee9987c344fb0":"removeFromBasket","40596e90704641ed916cf409dfaadb626b570f8b6a":"addToFavourites","40c143e65a9fbba309b7fcf7cd5374446723cdea84":"removeFromFavourites","40e1439d139434a6a0981a1f66939369b0da0ddd3f":"addToBasket","7fcdd70ba4c45344fe57bf12dd4ba44fefabe92628":"makeTemporaryOrder"},"",""] */ __turbopack_context__.s([
+/* __next_internal_action_entry_do_not_use__ [{"00d155b082e3fba48cb0040387aeed432b9b58657c":"makeOrder","00ea07deee1142d91f03a2ae3aad09462574ebbf02":"getFavoriteProducts","4013e0daf469d3865f7b94b22a946e5cee5aae3d7f":"isInFavourites","402fa5e5bb4d424a3be8b07de53bdee9987c344fb0":"removeFromBasket","40596e90704641ed916cf409dfaadb626b570f8b6a":"addToFavourites","40c143e65a9fbba309b7fcf7cd5374446723cdea84":"removeFromFavourites","40e1439d139434a6a0981a1f66939369b0da0ddd3f":"addToBasket","7fcdd70ba4c45344fe57bf12dd4ba44fefabe92628":"makeTemporaryOrder"},"",""] */ __turbopack_context__.s([
     "addToBasket",
     ()=>addToBasket,
     "addToFavourites",
     ()=>addToFavourites,
+    "getFavoriteProducts",
+    ()=>getFavoriteProducts,
     "isInFavourites",
     ()=>isInFavourites,
     "makeOrder",
@@ -437,7 +441,7 @@ async function addToFavourites(id) {
         user_id: user.id,
         product_id: id
     }).executeTakeFirst();
-    (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$cache$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["revalidatePath"])("products");
+    (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$cache$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["revalidatePath"])("/products");
 }
 async function removeFromFavourites(id) {
     const db = (0, __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$db$2e$ts__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["default"])();
@@ -450,7 +454,7 @@ async function removeFromFavourites(id) {
         return;
     }
     await db.deleteFrom("favorite_products").where("product_id", "=", id).where("user_id", "=", user.id).executeTakeFirst();
-    (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$cache$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["revalidatePath"])("products");
+    (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$cache$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["revalidatePath"])("/products");
 }
 async function makeTemporaryOrder(ulica, popisne_cislo_domu, mesto, zip_code, krajina, telefon, email, meno, priezvisko) {
     const keksiky = await (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$headers$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["cookies"])();
@@ -477,6 +481,7 @@ async function makeTemporaryOrder(ulica, popisne_cislo_domu, mesto, zip_code, kr
     keksiky.set("order", order, {
         path: "/"
     });
+    console.log("here");
     (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$client$2f$components$2f$navigation$2e$react$2d$server$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["redirect"])("/confirmation");
 }
 async function makeOrder() {
@@ -486,7 +491,8 @@ async function makeOrder() {
     if (!orderCookie) return;
     const order = JSON.parse(orderCookie);
     const user = await (0, __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$actions$2f$user$2e$ts__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["getUser"])();
-    if (user == null) return;
+    let user_id = null;
+    if (user) user_id = user.id;
     const result = await db.insertInto("orders").values({
         name: order.meno,
         surname: order.priezvisko,
@@ -498,7 +504,7 @@ async function makeOrder() {
         phone_number: order.telefon,
         email: order.email,
         confirmed: 0,
-        user_id: user.id
+        user_id: user_id
     }).executeTakeFirst();
     const orderId = Number(result.insertId);
     if (!orderId) {
@@ -559,6 +565,16 @@ async function makeOrder() {
     cookieStore.delete("order");
     (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$client$2f$components$2f$navigation$2e$react$2d$server$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["redirect"])("/confirmed");
 }
+async function getFavoriteProducts() {
+    const db = (0, __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$db$2e$ts__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["default"])();
+    const user = await (0, __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$actions$2f$user$2e$ts__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["getUser"])();
+    if (!user) return [];
+    const favorites = await db.selectFrom("products").innerJoin("favorite_products", "products.id", "favorite_products.product_id").where("favorite_products.user_id", "=", user.id).selectAll("products").execute();
+    return favorites.map((p)=>({
+            ...p,
+            is_in_fav: true
+        }));
+}
 ;
 (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$build$2f$webpack$2f$loaders$2f$next$2d$flight$2d$loader$2f$action$2d$validate$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["ensureServerEntryExports"])([
     addToBasket,
@@ -567,7 +583,8 @@ async function makeOrder() {
     addToFavourites,
     removeFromFavourites,
     makeTemporaryOrder,
-    makeOrder
+    makeOrder,
+    getFavoriteProducts
 ]);
 (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$build$2f$webpack$2f$loaders$2f$next$2d$flight$2d$loader$2f$server$2d$reference$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["registerServerReference"])(addToBasket, "40e1439d139434a6a0981a1f66939369b0da0ddd3f", null);
 (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$build$2f$webpack$2f$loaders$2f$next$2d$flight$2d$loader$2f$server$2d$reference$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["registerServerReference"])(removeFromBasket, "402fa5e5bb4d424a3be8b07de53bdee9987c344fb0", null);
@@ -576,6 +593,7 @@ async function makeOrder() {
 (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$build$2f$webpack$2f$loaders$2f$next$2d$flight$2d$loader$2f$server$2d$reference$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["registerServerReference"])(removeFromFavourites, "40c143e65a9fbba309b7fcf7cd5374446723cdea84", null);
 (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$build$2f$webpack$2f$loaders$2f$next$2d$flight$2d$loader$2f$server$2d$reference$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["registerServerReference"])(makeTemporaryOrder, "7fcdd70ba4c45344fe57bf12dd4ba44fefabe92628", null);
 (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$build$2f$webpack$2f$loaders$2f$next$2d$flight$2d$loader$2f$server$2d$reference$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["registerServerReference"])(makeOrder, "00d155b082e3fba48cb0040387aeed432b9b58657c", null);
+(0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$build$2f$webpack$2f$loaders$2f$next$2d$flight$2d$loader$2f$server$2d$reference$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["registerServerReference"])(getFavoriteProducts, "00ea07deee1142d91f03a2ae3aad09462574ebbf02", null);
 }),
 "[project]/.next-internal/server/app/confirmation/page/actions.js { ACTIONS_MODULE0 => \"[project]/src/actions/products.ts [app-rsc] (ecmascript)\" } [app-rsc] (server actions loader, ecmascript) <locals>", ((__turbopack_context__) => {
 "use strict";

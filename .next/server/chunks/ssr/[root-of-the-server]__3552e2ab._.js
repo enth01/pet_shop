@@ -422,7 +422,7 @@ async function UserPage() {
     }, void 0, false, {
         fileName: "[project]/src/app/user/page.tsx",
         lineNumber: 11,
-        columnNumber: 26
+        columnNumber: 28
     }, this);
     const db = (0, __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$db$2e$ts__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["default"])();
     const session = await db.selectFrom("session").selectAll().where("session_id", "=", sessionId).executeTakeFirst();
@@ -433,12 +433,13 @@ async function UserPage() {
         }, void 0, false, {
             fileName: "[project]/src/app/user/page.tsx",
             lineNumber: 22,
-            columnNumber: 12
+            columnNumber: 16
         }, this);
     }
     const user = await db.selectFrom("users").selectAll().where("id", "=", session.user_id).executeTakeFirstOrThrow();
     const orders = await db.selectFrom("orders").selectAll().where("user_id", "=", user.id).execute();
     const address = await db.selectFrom("user_address").selectAll().where("user_id", "=", user.id).executeTakeFirst();
+    const favoriteProducts = await getFavoriteProducts();
     return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$rsc$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["jsxDEV"])("main", {
         className: "max-w-4xl mx-auto p-6 space-y-8",
         children: [
@@ -447,15 +448,15 @@ async function UserPage() {
                 children: [
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$rsc$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$app$2f$user$2f$logoutButton$2e$tsx__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["default"], {}, void 0, false, {
                         fileName: "[project]/src/app/user/page.tsx",
-                        lineNumber: 46,
-                        columnNumber: 9
+                        lineNumber: 48,
+                        columnNumber: 17
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$rsc$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["jsxDEV"])("h1", {
                         children: "Account"
                     }, void 0, false, {
                         fileName: "[project]/src/app/user/page.tsx",
-                        lineNumber: 47,
-                        columnNumber: 9
+                        lineNumber: 49,
+                        columnNumber: 17
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$rsc$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
                         children: [
@@ -463,16 +464,16 @@ async function UserPage() {
                                 children: "Username:"
                             }, void 0, false, {
                                 fileName: "[project]/src/app/user/page.tsx",
-                                lineNumber: 48,
-                                columnNumber: 12
+                                lineNumber: 50,
+                                columnNumber: 20
                             }, this),
                             " ",
                             user.username
                         ]
                     }, void 0, true, {
                         fileName: "[project]/src/app/user/page.tsx",
-                        lineNumber: 48,
-                        columnNumber: 9
+                        lineNumber: 50,
+                        columnNumber: 17
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$rsc$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
                         children: [
@@ -480,16 +481,16 @@ async function UserPage() {
                                 children: "Email:"
                             }, void 0, false, {
                                 fileName: "[project]/src/app/user/page.tsx",
-                                lineNumber: 49,
-                                columnNumber: 12
+                                lineNumber: 51,
+                                columnNumber: 20
                             }, this),
                             " ",
                             user.email
                         ]
                     }, void 0, true, {
                         fileName: "[project]/src/app/user/page.tsx",
-                        lineNumber: 49,
-                        columnNumber: 9
+                        lineNumber: 51,
+                        columnNumber: 17
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$rsc$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                         className: "flex gap-4 mt-4",
@@ -500,18 +501,18 @@ async function UserPage() {
                                 children: "Change password"
                             }, void 0, false, {
                                 fileName: "[project]/src/app/user/page.tsx",
-                                lineNumber: 52,
-                                columnNumber: 11
-                            }, this),
-                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$rsc$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["jsxDEV"])("br", {}, void 0, false, {
-                                fileName: "[project]/src/app/user/page.tsx",
-                                lineNumber: 53,
-                                columnNumber: 11
-                            }, this),
-                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$rsc$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["jsxDEV"])("br", {}, void 0, false, {
-                                fileName: "[project]/src/app/user/page.tsx",
                                 lineNumber: 54,
-                                columnNumber: 11
+                                columnNumber: 21
+                            }, this),
+                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$rsc$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["jsxDEV"])("br", {}, void 0, false, {
+                                fileName: "[project]/src/app/user/page.tsx",
+                                lineNumber: 55,
+                                columnNumber: 21
+                            }, this),
+                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$rsc$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["jsxDEV"])("br", {}, void 0, false, {
+                                fileName: "[project]/src/app/user/page.tsx",
+                                lineNumber: 56,
+                                columnNumber: 21
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$rsc$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$client$2f$app$2d$dir$2f$link$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["default"], {
                                 href: "/user/email",
@@ -519,20 +520,20 @@ async function UserPage() {
                                 children: "Change email"
                             }, void 0, false, {
                                 fileName: "[project]/src/app/user/page.tsx",
-                                lineNumber: 55,
-                                columnNumber: 11
+                                lineNumber: 57,
+                                columnNumber: 21
                             }, this)
                         ]
                     }, void 0, true, {
                         fileName: "[project]/src/app/user/page.tsx",
-                        lineNumber: 51,
-                        columnNumber: 9
+                        lineNumber: 53,
+                        columnNumber: 17
                     }, this)
                 ]
             }, void 0, true, {
                 fileName: "[project]/src/app/user/page.tsx",
-                lineNumber: 45,
-                columnNumber: 7
+                lineNumber: 47,
+                columnNumber: 13
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$rsc$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["jsxDEV"])("section", {
                 className: "card",
@@ -541,8 +542,8 @@ async function UserPage() {
                         children: "Address"
                     }, void 0, false, {
                         fileName: "[project]/src/app/user/page.tsx",
-                        lineNumber: 60,
-                        columnNumber: 9
+                        lineNumber: 62,
+                        columnNumber: 17
                     }, this),
                     address ? /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$rsc$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$rsc$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["Fragment"], {
                         children: [
@@ -554,8 +555,8 @@ async function UserPage() {
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/src/app/user/page.tsx",
-                                lineNumber: 63,
-                                columnNumber: 13
+                                lineNumber: 65,
+                                columnNumber: 25
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$rsc$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
                                 children: [
@@ -565,15 +566,15 @@ async function UserPage() {
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/src/app/user/page.tsx",
-                                lineNumber: 64,
-                                columnNumber: 13
+                                lineNumber: 66,
+                                columnNumber: 25
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$rsc$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
                                 children: address.country
                             }, void 0, false, {
                                 fileName: "[project]/src/app/user/page.tsx",
-                                lineNumber: 65,
-                                columnNumber: 13
+                                lineNumber: 67,
+                                columnNumber: 25
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$rsc$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$client$2f$app$2d$dir$2f$link$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["default"], {
                                 href: "/user/address",
@@ -581,8 +582,8 @@ async function UserPage() {
                                 children: "Edit address"
                             }, void 0, false, {
                                 fileName: "[project]/src/app/user/page.tsx",
-                                lineNumber: 66,
-                                columnNumber: 13
+                                lineNumber: 68,
+                                columnNumber: 25
                             }, this)
                         ]
                     }, void 0, true) : /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$rsc$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$client$2f$app$2d$dir$2f$link$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["default"], {
@@ -591,14 +592,14 @@ async function UserPage() {
                         children: "Add address"
                     }, void 0, false, {
                         fileName: "[project]/src/app/user/page.tsx",
-                        lineNumber: 69,
-                        columnNumber: 11
+                        lineNumber: 71,
+                        columnNumber: 21
                     }, this)
                 ]
             }, void 0, true, {
                 fileName: "[project]/src/app/user/page.tsx",
-                lineNumber: 59,
-                columnNumber: 7
+                lineNumber: 61,
+                columnNumber: 13
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$rsc$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["jsxDEV"])("section", {
                 className: "card",
@@ -607,15 +608,15 @@ async function UserPage() {
                         children: "Orders"
                     }, void 0, false, {
                         fileName: "[project]/src/app/user/page.tsx",
-                        lineNumber: 74,
-                        columnNumber: 9
+                        lineNumber: 76,
+                        columnNumber: 17
                     }, this),
                     orders.length === 0 && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$rsc$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
                         children: "No orders yet."
                     }, void 0, false, {
                         fileName: "[project]/src/app/user/page.tsx",
-                        lineNumber: 75,
-                        columnNumber: 33
+                        lineNumber: 77,
+                        columnNumber: 41
                     }, this),
                     orders.map((order)=>/*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$rsc$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                             className: "order",
@@ -627,8 +628,8 @@ async function UserPage() {
                                     ]
                                 }, void 0, true, {
                                     fileName: "[project]/src/app/user/page.tsx",
-                                    lineNumber: 78,
-                                    columnNumber: 13
+                                    lineNumber: 80,
+                                    columnNumber: 25
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$rsc$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
                                     children: [
@@ -637,26 +638,63 @@ async function UserPage() {
                                     ]
                                 }, void 0, true, {
                                     fileName: "[project]/src/app/user/page.tsx",
-                                    lineNumber: 79,
-                                    columnNumber: 13
+                                    lineNumber: 81,
+                                    columnNumber: 25
                                 }, this)
                             ]
                         }, order.id, true, {
                             fileName: "[project]/src/app/user/page.tsx",
-                            lineNumber: 77,
-                            columnNumber: 11
+                            lineNumber: 79,
+                            columnNumber: 21
                         }, this))
                 ]
             }, void 0, true, {
                 fileName: "[project]/src/app/user/page.tsx",
-                lineNumber: 73,
-                columnNumber: 7
+                lineNumber: 75,
+                columnNumber: 13
+            }, this),
+            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$rsc$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["jsxDEV"])("section", {
+                className: "card",
+                children: [
+                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$rsc$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["jsxDEV"])("h2", {
+                        children: "Obľúbené produkty"
+                    }, void 0, false, {
+                        fileName: "[project]/src/app/user/page.tsx",
+                        lineNumber: 87,
+                        columnNumber: 17
+                    }, this),
+                    favoriteProducts.length === 0 ? /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$rsc$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
+                        children: "Zatiaľ nemáte žiadne obľúbené produkty."
+                    }, void 0, false, {
+                        fileName: "[project]/src/app/user/page.tsx",
+                        lineNumber: 89,
+                        columnNumber: 21
+                    }, this) : /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$rsc$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                        className: productStyles.grid,
+                        children: favoriteProducts.map((product)=>/*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$rsc$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["jsxDEV"])(SingleProduct, {
+                                product: product,
+                                userLoggedIn: true
+                            }, product.id, false, {
+                                fileName: "[project]/src/app/user/page.tsx",
+                                lineNumber: 93,
+                                columnNumber: 29
+                            }, this))
+                    }, void 0, false, {
+                        fileName: "[project]/src/app/user/page.tsx",
+                        lineNumber: 91,
+                        columnNumber: 21
+                    }, this)
+                ]
+            }, void 0, true, {
+                fileName: "[project]/src/app/user/page.tsx",
+                lineNumber: 86,
+                columnNumber: 13
             }, this)
         ]
     }, void 0, true, {
         fileName: "[project]/src/app/user/page.tsx",
-        lineNumber: 44,
-        columnNumber: 5
+        lineNumber: 46,
+        columnNumber: 9
     }, this);
 }
 }),

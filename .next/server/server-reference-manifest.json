@@ -1,33 +1,40 @@
 {
   "node": {
-    "402fa5e5bb4d424a3be8b07de53bdee9987c344fb0": {
+    "00d155b082e3fba48cb0040387aeed432b9b58657c": {
       "workers": {
-        "app/basket/page": {
-          "moduleId": "[project]/.next-internal/server/app/basket/page/actions.js { ACTIONS_MODULE0 => \"[project]/src/actions/products.ts [app-rsc] (ecmascript)\" } [app-rsc] (server actions loader, ecmascript)",
+        "app/confirmation/page": {
+          "moduleId": "[project]/.next-internal/server/app/confirmation/page/actions.js { ACTIONS_MODULE0 => \"[project]/src/actions/products.ts [app-rsc] (ecmascript)\" } [app-rsc] (server actions loader, ecmascript)",
           "async": false,
-          "exportedName": "removeFromBasket",
+          "exportedName": "makeOrder",
           "filename": "src/actions/products.ts"
         },
         "app/page": {
           "moduleId": "[project]/.next-internal/server/app/page/actions.js { ACTIONS_MODULE0 => \"[project]/src/actions/user.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE1 => \"[project]/src/actions/products.ts [app-rsc] (ecmascript)\" } [app-rsc] (server actions loader, ecmascript)",
           "async": false,
-          "exportedName": "removeFromBasket",
+          "exportedName": "makeOrder",
           "filename": "src/actions/products.ts"
         },
         "app/products/page": {
           "moduleId": "[project]/.next-internal/server/app/products/page/actions.js { ACTIONS_MODULE0 => \"[project]/src/actions/user.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE1 => \"[project]/src/actions/products.ts [app-rsc] (ecmascript)\" } [app-rsc] (server actions loader, ecmascript)",
           "async": false,
-          "exportedName": "removeFromBasket",
+          "exportedName": "makeOrder",
+          "filename": "src/actions/products.ts"
+        },
+        "app/user/page": {
+          "moduleId": "[project]/.next-internal/server/app/user/page/actions.js { ACTIONS_MODULE0 => \"[project]/src/actions/products.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE1 => \"[project]/src/actions/user.ts [app-rsc] (ecmascript)\" } [app-rsc] (server actions loader, ecmascript)",
+          "async": false,
+          "exportedName": "makeOrder",
           "filename": "src/actions/products.ts"
         }
       },
       "layer": {
-        "app/basket/page": "action-browser",
+        "app/confirmation/page": "action-browser",
         "app/page": "rsc",
-        "app/products/page": "rsc"
+        "app/products/page": "rsc",
+        "app/user/page": "rsc"
       },
       "filename": "src/actions/products.ts",
-      "exportedName": "removeFromBasket"
+      "exportedName": "makeOrder"
     },
     "007a158d3aca296f5cbd316c5c39829db4f895b8c4": {
       "workers": {
@@ -43,12 +50,6 @@
           "exportedName": "logout",
           "filename": "src/actions/user.ts"
         },
-        "app/shipping_info/page": {
-          "moduleId": "[project]/.next-internal/server/app/shipping_info/page/actions.js { ACTIONS_MODULE0 => \"[project]/src/actions/user.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE1 => \"[project]/src/actions/products.ts [app-rsc] (ecmascript)\" } [app-rsc] (server actions loader, ecmascript)",
-          "async": false,
-          "exportedName": "logout",
-          "filename": "src/actions/user.ts"
-        },
         "app/user/address/page": {
           "moduleId": "[project]/.next-internal/server/app/user/address/page/actions.js { ACTIONS_MODULE0 => \"[project]/src/actions/user.ts [app-rsc] (ecmascript)\" } [app-rsc] (server actions loader, ecmascript)",
           "async": false,
@@ -56,7 +57,7 @@
           "filename": "src/actions/user.ts"
         },
         "app/user/page": {
-          "moduleId": "[project]/.next-internal/server/app/user/page/actions.js { ACTIONS_MODULE0 => \"[project]/src/actions/user.ts [app-rsc] (ecmascript)\" } [app-rsc] (server actions loader, ecmascript)",
+          "moduleId": "[project]/.next-internal/server/app/user/page/actions.js { ACTIONS_MODULE0 => \"[project]/src/actions/products.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE1 => \"[project]/src/actions/user.ts [app-rsc] (ecmascript)\" } [app-rsc] (server actions loader, ecmascript)",
           "async": false,
           "exportedName": "logout",
           "filename": "src/actions/user.ts"
@@ -65,7 +66,6 @@
       "layer": {
         "app/page": "rsc",
         "app/products/page": "rsc",
-        "app/shipping_info/page": "rsc",
         "app/user/address/page": "rsc",
         "app/user/page": "action-browser"
       },
@@ -86,12 +86,6 @@
           "exportedName": "passwordChange",
           "filename": "src/actions/user.ts"
         },
-        "app/shipping_info/page": {
-          "moduleId": "[project]/.next-internal/server/app/shipping_info/page/actions.js { ACTIONS_MODULE0 => \"[project]/src/actions/user.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE1 => \"[project]/src/actions/products.ts [app-rsc] (ecmascript)\" } [app-rsc] (server actions loader, ecmascript)",
-          "async": false,
-          "exportedName": "passwordChange",
-          "filename": "src/actions/user.ts"
-        },
         "app/user/address/page": {
           "moduleId": "[project]/.next-internal/server/app/user/address/page/actions.js { ACTIONS_MODULE0 => \"[project]/src/actions/user.ts [app-rsc] (ecmascript)\" } [app-rsc] (server actions loader, ecmascript)",
           "async": false,
@@ -102,7 +96,6 @@
       "layer": {
         "app/page": "rsc",
         "app/products/page": "rsc",
-        "app/shipping_info/page": "rsc",
         "app/user/address/page": "rsc"
       },
       "filename": "src/actions/user.ts",
@@ -116,14 +109,14 @@
           "exportedName": "getUser",
           "filename": "src/actions/user.ts"
         },
-        "app/products/page": {
-          "moduleId": "[project]/.next-internal/server/app/products/page/actions.js { ACTIONS_MODULE0 => \"[project]/src/actions/user.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE1 => \"[project]/src/actions/products.ts [app-rsc] (ecmascript)\" } [app-rsc] (server actions loader, ecmascript)",
+        "app/password_change/page": {
+          "moduleId": "[project]/.next-internal/server/app/password_change/page/actions.js { ACTIONS_MODULE0 => \"[project]/src/actions/user.ts [app-rsc] (ecmascript)\" } [app-rsc] (server actions loader, ecmascript)",
           "async": false,
           "exportedName": "getUser",
           "filename": "src/actions/user.ts"
         },
-        "app/shipping_info/page": {
-          "moduleId": "[project]/.next-internal/server/app/shipping_info/page/actions.js { ACTIONS_MODULE0 => \"[project]/src/actions/user.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE1 => \"[project]/src/actions/products.ts [app-rsc] (ecmascript)\" } [app-rsc] (server actions loader, ecmascript)",
+        "app/products/page": {
+          "moduleId": "[project]/.next-internal/server/app/products/page/actions.js { ACTIONS_MODULE0 => \"[project]/src/actions/user.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE1 => \"[project]/src/actions/products.ts [app-rsc] (ecmascript)\" } [app-rsc] (server actions loader, ecmascript)",
           "async": false,
           "exportedName": "getUser",
           "filename": "src/actions/user.ts"
@@ -133,13 +126,20 @@
           "async": false,
           "exportedName": "getUser",
           "filename": "src/actions/user.ts"
+        },
+        "app/user/page": {
+          "moduleId": "[project]/.next-internal/server/app/user/page/actions.js { ACTIONS_MODULE0 => \"[project]/src/actions/products.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE1 => \"[project]/src/actions/user.ts [app-rsc] (ecmascript)\" } [app-rsc] (server actions loader, ecmascript)",
+          "async": false,
+          "exportedName": "getUser",
+          "filename": "src/actions/user.ts"
         }
       },
       "layer": {
         "app/page": "rsc",
+        "app/password_change/page": "action-browser",
         "app/products/page": "rsc",
-        "app/shipping_info/page": "rsc",
-        "app/user/address/page": "rsc"
+        "app/user/address/page": "rsc",
+        "app/user/page": "rsc"
       },
       "filename": "src/actions/user.ts",
       "exportedName": "getUser"
@@ -152,14 +152,14 @@
           "exportedName": "verifyCode",
           "filename": "src/actions/user.ts"
         },
-        "app/products/page": {
-          "moduleId": "[project]/.next-internal/server/app/products/page/actions.js { ACTIONS_MODULE0 => \"[project]/src/actions/user.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE1 => \"[project]/src/actions/products.ts [app-rsc] (ecmascript)\" } [app-rsc] (server actions loader, ecmascript)",
+        "app/password_change2/page": {
+          "moduleId": "[project]/.next-internal/server/app/password_change2/page/actions.js { ACTIONS_MODULE0 => \"[project]/src/actions/user.ts [app-rsc] (ecmascript)\" } [app-rsc] (server actions loader, ecmascript)",
           "async": false,
           "exportedName": "verifyCode",
           "filename": "src/actions/user.ts"
         },
-        "app/shipping_info/page": {
-          "moduleId": "[project]/.next-internal/server/app/shipping_info/page/actions.js { ACTIONS_MODULE0 => \"[project]/src/actions/user.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE1 => \"[project]/src/actions/products.ts [app-rsc] (ecmascript)\" } [app-rsc] (server actions loader, ecmascript)",
+        "app/products/page": {
+          "moduleId": "[project]/.next-internal/server/app/products/page/actions.js { ACTIONS_MODULE0 => \"[project]/src/actions/user.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE1 => \"[project]/src/actions/products.ts [app-rsc] (ecmascript)\" } [app-rsc] (server actions loader, ecmascript)",
           "async": false,
           "exportedName": "verifyCode",
           "filename": "src/actions/user.ts"
@@ -169,13 +169,20 @@
           "async": false,
           "exportedName": "verifyCode",
           "filename": "src/actions/user.ts"
+        },
+        "app/user/page": {
+          "moduleId": "[project]/.next-internal/server/app/user/page/actions.js { ACTIONS_MODULE0 => \"[project]/src/actions/products.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE1 => \"[project]/src/actions/user.ts [app-rsc] (ecmascript)\" } [app-rsc] (server actions loader, ecmascript)",
+          "async": false,
+          "exportedName": "verifyCode",
+          "filename": "src/actions/user.ts"
         }
       },
       "layer": {
         "app/page": "rsc",
+        "app/password_change2/page": "action-browser",
         "app/products/page": "rsc",
-        "app/shipping_info/page": "rsc",
-        "app/user/address/page": "rsc"
+        "app/user/address/page": "rsc",
+        "app/user/page": "rsc"
       },
       "filename": "src/actions/user.ts",
       "exportedName": "verifyCode"
@@ -194,14 +201,20 @@
           "exportedName": "updateEmail",
           "filename": "src/actions/user.ts"
         },
-        "app/shipping_info/page": {
-          "moduleId": "[project]/.next-internal/server/app/shipping_info/page/actions.js { ACTIONS_MODULE0 => \"[project]/src/actions/user.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE1 => \"[project]/src/actions/products.ts [app-rsc] (ecmascript)\" } [app-rsc] (server actions loader, ecmascript)",
+        "app/user/address/page": {
+          "moduleId": "[project]/.next-internal/server/app/user/address/page/actions.js { ACTIONS_MODULE0 => \"[project]/src/actions/user.ts [app-rsc] (ecmascript)\" } [app-rsc] (server actions loader, ecmascript)",
           "async": false,
           "exportedName": "updateEmail",
           "filename": "src/actions/user.ts"
         },
-        "app/user/address/page": {
-          "moduleId": "[project]/.next-internal/server/app/user/address/page/actions.js { ACTIONS_MODULE0 => \"[project]/src/actions/user.ts [app-rsc] (ecmascript)\" } [app-rsc] (server actions loader, ecmascript)",
+        "app/user/email/page": {
+          "moduleId": "[project]/.next-internal/server/app/user/email/page/actions.js { ACTIONS_MODULE0 => \"[project]/src/actions/user.ts [app-rsc] (ecmascript)\" } [app-rsc] (server actions loader, ecmascript)",
+          "async": false,
+          "exportedName": "updateEmail",
+          "filename": "src/actions/user.ts"
+        },
+        "app/user/page": {
+          "moduleId": "[project]/.next-internal/server/app/user/page/actions.js { ACTIONS_MODULE0 => \"[project]/src/actions/products.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE1 => \"[project]/src/actions/user.ts [app-rsc] (ecmascript)\" } [app-rsc] (server actions loader, ecmascript)",
           "async": false,
           "exportedName": "updateEmail",
           "filename": "src/actions/user.ts"
@@ -210,8 +223,9 @@
       "layer": {
         "app/page": "rsc",
         "app/products/page": "rsc",
-        "app/shipping_info/page": "rsc",
-        "app/user/address/page": "rsc"
+        "app/user/address/page": "rsc",
+        "app/user/email/page": "action-browser",
+        "app/user/page": "rsc"
       },
       "filename": "src/actions/user.ts",
       "exportedName": "updateEmail"
@@ -224,14 +238,14 @@
           "exportedName": "passwordChange3",
           "filename": "src/actions/user.ts"
         },
-        "app/products/page": {
-          "moduleId": "[project]/.next-internal/server/app/products/page/actions.js { ACTIONS_MODULE0 => \"[project]/src/actions/user.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE1 => \"[project]/src/actions/products.ts [app-rsc] (ecmascript)\" } [app-rsc] (server actions loader, ecmascript)",
+        "app/password_change3/page": {
+          "moduleId": "[project]/.next-internal/server/app/password_change3/page/actions.js { ACTIONS_MODULE0 => \"[project]/src/actions/user.ts [app-rsc] (ecmascript)\" } [app-rsc] (server actions loader, ecmascript)",
           "async": false,
           "exportedName": "passwordChange3",
           "filename": "src/actions/user.ts"
         },
-        "app/shipping_info/page": {
-          "moduleId": "[project]/.next-internal/server/app/shipping_info/page/actions.js { ACTIONS_MODULE0 => \"[project]/src/actions/user.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE1 => \"[project]/src/actions/products.ts [app-rsc] (ecmascript)\" } [app-rsc] (server actions loader, ecmascript)",
+        "app/products/page": {
+          "moduleId": "[project]/.next-internal/server/app/products/page/actions.js { ACTIONS_MODULE0 => \"[project]/src/actions/user.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE1 => \"[project]/src/actions/products.ts [app-rsc] (ecmascript)\" } [app-rsc] (server actions loader, ecmascript)",
           "async": false,
           "exportedName": "passwordChange3",
           "filename": "src/actions/user.ts"
@@ -241,13 +255,20 @@
           "async": false,
           "exportedName": "passwordChange3",
           "filename": "src/actions/user.ts"
+        },
+        "app/user/page": {
+          "moduleId": "[project]/.next-internal/server/app/user/page/actions.js { ACTIONS_MODULE0 => \"[project]/src/actions/products.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE1 => \"[project]/src/actions/user.ts [app-rsc] (ecmascript)\" } [app-rsc] (server actions loader, ecmascript)",
+          "async": false,
+          "exportedName": "passwordChange3",
+          "filename": "src/actions/user.ts"
         }
       },
       "layer": {
         "app/page": "rsc",
+        "app/password_change3/page": "action-browser",
         "app/products/page": "rsc",
-        "app/shipping_info/page": "rsc",
-        "app/user/address/page": "rsc"
+        "app/user/address/page": "rsc",
+        "app/user/page": "rsc"
       },
       "filename": "src/actions/user.ts",
       "exportedName": "passwordChange3"
@@ -266,14 +287,14 @@
           "exportedName": "updateAddress",
           "filename": "src/actions/user.ts"
         },
-        "app/shipping_info/page": {
-          "moduleId": "[project]/.next-internal/server/app/shipping_info/page/actions.js { ACTIONS_MODULE0 => \"[project]/src/actions/user.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE1 => \"[project]/src/actions/products.ts [app-rsc] (ecmascript)\" } [app-rsc] (server actions loader, ecmascript)",
+        "app/user/address/page": {
+          "moduleId": "[project]/.next-internal/server/app/user/address/page/actions.js { ACTIONS_MODULE0 => \"[project]/src/actions/user.ts [app-rsc] (ecmascript)\" } [app-rsc] (server actions loader, ecmascript)",
           "async": false,
           "exportedName": "updateAddress",
           "filename": "src/actions/user.ts"
         },
-        "app/user/address/page": {
-          "moduleId": "[project]/.next-internal/server/app/user/address/page/actions.js { ACTIONS_MODULE0 => \"[project]/src/actions/user.ts [app-rsc] (ecmascript)\" } [app-rsc] (server actions loader, ecmascript)",
+        "app/user/page": {
+          "moduleId": "[project]/.next-internal/server/app/user/page/actions.js { ACTIONS_MODULE0 => \"[project]/src/actions/products.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE1 => \"[project]/src/actions/user.ts [app-rsc] (ecmascript)\" } [app-rsc] (server actions loader, ecmascript)",
           "async": false,
           "exportedName": "updateAddress",
           "filename": "src/actions/user.ts"
@@ -282,8 +303,8 @@
       "layer": {
         "app/page": "rsc",
         "app/products/page": "rsc",
-        "app/shipping_info/page": "rsc",
-        "app/user/address/page": "rsc"
+        "app/user/address/page": "rsc",
+        "app/user/page": "rsc"
       },
       "filename": "src/actions/user.ts",
       "exportedName": "updateAddress"
@@ -314,14 +335,14 @@
           "exportedName": "login",
           "filename": "src/actions/user.ts"
         },
-        "app/shipping_info/page": {
-          "moduleId": "[project]/.next-internal/server/app/shipping_info/page/actions.js { ACTIONS_MODULE0 => \"[project]/src/actions/user.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE1 => \"[project]/src/actions/products.ts [app-rsc] (ecmascript)\" } [app-rsc] (server actions loader, ecmascript)",
+        "app/user/address/page": {
+          "moduleId": "[project]/.next-internal/server/app/user/address/page/actions.js { ACTIONS_MODULE0 => \"[project]/src/actions/user.ts [app-rsc] (ecmascript)\" } [app-rsc] (server actions loader, ecmascript)",
           "async": false,
           "exportedName": "login",
           "filename": "src/actions/user.ts"
         },
-        "app/user/address/page": {
-          "moduleId": "[project]/.next-internal/server/app/user/address/page/actions.js { ACTIONS_MODULE0 => \"[project]/src/actions/user.ts [app-rsc] (ecmascript)\" } [app-rsc] (server actions loader, ecmascript)",
+        "app/user/page": {
+          "moduleId": "[project]/.next-internal/server/app/user/page/actions.js { ACTIONS_MODULE0 => \"[project]/src/actions/products.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE1 => \"[project]/src/actions/user.ts [app-rsc] (ecmascript)\" } [app-rsc] (server actions loader, ecmascript)",
           "async": false,
           "exportedName": "login",
           "filename": "src/actions/user.ts"
@@ -332,8 +353,8 @@
         "app/page": "rsc",
         "app/products/page": "rsc",
         "app/register/page": "action-browser",
-        "app/shipping_info/page": "rsc",
-        "app/user/address/page": "rsc"
+        "app/user/address/page": "rsc",
+        "app/user/page": "rsc"
       },
       "filename": "src/actions/user.ts",
       "exportedName": "login"
@@ -358,14 +379,14 @@
           "exportedName": "register",
           "filename": "src/actions/user.ts"
         },
-        "app/shipping_info/page": {
-          "moduleId": "[project]/.next-internal/server/app/shipping_info/page/actions.js { ACTIONS_MODULE0 => \"[project]/src/actions/user.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE1 => \"[project]/src/actions/products.ts [app-rsc] (ecmascript)\" } [app-rsc] (server actions loader, ecmascript)",
+        "app/user/address/page": {
+          "moduleId": "[project]/.next-internal/server/app/user/address/page/actions.js { ACTIONS_MODULE0 => \"[project]/src/actions/user.ts [app-rsc] (ecmascript)\" } [app-rsc] (server actions loader, ecmascript)",
           "async": false,
           "exportedName": "register",
           "filename": "src/actions/user.ts"
         },
-        "app/user/address/page": {
-          "moduleId": "[project]/.next-internal/server/app/user/address/page/actions.js { ACTIONS_MODULE0 => \"[project]/src/actions/user.ts [app-rsc] (ecmascript)\" } [app-rsc] (server actions loader, ecmascript)",
+        "app/user/page": {
+          "moduleId": "[project]/.next-internal/server/app/user/page/actions.js { ACTIONS_MODULE0 => \"[project]/src/actions/products.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE1 => \"[project]/src/actions/user.ts [app-rsc] (ecmascript)\" } [app-rsc] (server actions loader, ecmascript)",
           "async": false,
           "exportedName": "register",
           "filename": "src/actions/user.ts"
@@ -375,40 +396,40 @@
         "app/page": "rsc",
         "app/products/page": "rsc",
         "app/register/page": "action-browser",
-        "app/shipping_info/page": "rsc",
-        "app/user/address/page": "rsc"
+        "app/user/address/page": "rsc",
+        "app/user/page": "rsc"
       },
       "filename": "src/actions/user.ts",
       "exportedName": "register"
     },
-    "00d155b082e3fba48cb0040387aeed432b9b58657c": {
+    "00ea07deee1142d91f03a2ae3aad09462574ebbf02": {
       "workers": {
-        "app/confirmation/page": {
-          "moduleId": "[project]/.next-internal/server/app/confirmation/page/actions.js { ACTIONS_MODULE0 => \"[project]/src/actions/products.ts [app-rsc] (ecmascript)\" } [app-rsc] (server actions loader, ecmascript)",
-          "async": false,
-          "exportedName": "makeOrder",
-          "filename": "src/actions/products.ts"
-        },
         "app/page": {
           "moduleId": "[project]/.next-internal/server/app/page/actions.js { ACTIONS_MODULE0 => \"[project]/src/actions/user.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE1 => \"[project]/src/actions/products.ts [app-rsc] (ecmascript)\" } [app-rsc] (server actions loader, ecmascript)",
           "async": false,
-          "exportedName": "makeOrder",
+          "exportedName": "getFavoriteProducts",
           "filename": "src/actions/products.ts"
         },
         "app/products/page": {
           "moduleId": "[project]/.next-internal/server/app/products/page/actions.js { ACTIONS_MODULE0 => \"[project]/src/actions/user.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE1 => \"[project]/src/actions/products.ts [app-rsc] (ecmascript)\" } [app-rsc] (server actions loader, ecmascript)",
           "async": false,
-          "exportedName": "makeOrder",
+          "exportedName": "getFavoriteProducts",
+          "filename": "src/actions/products.ts"
+        },
+        "app/user/page": {
+          "moduleId": "[project]/.next-internal/server/app/user/page/actions.js { ACTIONS_MODULE0 => \"[project]/src/actions/products.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE1 => \"[project]/src/actions/user.ts [app-rsc] (ecmascript)\" } [app-rsc] (server actions loader, ecmascript)",
+          "async": false,
+          "exportedName": "getFavoriteProducts",
           "filename": "src/actions/products.ts"
         }
       },
       "layer": {
-        "app/confirmation/page": "action-browser",
         "app/page": "rsc",
-        "app/products/page": "rsc"
+        "app/products/page": "rsc",
+        "app/user/page": "rsc"
       },
       "filename": "src/actions/products.ts",
-      "exportedName": "makeOrder"
+      "exportedName": "getFavoriteProducts"
     },
     "4013e0daf469d3865f7b94b22a946e5cee5aae3d7f": {
       "workers": {
@@ -423,14 +444,57 @@
           "async": false,
           "exportedName": "isInFavourites",
           "filename": "src/actions/products.ts"
+        },
+        "app/user/page": {
+          "moduleId": "[project]/.next-internal/server/app/user/page/actions.js { ACTIONS_MODULE0 => \"[project]/src/actions/products.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE1 => \"[project]/src/actions/user.ts [app-rsc] (ecmascript)\" } [app-rsc] (server actions loader, ecmascript)",
+          "async": false,
+          "exportedName": "isInFavourites",
+          "filename": "src/actions/products.ts"
         }
       },
       "layer": {
         "app/page": "rsc",
-        "app/products/page": "rsc"
+        "app/products/page": "rsc",
+        "app/user/page": "rsc"
       },
       "filename": "src/actions/products.ts",
       "exportedName": "isInFavourites"
+    },
+    "402fa5e5bb4d424a3be8b07de53bdee9987c344fb0": {
+      "workers": {
+        "app/basket/page": {
+          "moduleId": "[project]/.next-internal/server/app/basket/page/actions.js { ACTIONS_MODULE0 => \"[project]/src/actions/products.ts [app-rsc] (ecmascript)\" } [app-rsc] (server actions loader, ecmascript)",
+          "async": false,
+          "exportedName": "removeFromBasket",
+          "filename": "src/actions/products.ts"
+        },
+        "app/page": {
+          "moduleId": "[project]/.next-internal/server/app/page/actions.js { ACTIONS_MODULE0 => \"[project]/src/actions/user.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE1 => \"[project]/src/actions/products.ts [app-rsc] (ecmascript)\" } [app-rsc] (server actions loader, ecmascript)",
+          "async": false,
+          "exportedName": "removeFromBasket",
+          "filename": "src/actions/products.ts"
+        },
+        "app/products/page": {
+          "moduleId": "[project]/.next-internal/server/app/products/page/actions.js { ACTIONS_MODULE0 => \"[project]/src/actions/user.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE1 => \"[project]/src/actions/products.ts [app-rsc] (ecmascript)\" } [app-rsc] (server actions loader, ecmascript)",
+          "async": false,
+          "exportedName": "removeFromBasket",
+          "filename": "src/actions/products.ts"
+        },
+        "app/user/page": {
+          "moduleId": "[project]/.next-internal/server/app/user/page/actions.js { ACTIONS_MODULE0 => \"[project]/src/actions/products.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE1 => \"[project]/src/actions/user.ts [app-rsc] (ecmascript)\" } [app-rsc] (server actions loader, ecmascript)",
+          "async": false,
+          "exportedName": "removeFromBasket",
+          "filename": "src/actions/products.ts"
+        }
+      },
+      "layer": {
+        "app/basket/page": "action-browser",
+        "app/page": "rsc",
+        "app/products/page": "rsc",
+        "app/user/page": "rsc"
+      },
+      "filename": "src/actions/products.ts",
+      "exportedName": "removeFromBasket"
     },
     "40596e90704641ed916cf409dfaadb626b570f8b6a": {
       "workers": {
@@ -445,11 +509,18 @@
           "async": false,
           "exportedName": "addToFavourites",
           "filename": "src/actions/products.ts"
+        },
+        "app/user/page": {
+          "moduleId": "[project]/.next-internal/server/app/user/page/actions.js { ACTIONS_MODULE0 => \"[project]/src/actions/products.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE1 => \"[project]/src/actions/user.ts [app-rsc] (ecmascript)\" } [app-rsc] (server actions loader, ecmascript)",
+          "async": false,
+          "exportedName": "addToFavourites",
+          "filename": "src/actions/products.ts"
         }
       },
       "layer": {
         "app/page": "action-browser",
-        "app/products/page": "action-browser"
+        "app/products/page": "action-browser",
+        "app/user/page": "action-browser"
       },
       "filename": "src/actions/products.ts",
       "exportedName": "addToFavourites"
@@ -467,11 +538,18 @@
           "async": false,
           "exportedName": "removeFromFavourites",
           "filename": "src/actions/products.ts"
+        },
+        "app/user/page": {
+          "moduleId": "[project]/.next-internal/server/app/user/page/actions.js { ACTIONS_MODULE0 => \"[project]/src/actions/products.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE1 => \"[project]/src/actions/user.ts [app-rsc] (ecmascript)\" } [app-rsc] (server actions loader, ecmascript)",
+          "async": false,
+          "exportedName": "removeFromFavourites",
+          "filename": "src/actions/products.ts"
         }
       },
       "layer": {
         "app/page": "action-browser",
-        "app/products/page": "action-browser"
+        "app/products/page": "action-browser",
+        "app/user/page": "action-browser"
       },
       "filename": "src/actions/products.ts",
       "exportedName": "removeFromFavourites"
@@ -489,11 +567,18 @@
           "async": false,
           "exportedName": "addToBasket",
           "filename": "src/actions/products.ts"
+        },
+        "app/user/page": {
+          "moduleId": "[project]/.next-internal/server/app/user/page/actions.js { ACTIONS_MODULE0 => \"[project]/src/actions/products.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE1 => \"[project]/src/actions/user.ts [app-rsc] (ecmascript)\" } [app-rsc] (server actions loader, ecmascript)",
+          "async": false,
+          "exportedName": "addToBasket",
+          "filename": "src/actions/products.ts"
         }
       },
       "layer": {
         "app/page": "action-browser",
-        "app/products/page": "action-browser"
+        "app/products/page": "action-browser",
+        "app/user/page": "action-browser"
       },
       "filename": "src/actions/products.ts",
       "exportedName": "addToBasket"
@@ -513,7 +598,13 @@
           "filename": "src/actions/products.ts"
         },
         "app/shipping_info/page": {
-          "moduleId": "[project]/.next-internal/server/app/shipping_info/page/actions.js { ACTIONS_MODULE0 => \"[project]/src/actions/user.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE1 => \"[project]/src/actions/products.ts [app-rsc] (ecmascript)\" } [app-rsc] (server actions loader, ecmascript)",
+          "moduleId": "[project]/.next-internal/server/app/shipping_info/page/actions.js { ACTIONS_MODULE0 => \"[project]/src/actions/products.ts [app-rsc] (ecmascript)\" } [app-rsc] (server actions loader, ecmascript)",
+          "async": false,
+          "exportedName": "makeTemporaryOrder",
+          "filename": "src/actions/products.ts"
+        },
+        "app/user/page": {
+          "moduleId": "[project]/.next-internal/server/app/user/page/actions.js { ACTIONS_MODULE0 => \"[project]/src/actions/products.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE1 => \"[project]/src/actions/user.ts [app-rsc] (ecmascript)\" } [app-rsc] (server actions loader, ecmascript)",
           "async": false,
           "exportedName": "makeTemporaryOrder",
           "filename": "src/actions/products.ts"
@@ -522,10 +613,33 @@
       "layer": {
         "app/page": "rsc",
         "app/products/page": "rsc",
-        "app/shipping_info/page": "action-browser"
+        "app/shipping_info/page": "action-browser",
+        "app/user/page": "rsc"
       },
       "filename": "src/actions/products.ts",
       "exportedName": "makeTemporaryOrder"
+    },
+    "40ea7360969dcde56bb5883b1e6763b5c13bc6d5af": {
+      "workers": {
+        "app/password_change/page": {
+          "moduleId": "[project]/.next-internal/server/app/password_change/page/actions.js { ACTIONS_MODULE0 => \"[project]/src/actions/user.ts [app-rsc] (ecmascript)\" } [app-rsc] (server actions loader, ecmascript)",
+          "async": false,
+          "exportedName": "passwordChange",
+          "filename": "src/actions/user.ts"
+        },
+        "app/user/page": {
+          "moduleId": "[project]/.next-internal/server/app/user/page/actions.js { ACTIONS_MODULE0 => \"[project]/src/actions/products.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE1 => \"[project]/src/actions/user.ts [app-rsc] (ecmascript)\" } [app-rsc] (server actions loader, ecmascript)",
+          "async": false,
+          "exportedName": "passwordChange",
+          "filename": "src/actions/user.ts"
+        }
+      },
+      "layer": {
+        "app/password_change/page": "action-browser",
+        "app/user/page": "rsc"
+      },
+      "filename": "src/actions/user.ts",
+      "exportedName": "passwordChange"
     },
     "7cf877b74621c96d870492a87e922e1abaa22e61c7": {
       "workers": {

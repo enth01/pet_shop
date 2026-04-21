@@ -144,6 +144,14 @@ var __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$actions$2f$data$3a$58
 function ProductEditor({ products }) {
     const [editing, setEditing] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useState"])(null);
     const [newImage, setNewImage] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useState"])(null);
+    // Helper to handle field updates immutably
+    const handleFieldChange = (field, value)=>{
+        if (!editing) return;
+        setEditing({
+            ...editing,
+            [field]: value
+        });
+    };
     return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("section", {
         className: "admin-box",
         children: [
@@ -151,7 +159,7 @@ function ProductEditor({ products }) {
                 children: "Products"
             }, void 0, false, {
                 fileName: "[project]/src/app/admin/ProductEditor.tsx",
-                lineNumber: 18,
+                lineNumber: 27,
                 columnNumber: 7
             }, this),
             products.map((p)=>/*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -161,7 +169,7 @@ function ProductEditor({ products }) {
                             children: p.name
                         }, void 0, false, {
                             fileName: "[project]/src/app/admin/ProductEditor.tsx",
-                            lineNumber: 22,
+                            lineNumber: 31,
                             columnNumber: 11
                         }, this),
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
@@ -169,7 +177,7 @@ function ProductEditor({ products }) {
                             children: "Edit"
                         }, void 0, false, {
                             fileName: "[project]/src/app/admin/ProductEditor.tsx",
-                            lineNumber: 23,
+                            lineNumber: 32,
                             columnNumber: 11
                         }, this),
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
@@ -177,13 +185,13 @@ function ProductEditor({ products }) {
                             children: "Delete"
                         }, void 0, false, {
                             fileName: "[project]/src/app/admin/ProductEditor.tsx",
-                            lineNumber: 24,
+                            lineNumber: 33,
                             columnNumber: 11
                         }, this)
                     ]
                 }, p.id, true, {
                     fileName: "[project]/src/app/admin/ProductEditor.tsx",
-                    lineNumber: 21,
+                    lineNumber: 30,
                     columnNumber: 9
                 }, this)),
             editing && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("dialog", {
@@ -193,40 +201,44 @@ function ProductEditor({ products }) {
                         children: "Edit product"
                     }, void 0, false, {
                         fileName: "[project]/src/app/admin/ProductEditor.tsx",
-                        lineNumber: 30,
+                        lineNumber: 39,
                         columnNumber: 11
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("input", {
-                        defaultValue: editing.name,
-                        onChange: (e)=>editing.name = e.target.value
+                        placeholder: "Name",
+                        value: editing.name,
+                        onChange: (e)=>handleFieldChange("name", e.target.value)
                     }, void 0, false, {
                         fileName: "[project]/src/app/admin/ProductEditor.tsx",
-                        lineNumber: 32,
+                        lineNumber: 41,
                         columnNumber: 11
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("input", {
-                        defaultValue: editing.description,
-                        onChange: (e)=>editing.description = e.target.value
+                        placeholder: "Description",
+                        value: editing.description ?? "",
+                        onChange: (e)=>handleFieldChange("description", e.target.value)
                     }, void 0, false, {
                         fileName: "[project]/src/app/admin/ProductEditor.tsx",
-                        lineNumber: 36,
+                        lineNumber: 46,
                         columnNumber: 11
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("input", {
-                        defaultValue: editing.category,
-                        onChange: (e)=>editing.category = e.target.value
+                        placeholder: "Category",
+                        value: editing.category ?? "",
+                        onChange: (e)=>handleFieldChange("category", e.target.value)
                     }, void 0, false, {
                         fileName: "[project]/src/app/admin/ProductEditor.tsx",
-                        lineNumber: 40,
+                        lineNumber: 51,
                         columnNumber: 11
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("input", {
                         type: "number",
-                        defaultValue: editing.price,
-                        onChange: (e)=>editing.price = Number(e.target.value)
+                        placeholder: "Price",
+                        value: editing.price,
+                        onChange: (e)=>handleFieldChange("price", Number(e.target.value))
                     }, void 0, false, {
                         fileName: "[project]/src/app/admin/ProductEditor.tsx",
-                        lineNumber: 44,
+                        lineNumber: 56,
                         columnNumber: 11
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("input", {
@@ -237,46 +249,55 @@ function ProductEditor({ products }) {
                         }
                     }, void 0, false, {
                         fileName: "[project]/src/app/admin/ProductEditor.tsx",
-                        lineNumber: 49,
+                        lineNumber: 62,
                         columnNumber: 11
                     }, this),
-                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
-                        onClick: async ()=>{
-                            if (!editing) return;
-                            await (0, __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$actions$2f$data$3a$583f50__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$text$2f$javascript$3e$__["updateProduct"])(editing.id, {
-                                name: editing.name,
-                                description: editing.description,
-                                category: editing.category,
-                                price: editing.price,
-                                image: newImage ? newImage : undefined
-                            });
-                            setEditing(null);
-                            setNewImage(null);
-                        },
-                        children: "Save"
-                    }, void 0, false, {
+                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                        className: "admin-actions",
+                        children: [
+                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
+                                onClick: async ()=>{
+                                    if (!editing) return;
+                                    await (0, __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$actions$2f$data$3a$583f50__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$text$2f$javascript$3e$__["updateProduct"])(editing.id, {
+                                        name: editing.name,
+                                        description: editing.description,
+                                        category: editing.category,
+                                        price: editing.price,
+                                        image: newImage ? newImage : undefined
+                                    });
+                                    setEditing(null);
+                                    setNewImage(null);
+                                },
+                                children: "Save"
+                            }, void 0, false, {
+                                fileName: "[project]/src/app/admin/ProductEditor.tsx",
+                                lineNumber: 71,
+                                columnNumber: 13
+                            }, this),
+                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
+                                onClick: ()=>setEditing(null),
+                                children: "Cancel"
+                            }, void 0, false, {
+                                fileName: "[project]/src/app/admin/ProductEditor.tsx",
+                                lineNumber: 89,
+                                columnNumber: 13
+                            }, this)
+                        ]
+                    }, void 0, true, {
                         fileName: "[project]/src/app/admin/ProductEditor.tsx",
-                        lineNumber: 57,
-                        columnNumber: 11
-                    }, this),
-                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
-                        onClick: ()=>setEditing(null),
-                        children: "Cancel"
-                    }, void 0, false, {
-                        fileName: "[project]/src/app/admin/ProductEditor.tsx",
-                        lineNumber: 75,
+                        lineNumber: 70,
                         columnNumber: 11
                     }, this)
                 ]
             }, void 0, true, {
                 fileName: "[project]/src/app/admin/ProductEditor.tsx",
-                lineNumber: 29,
+                lineNumber: 38,
                 columnNumber: 9
             }, this)
         ]
     }, void 0, true, {
         fileName: "[project]/src/app/admin/ProductEditor.tsx",
-        lineNumber: 17,
+        lineNumber: 26,
         columnNumber: 5
     }, this);
 }

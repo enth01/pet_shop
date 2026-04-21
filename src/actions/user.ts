@@ -202,14 +202,9 @@ export async function getUser() {
     return user;
 }
 
-export async function passwordChange() {
+export async function passwordChange(mail: string) {
     const resend = new Resend(process.env.RESEND_API_KEY!);
     const keksiky = await cookies();
-    const user = await getUser();
-
-    if (!user) {
-        return;
-    }
 
     const randomNumber = Math.floor(1000 + Math.random() * 9000);
     const stringNumber = randomNumber.toString();
@@ -223,9 +218,17 @@ export async function passwordChange() {
         maxAge: 300
     });
 
+    keksiky.set("reset_email", mail, {
+        httpOnly: true,
+        secure: process.env.NODE_ENV === "production",
+        sameSite: "lax",
+        path: "/",
+        maxAge: 600 // 10 minutes
+    });
+
     await resend.emails.send({
         from: "Resend <onboarding@resend.dev>",
-        to: user.email,
+        to: mail,
         subject: "Password change",
         html: "<p>Your code is: " + stringNumber + "</p>",
     });
@@ -235,28 +238,25 @@ export async function passwordChange() {
 
 export async function passwordChange3(formData: FormData) {
     const db = getDB();
-    const user = await getUser();
+    const keksiky = await cookies();
+    const resetEmail = keksiky.get("reset_email")?.value;
     const password1 = formData.get("password1") as string | null;
     const password2 = formData.get("password2") as string | null;
 
-    if (!user || !password1 || !password2) {
-        return;
-    }
-
-    if (password1 !== password2) {
-        return;
-    }
-
-    if (password1.length < 8) {
-        return;
+    if (!resetEmail || !password1 || !password2 || password1 !== password2 || password1.length < 8) {
+        return { error: "Invalid request or passwords do not match" };
     }
 
     const hashedPassword = await hashPassword(password1 as string);
+
     await db
         .updateTable("users")
         .set({ password: hashedPassword })
-        .where("id", "=", user.id)
+        .where("email", "=", resetEmail)
         .execute();
+
+    keksiky.delete("reset_email");
+    keksiky.delete("number");
 
     redirect("/password_change4");
 }

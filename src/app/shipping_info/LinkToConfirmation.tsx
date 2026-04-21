@@ -13,10 +13,24 @@ export default function LinkToConfirmation() {
         const meno = (document.getElementById("meno") as HTMLInputElement).value;
         const priezvisko = (document.getElementById("priezvisko") as HTMLInputElement).value;
 
-        if (!ulica || !popisne_cislo_domu || !mesto || !zip_code || !krajina || !telefon || !email || !meno || !priezvisko) {
-            alert("Musia byť vyplnené všetky polia");
-            return;
+        const fields = {
+            "Meno": meno,
+            "Priezvisko": priezvisko,
+            "Ulica": ulica,
+            "Súpisné číslo": popisne_cislo_domu,
+            "Mesto": mesto,
+            "PSČ": zip_code,
+            "Krajina": krajina,
+            "Telefón": telefon,
+            "Email": email
         };
+        
+        for (const [label, value] of Object.entries(fields)) {
+            if (!value || (value.trim() === "")) {
+                alert(`Pole "${label}" je prazdne.`);
+                return; 
+            }
+        }
 
         await makeTemporaryOrder(
             ulica,
@@ -35,6 +49,7 @@ export default function LinkToConfirmation() {
         <button
             onClick={go}
             className="btn"
+            type="button"
         >
             Continue to Confirmation
         </button>

@@ -5,12 +5,12 @@ import type { Kysely } from 'kysely'
 
 export async function seed(db: Kysely<DB>): Promise<void> {
 	await db.deleteFrom("favorite_products").execute();
-	await db.deleteFrom("session").execute();
-	await db.deleteFrom("orders").execute();
 	await db.deleteFrom("order_product").execute();
+	await db.deleteFrom("session").execute();
 	await db.deleteFrom("user_address").execute();
-	await db.deleteFrom("users").execute();
+	await db.deleteFrom("orders").execute();
 	await db.deleteFrom("products").execute();
+	await db.deleteFrom("users").execute();
 
 	const products = [
 		// psy

@@ -164,6 +164,303 @@ tsconfig.json
 <files>
 This section contains the contents of the repository's files.
 
+<file path="eslint.config.mjs">
+import { dirname } from "path";
+import { fileURLToPath } from "url";
+import { FlatCompat } from "@eslint/eslintrc";
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
+
+const compat = new FlatCompat({
+  baseDirectory: __dirname,
+});
+
+const eslintConfig = [
+  ...compat.extends("next/core-web-vitals", "next/typescript"),
+  {
+    ignores: [
+      "node_modules/**",
+      ".next/**",
+      "out/**",
+      "build/**",
+      "next-env.d.ts",
+    ],
+  },
+];
+
+export default eslintConfig;
+</file>
+
+<file path="kysely.config.ts">
+import SQLite from "better-sqlite3";
+import { SqliteDialect } from "kysely";
+import { defineConfig } from "kysely-ctl";
+
+export default defineConfig({
+  dialect: new SqliteDialect({
+    database: new SQLite("db.sqlite"),
+  }),
+});
+</file>
+
+<file path="next-env.d.ts">
+/// <reference types="next" />
+/// <reference types="next/image-types/global" />
+/// <reference path="./.next/types/routes.d.ts" />
+
+// NOTE: This file should not be edited
+// see https://nextjs.org/docs/app/api-reference/config/typescript for more information.
+</file>
+
+<file path="next.config.ts">
+import type { NextConfig } from "next";
+
+const nextConfig: NextConfig = {
+  /* config options here */
+  // reactStrictMode: false,
+  images: {
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: '**',
+      },
+      {
+        protocol: 'http',
+        hostname: '**',
+      },
+    ],
+  },
+};
+
+export default nextConfig;
+</file>
+
+<file path="package.json">
+{
+  "name": "pet_shop",
+  "private": true,
+  "scripts": {
+    "dev": "next dev --turbopack",
+    "build": "next build --turbopack",
+    "start": "next start",
+    "db:migrate:make": "kysely migrate:make new_migration",
+    "db:migrate:latest": "kysely migrate:latest",
+    "db:codegen": "kysely-codegen --url db.sqlite --out-file src/lib/db-types.ts",
+    "db:seed:make": "kysely seed:make new_seed",
+    "db:seed:run": "kysely seed:run"
+  },
+  "dependencies": {
+    "bcrypt": "^6.0.0",
+    "better-sqlite3": "^12.2.0",
+    "kysely": "^0.28.5",
+    "next": "^15.5.7",
+    "react": "19.1.0",
+    "react-dom": "19.1.0",
+    "resend": "^6.6.0",
+    "validator": "^13.15.23"
+  },
+  "devDependencies": {
+    "@eslint/eslintrc": "^3",
+    "@types/bcrypt": "^6.0.0",
+    "@types/better-sqlite3": "^7.6.13",
+    "@types/node": "^20",
+    "@types/react": "^19",
+    "@types/react-dom": "^19",
+    "@types/validator": "^13.15.10",
+    "eslint": "^9",
+    "eslint-config-next": "15.5.2",
+    "kysely-codegen": "^0.19.0",
+    "kysely-ctl": "^0.19.0",
+    "tsx": "^4.20.5",
+    "typescript": "^5"
+  },
+  "overrides": {
+    "kysely-codegen": {
+      "better-sqlite3": "^12.2.0"
+    }
+  }
+}
+</file>
+
+<file path="src/app/admin/AdminDashboard.tsx">
+"use client";
+
+import { useState } from "react";
+import type { Products, Users, Orders } from "@/lib/db-types";
+import AddProductForm from "./AddProductForm";
+import ProductEditor from "./ProductEditor";
+import UserManager from "./UserManager";
+import OrdersManager from "./OrdersManager";
+import type { Selectable } from "kysely";
+
+export default function AdminDashboard(props: {
+  products: Selectable<Products>[];
+  users: Pick<Selectable<Users>, "id" | "username" | "email" | "is_admin">[];
+  orders: Selectable<Orders>[];
+}) {
+  const [tab, setTab] = useState<"products" | "users" | "orders">("products");
+
+  return (
+    <main className="admin">
+      <h1>Admin panel</h1>
+
+      <nav className="admin-tabs">
+        <button onClick={() => setTab("products")}>Products</button>
+        <button onClick={() => setTab("users")}>Users</button>
+        <button onClick={() => setTab("orders")}>Orders</button>
+      </nav>
+
+      {tab === "products" && (
+        <>
+          <AddProductForm />
+          <ProductEditor products={props.products} />
+        </>
+      )}
+
+      {tab === "users" && <UserManager users={props.users} />}
+
+      {tab === "orders" && <OrdersManager orders={props.orders} />}
+    </main>
+  );
+}
+</file>
+
+<file path="src/app/admin/OrdersManager.tsx">
+"use client";
+
+import type { Orders } from "@/lib/db-types";
+import { deleteOrder, markOrderAsSent } from "@/actions/admin";
+import { Selectable } from "kysely";
+
+export default function OrdersManager({
+  orders,
+}: {
+  orders: Selectable<Orders>[];
+}) {
+  return (
+    <section className="admin-box">
+      <h2>Orders</h2>
+
+      {orders.map(o => (
+        <div key={o.id} className="admin-row">
+          <span>
+            {o.email} | {o.city}
+          </span>
+
+          {o.confirmed === 0 && (
+            <button onClick={() => markOrderAsSent(o.id, o.email)}>
+              Mark as sent
+            </button>
+          )}
+
+          <button onClick={() => deleteOrder(o.id)}>Delete</button>
+        </div>
+      ))}
+    </section>
+  );
+}
+</file>
+
+<file path="src/app/admin/page.tsx">
+import getDB from "@/lib/db";
+import { cookies } from "next/headers";
+import { redirect } from "next/navigation";
+import AdminDashboard from "./AdminDashboard";
+
+export default async function AdminPage() {
+  const cookieStore = await cookies();
+  const sessionId = cookieStore.get("session")?.value;
+  if (!sessionId) redirect("/");
+
+  const db = getDB();
+
+  const session = await db
+    .selectFrom("session")
+    .selectAll()
+    .where("session_id", "=", sessionId)
+    .executeTakeFirst();
+
+  if (!session) redirect("/");
+
+  const admin = await db
+    .selectFrom("users")
+    .selectAll()
+    .where("id", "=", session.user_id)
+    .executeTakeFirst();
+
+  if (!admin || admin.is_admin === 0) redirect("/");
+
+  const products = await db.selectFrom("products").selectAll().execute();
+  const users = await db
+    .selectFrom("users")
+    .select(["id", "username", "email", "is_admin"])
+    .execute();
+  const orders = await db.selectFrom("orders").selectAll().execute();
+
+  return (
+    <AdminDashboard
+      products={products}
+      users={users}
+      orders={orders}
+    />
+  );
+}
+</file>
+
+<file path="src/app/admin/UserManager.tsx">
+"use client";
+
+import { deleteUserAndData } from "@/actions/admin";
+
+export default function UserManager(props: {
+  users: { id: number; username: string; email: string; is_admin: number | null }[];
+}) {
+  return (
+    <section className="admin-box">
+      <h2>Users</h2>
+
+      {props.users.map(u => (
+        <div key={u.id} className="admin-row">
+          <span>{u.username} ({u.email})</span>
+          {u.is_admin ? (
+            <span>Admin</span>
+          ) : (
+            <button onClick={() => deleteUserAndData(u.id)}>Delete</button>
+          )}
+        </div>
+      ))}
+    </section>
+  );
+}
+</file>
+
+<file path="src/app/basket/removeFromCartButton.tsx">
+// basket/removeFromCartButton.tsx
+"use client";
+
+import { removeFromBasket } from "@/actions/products";
+
+export default function RemoveFromCartButton({ id }: { id: number }) {
+  return (
+    <button
+      onClick={() => removeFromBasket(id)}
+      className="btn"
+      style={{
+        backgroundColor: "#4CAF50",
+        color: "white",
+        padding: "6px 12px",
+        border: "none",
+        borderRadius: 8,
+        cursor: "pointer",
+      }}
+    >
+      Remove
+    </button>
+  );
+}
+</file>
+
 <file path="src/app/carousel/HeroCarousel.module.css">
 .carousel {
     width: 100%;
@@ -346,6 +643,191 @@ export default function HeroCarousel() {
 }
 </file>
 
+<file path="src/app/globals.css">
+body{
+    font-family: Arial, Helvetica, sans-serif;
+    background-color: #f0f0f0;
+    margin: 0 1rem;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+.admin {
+    padding: 2rem;
+  }
+  
+  .admin-tabs button {
+    margin-right: 1rem;
+    border-radius: 0.75rem;
+    background: white;
+    border: 2px solid #2f9e44;
+    padding: 0.5rem 1rem;
+  }
+  
+  .admin-tabs button:hover {
+    background: #2f9e44;
+    color: white;
+  }
+  
+  .admin-box {
+    margin-top: 2rem;
+    padding: 1.5rem;
+    border-radius: 0.75rem;
+    border: 2px solid #2f9e44;
+  }
+  
+  .admin-row {
+    display: flex;
+    justify-content: space-between;
+    margin: 0.5rem 0;
+  }
+  
+  .card {
+    background: #e5f6ef10; /* subtle greenish background */
+    border-radius: 0.75rem;
+    padding: 1.5rem;
+    color: #0f1f1a;
+  }
+  
+  .btn {
+    background: #2ecc71;
+    border-radius: 0.75rem;
+    padding: 0.5rem 1rem;
+    color: black;
+    text-decoration: none;
+    border: none;
+    cursor: pointer;
+  }
+  
+  .btn:hover {
+    background: #27ae60;
+  }
+  
+  input {
+    border-radius: 0.75rem;
+    border: 1px solid #2ecc71;
+    padding: 0.5rem;
+  }
+</file>
+
+<file path="src/app/layout.tsx">
+import NavBar from "./navbar";
+import "./globals.css";
+import Footer from "./footer";
+
+export default function RootLayout({children}: Readonly<{children: React.ReactNode;}>) {
+  return (
+    <html lang="en">
+      <head>
+      </head>
+      <body>
+        <NavBar />
+        {children}
+        <Footer />
+      </body>
+    </html>
+  );
+}
+</file>
+
+<file path="src/app/navbar.module.css">
+.navbar {
+    display: flex;
+    padding: 1rem 2rem;
+    align-items: center;
+    justify-content: space-around;
+    background-color: #ffffff;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.548);
+    border-bottom-left-radius: 0.75rem;
+    border-bottom-right-radius: 0.75rem;
+  }
+  
+  .navItem {
+    border-radius: 0.75rem;
+  }
+  
+  .navLink {
+    display: block;
+    padding: 0.5rem 0.9rem;
+    border-radius: 0.75rem;
+    text-decoration: none;
+    color: #1f2937; /* dark gray, not link-blue */
+    font-weight: 500;
+    transition: background-color 0.2s ease, color 0.2s ease;
+  }
+  
+  .navLink:hover {
+    background-color: #22c55e; /* green hover */
+    color: #ffffff; /* explicitly not blue */
+  }
+</file>
+
+<file path="src/app/page.module.css">
+.home {
+    padding: 2rem 3rem;
+  }
+  
+  .latest h2 {
+    font-size: 1.8rem;
+    margin-bottom: 1.5rem;
+  }
+  
+  .productRow {
+    display: flex;
+    justify-content: space-around;
+    gap: 2rem;
+  }
+  
+  .productCard {
+    background: white;
+    border-radius: 0.75rem;
+    padding: 1.5rem;
+    width: 220px;
+    text-align: center;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+  }
+  
+  .productCard h3 {
+    margin: 0.8rem 0 0.4rem;
+  }
+  
+  .price {
+    font-weight: 600;
+    margin-bottom: 1rem;
+  }
+  
+  .button {
+    display: inline-block;
+    padding: 0.5rem 1rem;
+    border-radius: 0.75rem;
+    text-decoration: none;
+    color: #1f2937;
+    background-color: #e5e7eb;
+    transition: background-color 0.2s ease, color 0.2s ease;
+  }
+  
+  .button:hover {
+    background-color: #22c55e;
+    color: white;
+  }
+</file>
+
+<file path="src/app/password_change/page.tsx">
+"use client"
+import { passwordChange } from "@/actions/user";
+
+export default function PasswordChangePage() {
+  return (
+    <div className="card max-w-md mx-auto flex flex-col gap-4">
+      <h1>Change Password</h1>
+      <p>We will send you a code to your email to verify.</p>
+      <button className="btn" onClick={passwordChange}>Send code</button>
+    </div>
+  );
+}
+</file>
+
 <file path="src/app/password_change2/verifyButton.tsx">
 "use client"
 
@@ -364,6 +846,87 @@ export default function VerifyButton(props: { code: string; }) {
     return (
         <button onClick={handleVerify} className={styles.btn}>Verify</button>
     )
+}
+</file>
+
+<file path="src/app/password_change4/page.tsx">
+export default function PasswordChange4Page() {
+    return (
+      <div className="card max-w-md mx-auto flex flex-col gap-4 text-center">
+        <h1>Password Changed!</h1>
+        <p>Your new password has been set successfully.</p>
+        <a href="/user" className="btn">Back to Account</a>
+      </div>
+    );
+  }
+</file>
+
+<file path="src/app/products/addToCartButton.tsx">
+"use client"
+
+import { addToBasket } from "@/actions/products";
+
+export default function AddToCartButton(props: { id: number }) {
+    return <button className="btn" onClick={() => addToBasket(props.id)}>Add to cart</button>
+}
+</file>
+
+<file path="src/app/products/addToFavouritesButton.tsx">
+"use client"
+
+import { addToFavourites } from "@/actions/products"
+
+export default function AddToFavouritesButton(props: { id: number }) {
+    return <button onClick={() => addToFavourites(props.id)}>Add to favourites</button>
+}
+</file>
+
+<file path="src/app/products/page.tsx">
+import getDB from "@/lib/db";
+import { getUser } from "@/actions/user";
+import { isInFavourites } from "@/actions/products";
+import ProductsClient from "./ProductsClient";
+
+export default async function ProductsPage() {
+  const products = await getDB().selectFrom("products").selectAll().execute();
+  const user = await getUser();
+
+  const productsWithFav = [];
+
+  for (const product of products) {
+    const is_in_fav = await isInFavourites(product.id);
+    productsWithFav.push({ ...product, is_in_fav });
+  }
+
+  // extract unique categories
+  const categorySet = new Set<string>();
+
+  products.forEach((product) => {
+    product.category
+      .split(",")
+      .map((c) => c.trim())
+      .forEach((c) => categorySet.add(c));
+  });
+
+  const categories = Array.from(categorySet);
+
+  return (
+    <ProductsClient
+      products={productsWithFav}
+      categories={categories}
+      userLoggedIn={!!user}
+    />
+  );
+}
+</file>
+
+<file path="src/app/products/removeFromFavouritesButton.tsx">
+"use client"
+
+import { removeFromFavourites } from "@/actions/products"
+
+export default function RemoveFromFavouritesButton(props: { id: number }) {
+    return <button onClick={() => removeFromFavourites(props.id)}>Remove from favourites</button>
 }
 </file>
 
@@ -414,44 +977,287 @@ export default function SingleProduct(props: { product: ProductWithFav; userLogg
 }
 </file>
 
-<file path="eslint.config.mjs">
-import { dirname } from "path";
-import { fileURLToPath } from "url";
-import { FlatCompat } from "@eslint/eslintrc";
+<file path="src/app/user/address/page.tsx">
+// user/address/page.tsx
+import { getUser, updateAddress } from "@/actions/user";
+import getDB from "@/lib/db";
+import { redirect } from "next/navigation";
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = dirname(__filename);
+export default async function AddressPage() {
+  const user = await getUser();
+  if (!user) redirect("/");
 
-const compat = new FlatCompat({
-  baseDirectory: __dirname,
-});
+  const db = getDB();
 
-const eslintConfig = [
-  ...compat.extends("next/core-web-vitals", "next/typescript"),
-  {
-    ignores: [
-      "node_modules/**",
-      ".next/**",
-      "out/**",
-      "build/**",
-      "next-env.d.ts",
-    ],
-  },
-];
+  const address = await db
+    .selectFrom("user_address")
+    .selectAll()
+    .where("user_id", "=", user.id)
+    .executeTakeFirst();
 
-export default eslintConfig;
+  return (
+    <form
+      action={updateAddress}
+      style={{
+        maxWidth: 500,
+        padding: 24,
+        display: "flex",
+        flexDirection: "column",
+        gap: 16,
+      }}
+    >
+      <h1 style={{ fontSize: 24, fontWeight: 700 }}>Address</h1>
+
+      <label>
+        Street:
+        <input
+          name="street"
+          defaultValue={address?.street ?? ""}
+          required
+          style={{ width: "100%", padding: 8, borderRadius: 8, marginTop: 4 }}
+        />
+      </label>
+
+      <label>
+        House number:
+        <input
+          name="house_number"
+          defaultValue={address?.house_number ?? ""}
+          required
+          style={{ width: "100%", padding: 8, borderRadius: 8, marginTop: 4 }}
+        />
+      </label>
+
+      <label>
+        City:
+        <input
+          name="city"
+          defaultValue={address?.city ?? ""}
+          required
+          style={{ width: "100%", padding: 8, borderRadius: 8, marginTop: 4 }}
+        />
+      </label>
+
+      <label>
+        Zip code:
+        <input
+          name="zip_code"
+          defaultValue={address?.zip_code ?? ""}
+          required
+          style={{ width: "100%", padding: 8, borderRadius: 8, marginTop: 4 }}
+        />
+      </label>
+
+      <label>
+        Country:
+        <input
+          name="country"
+          defaultValue={address?.country ?? ""}
+          required
+          style={{ width: "100%", padding: 8, borderRadius: 8, marginTop: 4 }}
+        />
+      </label>
+
+      <label>
+        Phone number:
+        <input
+          name="phone_number"
+          defaultValue={address?.phone_number ?? ""}
+          required
+          style={{ width: "100%", padding: 8, borderRadius: 8, marginTop: 4 }}
+        />
+      </label>
+
+      <label>
+        Name:
+        <input
+          name="name"
+          defaultValue={address?.name ?? ""}
+          required
+          style={{ width: "100%", padding: 8, borderRadius: 8, marginTop: 4 }}
+        />
+      </label>
+
+      <label>
+        Surname:
+        <input
+          name="surname"
+          defaultValue={address?.surname ?? ""}
+          required
+          style={{ width: "100%", padding: 8, borderRadius: 8, marginTop: 4 }}
+        />
+      </label>
+
+      <button
+        type="submit"
+        style={{
+          backgroundColor: "#4CAF50",
+          color: "white",
+          padding: 12,
+          border: "none",
+          borderRadius: 12,
+          fontWeight: 600,
+          cursor: "pointer",
+          marginTop: 12,
+        }}
+      >
+        Save
+      </button>
+    </form>
+  );
+}
 </file>
 
-<file path="kysely.config.ts">
-import SQLite from "better-sqlite3";
-import { SqliteDialect } from "kysely";
-import { defineConfig } from "kysely-ctl";
+<file path="src/app/user/email/page.tsx">
+// app/user/email/page.tsx
+"use client"
 
-export default defineConfig({
-  dialect: new SqliteDialect({
-    database: new SQLite("db.sqlite"),
-  }),
-});
+import { useState } from "react";
+import { updateEmail } from "@/actions/user";
+
+export default function ChangeEmail() {
+  const [email, setEmail] = useState("");
+
+  return (
+    <form
+      className="card max-w-md mx-auto flex flex-col gap-4"
+      onSubmit={async (e) => {
+        e.preventDefault();
+        const res = await updateEmail(email);
+        if (res?.error) alert(res.error);
+        else alert("Email updated!");
+      }}
+    >
+      <h1>Change Email</h1>
+      <input
+        type="email"
+        placeholder="New email"
+        value={email}
+        onChange={(e) => setEmail(e.target.value)}
+        required
+        className="border p-2 rounded"
+      />
+      <button type="submit" className="btn">Save</button>
+    </form>
+  );
+}
+</file>
+
+<file path="src/app/user/logoutButton.tsx">
+"use client"
+
+import { logout } from "@/actions/user"
+
+export default function LogoutButton() {
+    return <button style={{float: "right", fontFamily: "Arial, Helvetica, sans-serif", fontSize: "16px"}} className="btn" onClick={async () => { 
+        const res = await logout();
+        if (res?.error) {
+          alert(res.error);
+        } else if (res?.success) {
+          window.location.href = "/";
+          alert("Successfully logged out!");
+        }
+     }}>Logout</button>
+}
+</file>
+
+<file path="src/app/user/page.module.css">
+.card {
+    background: #0f1f1a;
+    border-radius: 0.75rem;
+    padding: 1.5rem;
+    color: #e5f6ef;
+  }
+  
+  .btn {
+    background: #2ecc71;
+    padding: 0.5rem 1rem;
+    border-radius: 0.75rem;
+    color: black;
+    text-decoration: none;
+    border: none;
+    cursor: pointer;
+  }
+  
+  .order {
+    border-top: 1px solid #2ecc71;
+    padding-top: 0.5rem;
+    margin-top: 0.5rem;
+  }
+</file>
+
+<file path="src/lib/db.ts">
+import { DB } from "@/lib/db-types";
+import SQLite from "better-sqlite3";
+import { SqliteDialect, Kysely } from "kysely";
+
+export default function getDB(){
+  const dialect = new SqliteDialect({ database: new SQLite("db.sqlite") });
+  const db = new Kysely<DB>({ dialect });
+  return db
+}
+</file>
+
+<file path="src/lib/hashing.ts">
+import bcrypt from "bcrypt";
+
+export function hashPassword(password: string) {
+    return bcrypt.hash(password, 10).then(function(hash: string){
+        return hash;
+    });
+}
+
+export function checkPassword(password: string, hash: string) {
+    return bcrypt.compare(password, hash).then(function(result: boolean){
+        return result;
+    });
+}
+</file>
+
+<file path="src/lib/types.ts">
+// lib/types.ts
+import type { Selectable, Insertable } from "kysely";
+import type { Users, Orders, Products, UserAddress } from "@/lib/db-types";
+
+export type UserRow = Selectable<Users>;
+export type OrderRow = Selectable<Orders>;
+export type ProductRow = Selectable<Products>;
+export type AddressRow = Selectable<UserAddress>;
+
+export type AddressForm = Omit<
+  Insertable<UserAddress>,
+  "id" | "user_id"
+>;
+</file>
+
+<file path="tsconfig.json">
+{
+  "compilerOptions": {
+    "target": "ES2017",
+    "lib": ["dom", "dom.iterable", "esnext"],
+    "allowJs": true,
+    "skipLibCheck": true,
+    "strict": true,
+    "noEmit": true,
+    "esModuleInterop": true,
+    "module": "esnext",
+    "moduleResolution": "bundler",
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "jsx": "preserve",
+    "incremental": true,
+    "plugins": [
+      {
+        "name": "next"
+      }
+    ],
+    "paths": {
+      "@/*": ["./src/*"]
+    }
+  },
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "src/app/products"],
+  "exclude": ["node_modules"]
+}
 </file>
 
 <file path="migrations/1762706948911_create_ products_and_users.ts">
@@ -579,85 +1385,6 @@ export async function up(db: Kysely<unknown>): Promise<void> {
         surname text,
         foreign key (user_id) references users(id) on delete cascade
   ) STRICT`.execute(db);
-}
-</file>
-
-<file path="next-env.d.ts">
-/// <reference types="next" />
-/// <reference types="next/image-types/global" />
-/// <reference path="./.next/types/routes.d.ts" />
-
-// NOTE: This file should not be edited
-// see https://nextjs.org/docs/app/api-reference/config/typescript for more information.
-</file>
-
-<file path="next.config.ts">
-import type { NextConfig } from "next";
-
-const nextConfig: NextConfig = {
-  /* config options here */
-  // reactStrictMode: false,
-  images: {
-    remotePatterns: [
-      {
-        protocol: 'https',
-        hostname: '**',
-      },
-      {
-        protocol: 'http',
-        hostname: '**',
-      },
-    ],
-  },
-};
-
-export default nextConfig;
-</file>
-
-<file path="package.json">
-{
-  "name": "pet_shop",
-  "private": true,
-  "scripts": {
-    "dev": "next dev --turbopack",
-    "build": "next build --turbopack",
-    "start": "next start",
-    "db:migrate:make": "kysely migrate:make new_migration",
-    "db:migrate:latest": "kysely migrate:latest",
-    "db:codegen": "kysely-codegen --url db.sqlite --out-file src/lib/db-types.ts",
-    "db:seed:make": "kysely seed:make new_seed",
-    "db:seed:run": "kysely seed:run"
-  },
-  "dependencies": {
-    "bcrypt": "^6.0.0",
-    "better-sqlite3": "^12.2.0",
-    "kysely": "^0.28.5",
-    "next": "^15.5.7",
-    "react": "19.1.0",
-    "react-dom": "19.1.0",
-    "resend": "^6.6.0",
-    "validator": "^13.15.23"
-  },
-  "devDependencies": {
-    "@eslint/eslintrc": "^3",
-    "@types/bcrypt": "^6.0.0",
-    "@types/better-sqlite3": "^7.6.13",
-    "@types/node": "^20",
-    "@types/react": "^19",
-    "@types/react-dom": "^19",
-    "@types/validator": "^13.15.10",
-    "eslint": "^9",
-    "eslint-config-next": "15.5.2",
-    "kysely-codegen": "^0.19.0",
-    "kysely-ctl": "^0.19.0",
-    "tsx": "^4.20.5",
-    "typescript": "^5"
-  },
-  "overrides": {
-    "kysely-codegen": {
-      "better-sqlite3": "^12.2.0"
-    }
-  }
 }
 </file>
 
@@ -1232,6 +1959,21 @@ export async function makeOrder() {
     cookieStore.delete("order");
     redirect("/confirmed");
 }
+
+export async function getFavoriteProducts() {
+    const db = getDB();
+    const user = await getUser();
+    if (!user) return [];
+
+    const favorites = await db
+        .selectFrom("products")
+        .innerJoin("favorite_products", "products.id", "favorite_products.product_id")
+        .where("favorite_products.user_id", "=", user.id)
+        .selectAll("products")
+        .execute();
+
+    return favorites.map(p => ({ ...p, is_in_fav: true }));
+}
 </file>
 
 <file path="src/actions/user.ts">
@@ -1612,131 +2354,6 @@ export default function AddProductForm() {
 }
 </file>
 
-<file path="src/app/admin/AdminDashboard.tsx">
-"use client";
-
-import { useState } from "react";
-import type { Products, Users, Orders } from "@/lib/db-types";
-import AddProductForm from "./AddProductForm";
-import ProductEditor from "./ProductEditor";
-import UserManager from "./UserManager";
-import OrdersManager from "./OrdersManager";
-import type { Selectable } from "kysely";
-
-export default function AdminDashboard(props: {
-  products: Selectable<Products>[];
-  users: Pick<Selectable<Users>, "id" | "username" | "email" | "is_admin">[];
-  orders: Selectable<Orders>[];
-}) {
-  const [tab, setTab] = useState<"products" | "users" | "orders">("products");
-
-  return (
-    <main className="admin">
-      <h1>Admin panel</h1>
-
-      <nav className="admin-tabs">
-        <button onClick={() => setTab("products")}>Products</button>
-        <button onClick={() => setTab("users")}>Users</button>
-        <button onClick={() => setTab("orders")}>Orders</button>
-      </nav>
-
-      {tab === "products" && (
-        <>
-          <AddProductForm />
-          <ProductEditor products={props.products} />
-        </>
-      )}
-
-      {tab === "users" && <UserManager users={props.users} />}
-
-      {tab === "orders" && <OrdersManager orders={props.orders} />}
-    </main>
-  );
-}
-</file>
-
-<file path="src/app/admin/OrdersManager.tsx">
-"use client";
-
-import type { Orders } from "@/lib/db-types";
-import { deleteOrder, markOrderAsSent } from "@/actions/admin";
-import { Selectable } from "kysely";
-
-export default function OrdersManager({
-  orders,
-}: {
-  orders: Selectable<Orders>[];
-}) {
-  return (
-    <section className="admin-box">
-      <h2>Orders</h2>
-
-      {orders.map(o => (
-        <div key={o.id} className="admin-row">
-          <span>
-            {o.email} | {o.city}
-          </span>
-
-          {o.confirmed === 0 && (
-            <button onClick={() => markOrderAsSent(o.id, o.email)}>
-              Mark as sent
-            </button>
-          )}
-
-          <button onClick={() => deleteOrder(o.id)}>Delete</button>
-        </div>
-      ))}
-    </section>
-  );
-}
-</file>
-
-<file path="src/app/admin/page.tsx">
-import getDB from "@/lib/db";
-import { cookies } from "next/headers";
-import { redirect } from "next/navigation";
-import AdminDashboard from "./AdminDashboard";
-
-export default async function AdminPage() {
-  const cookieStore = await cookies();
-  const sessionId = cookieStore.get("session")?.value;
-  if (!sessionId) redirect("/");
-
-  const db = getDB();
-
-  const session = await db
-    .selectFrom("session")
-    .selectAll()
-    .where("session_id", "=", sessionId)
-    .executeTakeFirst();
-
-  if (!session) redirect("/");
-
-  const admin = await db
-    .selectFrom("users")
-    .selectAll()
-    .where("id", "=", session.user_id)
-    .executeTakeFirst();
-
-  if (!admin || admin.is_admin === 0) redirect("/");
-
-  const products = await db.selectFrom("products").selectAll().execute();
-  const users = await db
-    .selectFrom("users")
-    .select(["id", "username", "email", "is_admin"])
-    .execute();
-  const orders = await db.selectFrom("orders").selectAll().execute();
-
-  return (
-    <AdminDashboard
-      products={products}
-      users={users}
-      orders={orders}
-    />
-  );
-}
-</file>
-
 <file path="src/app/admin/ProductEditor.tsx">
 "use client";
 
@@ -1830,33 +2447,6 @@ export default function ProductEditor({
           </div>
         </dialog>
       )}
-    </section>
-  );
-}
-</file>
-
-<file path="src/app/admin/UserManager.tsx">
-"use client";
-
-import { deleteUserAndData } from "@/actions/admin";
-
-export default function UserManager(props: {
-  users: { id: number; username: string; email: string; is_admin: number | null }[];
-}) {
-  return (
-    <section className="admin-box">
-      <h2>Users</h2>
-
-      {props.users.map(u => (
-        <div key={u.id} className="admin-row">
-          <span>{u.username} ({u.email})</span>
-          {u.is_admin ? (
-            <span>Admin</span>
-          ) : (
-            <button onClick={() => deleteUserAndData(u.id)}>Delete</button>
-          )}
-        </div>
-      ))}
     </section>
   );
 }
@@ -1977,32 +2567,6 @@ export default async function BasketPage() {
         Checkout
       </Link>
     </main>
-  );
-}
-</file>
-
-<file path="src/app/basket/removeFromCartButton.tsx">
-// basket/removeFromCartButton.tsx
-"use client";
-
-import { removeFromBasket } from "@/actions/products";
-
-export default function RemoveFromCartButton({ id }: { id: number }) {
-  return (
-    <button
-      onClick={() => removeFromBasket(id)}
-      className="btn"
-      style={{
-        backgroundColor: "#4CAF50",
-        color: "white",
-        padding: "6px 12px",
-        border: "none",
-        borderRadius: 8,
-        cursor: "pointer",
-      }}
-    >
-      Remove
-    </button>
   );
 }
 </file>
@@ -2314,94 +2878,6 @@ export default function Footer() {
 }
 </file>
 
-<file path="src/app/globals.css">
-body{
-    font-family: Arial, Helvetica, sans-serif;
-    background-color: #f0f0f0;
-    margin: 0 1rem;
-    display: flex;
-    flex-direction: column;
-    min-height: 100vh;
-}
-
-.admin {
-    padding: 2rem;
-  }
-  
-  .admin-tabs button {
-    margin-right: 1rem;
-    border-radius: 0.75rem;
-    background: white;
-    border: 2px solid #2f9e44;
-    padding: 0.5rem 1rem;
-  }
-  
-  .admin-tabs button:hover {
-    background: #2f9e44;
-    color: white;
-  }
-  
-  .admin-box {
-    margin-top: 2rem;
-    padding: 1.5rem;
-    border-radius: 0.75rem;
-    border: 2px solid #2f9e44;
-  }
-  
-  .admin-row {
-    display: flex;
-    justify-content: space-between;
-    margin: 0.5rem 0;
-  }
-  
-  .card {
-    background: #e5f6ef10; /* subtle greenish background */
-    border-radius: 0.75rem;
-    padding: 1.5rem;
-    color: #0f1f1a;
-  }
-  
-  .btn {
-    background: #2ecc71;
-    border-radius: 0.75rem;
-    padding: 0.5rem 1rem;
-    color: black;
-    text-decoration: none;
-    border: none;
-    cursor: pointer;
-  }
-  
-  .btn:hover {
-    background: #27ae60;
-  }
-  
-  input {
-    border-radius: 0.75rem;
-    border: 1px solid #2ecc71;
-    padding: 0.5rem;
-  }
-</file>
-
-<file path="src/app/layout.tsx">
-import NavBar from "./navbar";
-import "./globals.css";
-import Footer from "./footer";
-
-export default function RootLayout({children}: Readonly<{children: React.ReactNode;}>) {
-  return (
-    <html lang="en">
-      <head>
-      </head>
-      <body>
-        <NavBar />
-        {children}
-        <Footer />
-      </body>
-    </html>
-  );
-}
-</file>
-
 <file path="src/app/login/loginButton.tsx">
 "use client"
 
@@ -2470,38 +2946,6 @@ export default function LoginPage() {
     </div>
   );
 }
-</file>
-
-<file path="src/app/navbar.module.css">
-.navbar {
-    display: flex;
-    padding: 1rem 2rem;
-    align-items: center;
-    justify-content: space-around;
-    background-color: #ffffff;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.548);
-    border-bottom-left-radius: 0.75rem;
-    border-bottom-right-radius: 0.75rem;
-  }
-  
-  .navItem {
-    border-radius: 0.75rem;
-  }
-  
-  .navLink {
-    display: block;
-    padding: 0.5rem 0.9rem;
-    border-radius: 0.75rem;
-    text-decoration: none;
-    color: #1f2937; /* dark gray, not link-blue */
-    font-weight: 500;
-    transition: background-color 0.2s ease, color 0.2s ease;
-  }
-  
-  .navLink:hover {
-    background-color: #22c55e; /* green hover */
-    color: #ffffff; /* explicitly not blue */
-  }
 </file>
 
 <file path="src/app/navbar.tsx">
@@ -2604,56 +3048,6 @@ export default async function NavBar() {
 }
 </file>
 
-<file path="src/app/page.module.css">
-.home {
-    padding: 2rem 3rem;
-  }
-  
-  .latest h2 {
-    font-size: 1.8rem;
-    margin-bottom: 1.5rem;
-  }
-  
-  .productRow {
-    display: flex;
-    justify-content: space-around;
-    gap: 2rem;
-  }
-  
-  .productCard {
-    background: white;
-    border-radius: 0.75rem;
-    padding: 1.5rem;
-    width: 220px;
-    text-align: center;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
-  }
-  
-  .productCard h3 {
-    margin: 0.8rem 0 0.4rem;
-  }
-  
-  .price {
-    font-weight: 600;
-    margin-bottom: 1rem;
-  }
-  
-  .button {
-    display: inline-block;
-    padding: 0.5rem 1rem;
-    border-radius: 0.75rem;
-    text-decoration: none;
-    color: #1f2937;
-    background-color: #e5e7eb;
-    transition: background-color 0.2s ease, color 0.2s ease;
-  }
-  
-  .button:hover {
-    background-color: #22c55e;
-    color: white;
-  }
-</file>
-
 <file path="src/app/page.tsx">
 import getDB from "@/lib/db";
 import HeroCarousel from "./carousel/HeroCarousel";
@@ -2695,21 +3089,6 @@ export default async function Home() {
             </section>
         </main>
     );
-}
-</file>
-
-<file path="src/app/password_change/page.tsx">
-"use client"
-import { passwordChange } from "@/actions/user";
-
-export default function PasswordChangePage() {
-  return (
-    <div className="card max-w-md mx-auto flex flex-col gap-4">
-      <h1>Change Password</h1>
-      <p>We will send you a code to your email to verify.</p>
-      <button className="btn" onClick={passwordChange}>Send code</button>
-    </div>
-  );
 }
 </file>
 
@@ -2776,77 +3155,6 @@ export default function PasswordChange3Page() {
       />
       <button type="submit" className="btn">Save</button>
     </form>
-  );
-}
-</file>
-
-<file path="src/app/password_change4/page.tsx">
-export default function PasswordChange4Page() {
-    return (
-      <div className="card max-w-md mx-auto flex flex-col gap-4 text-center">
-        <h1>Password Changed!</h1>
-        <p>Your new password has been set successfully.</p>
-        <a href="/user" className="btn">Back to Account</a>
-      </div>
-    );
-  }
-</file>
-
-<file path="src/app/products/addToCartButton.tsx">
-"use client"
-
-import { addToBasket } from "@/actions/products";
-
-export default function AddToCartButton(props: { id: number }) {
-    return <button className="btn" onClick={() => addToBasket(props.id)}>Add to cart</button>
-}
-</file>
-
-<file path="src/app/products/addToFavouritesButton.tsx">
-"use client"
-
-import { addToFavourites } from "@/actions/products"
-
-export default function AddToFavouritesButton(props: { id: number }) {
-    return <button onClick={() => addToFavourites(props.id)}>Add to favourites</button>
-}
-</file>
-
-<file path="src/app/products/page.tsx">
-import getDB from "@/lib/db";
-import { getUser } from "@/actions/user";
-import { isInFavourites } from "@/actions/products";
-import ProductsClient from "./ProductsClient";
-
-export default async function ProductsPage() {
-  const products = await getDB().selectFrom("products").selectAll().execute();
-  const user = await getUser();
-
-  const productsWithFav = [];
-
-  for (const product of products) {
-    const is_in_fav = await isInFavourites(product.id);
-    productsWithFav.push({ ...product, is_in_fav });
-  }
-
-  // extract unique categories
-  const categorySet = new Set<string>();
-
-  products.forEach((product) => {
-    product.category
-      .split(",")
-      .map((c) => c.trim())
-      .forEach((c) => categorySet.add(c));
-  });
-
-  const categories = Array.from(categorySet);
-
-  return (
-    <ProductsClient
-      products={productsWithFav}
-      categories={categories}
-      userLoggedIn={!!user}
-    />
   );
 }
 </file>
@@ -3018,16 +3326,6 @@ export default function ProductsClient({
             )}
         </main>
     );
-}
-</file>
-
-<file path="src/app/products/removeFromFavouritesButton.tsx">
-"use client"
-
-import { removeFromFavourites } from "@/actions/products"
-
-export default function RemoveFromFavouritesButton(props: { id: number }) {
-    return <button onClick={() => removeFromFavourites(props.id)}>Remove from favourites</button>
 }
 </file>
 
@@ -3341,300 +3639,113 @@ export default async function ShippingInfoPage() {
 }
 </file>
 
-<file path="src/app/user/address/page.tsx">
-// user/address/page.tsx
-import { getUser, updateAddress } from "@/actions/user";
-import getDB from "@/lib/db";
-import { redirect } from "next/navigation";
-
-export default async function AddressPage() {
-  const user = await getUser();
-  if (!user) redirect("/");
-
-  const db = getDB();
-
-  const address = await db
-    .selectFrom("user_address")
-    .selectAll()
-    .where("user_id", "=", user.id)
-    .executeTakeFirst();
-
-  return (
-    <form
-      action={updateAddress}
-      style={{
-        maxWidth: 500,
-        padding: 24,
-        display: "flex",
-        flexDirection: "column",
-        gap: 16,
-      }}
-    >
-      <h1 style={{ fontSize: 24, fontWeight: 700 }}>Address</h1>
-
-      <label>
-        Street:
-        <input
-          name="street"
-          defaultValue={address?.street ?? ""}
-          required
-          style={{ width: "100%", padding: 8, borderRadius: 8, marginTop: 4 }}
-        />
-      </label>
-
-      <label>
-        House number:
-        <input
-          name="house_number"
-          defaultValue={address?.house_number ?? ""}
-          required
-          style={{ width: "100%", padding: 8, borderRadius: 8, marginTop: 4 }}
-        />
-      </label>
-
-      <label>
-        City:
-        <input
-          name="city"
-          defaultValue={address?.city ?? ""}
-          required
-          style={{ width: "100%", padding: 8, borderRadius: 8, marginTop: 4 }}
-        />
-      </label>
-
-      <label>
-        Zip code:
-        <input
-          name="zip_code"
-          defaultValue={address?.zip_code ?? ""}
-          required
-          style={{ width: "100%", padding: 8, borderRadius: 8, marginTop: 4 }}
-        />
-      </label>
-
-      <label>
-        Country:
-        <input
-          name="country"
-          defaultValue={address?.country ?? ""}
-          required
-          style={{ width: "100%", padding: 8, borderRadius: 8, marginTop: 4 }}
-        />
-      </label>
-
-      <label>
-        Phone number:
-        <input
-          name="phone_number"
-          defaultValue={address?.phone_number ?? ""}
-          required
-          style={{ width: "100%", padding: 8, borderRadius: 8, marginTop: 4 }}
-        />
-      </label>
-
-      <label>
-        Name:
-        <input
-          name="name"
-          defaultValue={address?.name ?? ""}
-          required
-          style={{ width: "100%", padding: 8, borderRadius: 8, marginTop: 4 }}
-        />
-      </label>
-
-      <label>
-        Surname:
-        <input
-          name="surname"
-          defaultValue={address?.surname ?? ""}
-          required
-          style={{ width: "100%", padding: 8, borderRadius: 8, marginTop: 4 }}
-        />
-      </label>
-
-      <button
-        type="submit"
-        style={{
-          backgroundColor: "#4CAF50",
-          color: "white",
-          padding: 12,
-          border: "none",
-          borderRadius: 12,
-          fontWeight: 600,
-          cursor: "pointer",
-          marginTop: 12,
-        }}
-      >
-        Save
-      </button>
-    </form>
-  );
-}
-</file>
-
-<file path="src/app/user/email/page.tsx">
-// app/user/email/page.tsx
-"use client"
-
-import { useState } from "react";
-import { updateEmail } from "@/actions/user";
-
-export default function ChangeEmail() {
-  const [email, setEmail] = useState("");
-
-  return (
-    <form
-      className="card max-w-md mx-auto flex flex-col gap-4"
-      onSubmit={async (e) => {
-        e.preventDefault();
-        const res = await updateEmail(email);
-        if (res?.error) alert(res.error);
-        else alert("Email updated!");
-      }}
-    >
-      <h1>Change Email</h1>
-      <input
-        type="email"
-        placeholder="New email"
-        value={email}
-        onChange={(e) => setEmail(e.target.value)}
-        required
-        className="border p-2 rounded"
-      />
-      <button type="submit" className="btn">Save</button>
-    </form>
-  );
-}
-</file>
-
-<file path="src/app/user/logoutButton.tsx">
-"use client"
-
-import { logout } from "@/actions/user"
-
-export default function LogoutButton() {
-    return <button style={{float: "right", fontFamily: "Arial, Helvetica, sans-serif", fontSize: "16px"}} className="btn" onClick={async () => { 
-        const res = await logout();
-        if (res?.error) {
-          alert(res.error);
-        } else if (res?.success) {
-          window.location.href = "/";
-          alert("Successfully logged out!");
-        }
-     }}>Logout</button>
-}
-</file>
-
-<file path="src/app/user/page.module.css">
-.card {
-    background: #0f1f1a;
-    border-radius: 0.75rem;
-    padding: 1.5rem;
-    color: #e5f6ef;
-  }
-  
-  .btn {
-    background: #2ecc71;
-    padding: 0.5rem 1rem;
-    border-radius: 0.75rem;
-    color: black;
-    text-decoration: none;
-    border: none;
-    cursor: pointer;
-  }
-  
-  .order {
-    border-top: 1px solid #2ecc71;
-    padding-top: 0.5rem;
-    margin-top: 0.5rem;
-  }
-</file>
-
 <file path="src/app/user/page.tsx">
 // user/page.tsx
 import getDB from "@/lib/db";
 import { cookies } from "next/headers";
 import LogoutButton from "./logoutButton";
 import Link from "next/link";
+import { getFavoriteProducts } from "@/actions/products";
+import productStyles from "../products/products.module.css";
+import SingleProduct from "../products/singleProduct";
 
 export default async function UserPage() {
-  const cookieStore = await cookies();
-  const sessionId = cookieStore.get("session")?.value;
+    const cookieStore = await cookies();
+    const sessionId = cookieStore.get("session")?.value;
 
-  if (!sessionId) return <p className="p-6">Not logged in.</p>;
+    if (!sessionId) return <p className="p-6">Not logged in.</p>;
 
-  const db = getDB();
+    const db = getDB();
 
-  const session = await db
-    .selectFrom("session")
-    .selectAll()
-    .where("session_id", "=", sessionId)
-    .executeTakeFirst();
+    const session = await db
+        .selectFrom("session")
+        .selectAll()
+        .where("session_id", "=", sessionId)
+        .executeTakeFirst();
 
-  if (!session || session.expiration < Date.now()) {
-    return <p className="p-6">Session expired.</p>;
-  }
+    if (!session || session.expiration < Date.now()) {
+        return <p className="p-6">Session expired.</p>;
+    }
 
-  const user = await db
-    .selectFrom("users")
-    .selectAll()
-    .where("id", "=", session.user_id)
-    .executeTakeFirstOrThrow();
+    const user = await db
+        .selectFrom("users")
+        .selectAll()
+        .where("id", "=", session.user_id)
+        .executeTakeFirstOrThrow();
 
-  const orders = await db
-    .selectFrom("orders")
-    .selectAll()
-    .where("user_id", "=", user.id)
-    .execute();
+    const orders = await db
+        .selectFrom("orders")
+        .selectAll()
+        .where("user_id", "=", user.id)
+        .execute();
 
-  const address = await db
-    .selectFrom("user_address")
-    .selectAll()
-    .where("user_id", "=", user.id)
-    .executeTakeFirst();
+    const address = await db
+        .selectFrom("user_address")
+        .selectAll()
+        .where("user_id", "=", user.id)
+        .executeTakeFirst();
+    
+    const favoriteProducts = await getFavoriteProducts();
 
-  return (
-    <main className="max-w-4xl mx-auto p-6 space-y-8">
-      <section className="card">
-        <LogoutButton />
-        <h1>Account</h1>
-        <p><strong>Username:</strong> {user.username}</p>
-        <p><strong>Email:</strong> {user.email}</p>
+    return (
+        <main className="max-w-4xl mx-auto p-6 space-y-8">
+            <section className="card">
+                <LogoutButton />
+                <h1>Account</h1>
+                <p><strong>Username:</strong> {user.username}</p>
+                <p><strong>Email:</strong> {user.email}</p>
 
-        <div className="flex gap-4 mt-4">
-          <Link href="/password_change" className="btn">Change password</Link>
-          <br />
-          <br />
-          <Link href="/user/email" className="btn">Change email</Link>
-        </div>
-      </section>
+                <div className="flex gap-4 mt-4">
+                    <Link href="/password_change" className="btn">Change password</Link>
+                    <br />
+                    <br />
+                    <Link href="/user/email" className="btn">Change email</Link>
+                </div>
+            </section>
 
-      <section className="card">
-        <h2>Address</h2>
-        {address ? (
-          <>
-            <p>{address.street} {address.house_number}</p>
-            <p>{address.city}, {address.zip_code}</p>
-            <p>{address.country}</p>
-            <Link href="/user/address" className="btn mt-2">Edit address</Link>
-          </>
-        ) : (
-          <Link href="/user/address" className="btn">Add address</Link>
-        )}
-      </section>
+            <section className="card">
+                <h2>Address</h2>
+                {address ? (
+                    <>
+                        <p>{address.street} {address.house_number}</p>
+                        <p>{address.city}, {address.zip_code}</p>
+                        <p>{address.country}</p>
+                        <Link href="/user/address" className="btn mt-2">Edit address</Link>
+                    </>
+                ) : (
+                    <Link href="/user/address" className="btn">Add address</Link>
+                )}
+            </section>
 
-      <section className="card">
-        <h2>Orders</h2>
-        {orders.length === 0 && <p>No orders yet.</p>}
-        {orders.map(order => (
-          <div key={order.id} className="order">
-            <p>Objednavka číslo #{order.id}</p>
-            <p>Status: {order.confirmed ? "Confirmed" : "Pending"}</p>
-          </div>
-        ))}
-      </section>
-    </main>
-  );
+            <section className="card">
+                <h2>Orders</h2>
+                {orders.length === 0 && <p>No orders yet.</p>}
+                {orders.map(order => (
+                    <div key={order.id} className="order">
+                        <p>Objednavka číslo #{order.id}</p>
+                        <p>Status: {order.confirmed ? "Confirmed" : "Pending"}</p>
+                    </div>
+                ))}
+            </section>
+
+            <section className="card">
+                <h2>Obľúbené produkty</h2>
+                {favoriteProducts.length === 0 ? (
+                    <p>Zatiaľ nemáte žiadne obľúbené produkty.</p>
+                ) : (
+                    <div className={productStyles.grid}>
+                        {favoriteProducts.map((product) => (
+                            <SingleProduct
+                                key={product.id}
+                                product={product}
+                                userLoggedIn={true}
+                            />
+                        ))}
+                    </div>
+                )}
+            </section>
+        </main>
+    );
 }
 </file>
 
@@ -3726,85 +3837,12 @@ export interface DB {
 }
 </file>
 
-<file path="src/lib/db.ts">
-import { DB } from "@/lib/db-types";
-import SQLite from "better-sqlite3";
-import { SqliteDialect, Kysely } from "kysely";
-
-export default function getDB(){
-  const dialect = new SqliteDialect({ database: new SQLite("db.sqlite") });
-  const db = new Kysely<DB>({ dialect });
-  return db
-}
-</file>
-
-<file path="src/lib/hashing.ts">
-import bcrypt from "bcrypt";
-
-export function hashPassword(password: string) {
-    return bcrypt.hash(password, 10).then(function(hash: string){
-        return hash;
-    });
-}
-
-export function checkPassword(password: string, hash: string) {
-    return bcrypt.compare(password, hash).then(function(result: boolean){
-        return result;
-    });
-}
-</file>
-
-<file path="src/lib/types.ts">
-// lib/types.ts
-import type { Selectable, Insertable } from "kysely";
-import type { Users, Orders, Products, UserAddress } from "@/lib/db-types";
-
-export type UserRow = Selectable<Users>;
-export type OrderRow = Selectable<Orders>;
-export type ProductRow = Selectable<Products>;
-export type AddressRow = Selectable<UserAddress>;
-
-export type AddressForm = Omit<
-  Insertable<UserAddress>,
-  "id" | "user_id"
->;
-</file>
-
-<file path="tsconfig.json">
-{
-  "compilerOptions": {
-    "target": "ES2017",
-    "lib": ["dom", "dom.iterable", "esnext"],
-    "allowJs": true,
-    "skipLibCheck": true,
-    "strict": true,
-    "noEmit": true,
-    "esModuleInterop": true,
-    "module": "esnext",
-    "moduleResolution": "bundler",
-    "resolveJsonModule": true,
-    "isolatedModules": true,
-    "jsx": "preserve",
-    "incremental": true,
-    "plugins": [
-      {
-        "name": "next"
-      }
-    ],
-    "paths": {
-      "@/*": ["./src/*"]
-    }
-  },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "src/app/products"],
-  "exclude": ["node_modules"]
-}
-</file>
-
 <file path=".gitignore">
 node_modules
 dokumentacia
 .env.local
 db.sqlite
+.next
 </file>
 
 </files>

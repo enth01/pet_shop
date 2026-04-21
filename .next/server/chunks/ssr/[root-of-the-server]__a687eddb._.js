@@ -337,11 +337,13 @@ async function verifyCode(input) {
 "[project]/src/actions/products.ts [app-rsc] (ecmascript)", ((__turbopack_context__) => {
 "use strict";
 
-/* __next_internal_action_entry_do_not_use__ [{"00d155b082e3fba48cb0040387aeed432b9b58657c":"makeOrder","4013e0daf469d3865f7b94b22a946e5cee5aae3d7f":"isInFavourites","402fa5e5bb4d424a3be8b07de53bdee9987c344fb0":"removeFromBasket","40596e90704641ed916cf409dfaadb626b570f8b6a":"addToFavourites","40c143e65a9fbba309b7fcf7cd5374446723cdea84":"removeFromFavourites","40e1439d139434a6a0981a1f66939369b0da0ddd3f":"addToBasket","7fcdd70ba4c45344fe57bf12dd4ba44fefabe92628":"makeTemporaryOrder"},"",""] */ __turbopack_context__.s([
+/* __next_internal_action_entry_do_not_use__ [{"00d155b082e3fba48cb0040387aeed432b9b58657c":"makeOrder","00ea07deee1142d91f03a2ae3aad09462574ebbf02":"getFavoriteProducts","4013e0daf469d3865f7b94b22a946e5cee5aae3d7f":"isInFavourites","402fa5e5bb4d424a3be8b07de53bdee9987c344fb0":"removeFromBasket","40596e90704641ed916cf409dfaadb626b570f8b6a":"addToFavourites","40c143e65a9fbba309b7fcf7cd5374446723cdea84":"removeFromFavourites","40e1439d139434a6a0981a1f66939369b0da0ddd3f":"addToBasket","7fcdd70ba4c45344fe57bf12dd4ba44fefabe92628":"makeTemporaryOrder"},"",""] */ __turbopack_context__.s([
     "addToBasket",
     ()=>addToBasket,
     "addToFavourites",
     ()=>addToFavourites,
+    "getFavoriteProducts",
+    ()=>getFavoriteProducts,
     "isInFavourites",
     ()=>isInFavourites,
     "makeOrder",
@@ -477,6 +479,7 @@ async function makeTemporaryOrder(ulica, popisne_cislo_domu, mesto, zip_code, kr
     keksiky.set("order", order, {
         path: "/"
     });
+    console.log("here");
     (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$client$2f$components$2f$navigation$2e$react$2d$server$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["redirect"])("/confirmation");
 }
 async function makeOrder() {
@@ -486,7 +489,8 @@ async function makeOrder() {
     if (!orderCookie) return;
     const order = JSON.parse(orderCookie);
     const user = await (0, __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$actions$2f$user$2e$ts__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["getUser"])();
-    if (user == null) return;
+    let user_id = null;
+    if (user) user_id = user.id;
     const result = await db.insertInto("orders").values({
         name: order.meno,
         surname: order.priezvisko,
@@ -498,7 +502,7 @@ async function makeOrder() {
         phone_number: order.telefon,
         email: order.email,
         confirmed: 0,
-        user_id: user.id
+        user_id: user_id
     }).executeTakeFirst();
     const orderId = Number(result.insertId);
     if (!orderId) {
@@ -559,6 +563,16 @@ async function makeOrder() {
     cookieStore.delete("order");
     (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$client$2f$components$2f$navigation$2e$react$2d$server$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["redirect"])("/confirmed");
 }
+async function getFavoriteProducts() {
+    const db = (0, __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$db$2e$ts__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["default"])();
+    const user = await (0, __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$actions$2f$user$2e$ts__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["getUser"])();
+    if (!user) return [];
+    const favorites = await db.selectFrom("products").innerJoin("favorite_products", "products.id", "favorite_products.product_id").where("favorite_products.user_id", "=", user.id).selectAll("products").execute();
+    return favorites.map((p)=>({
+            ...p,
+            is_in_fav: true
+        }));
+}
 ;
 (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$build$2f$webpack$2f$loaders$2f$next$2d$flight$2d$loader$2f$action$2d$validate$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["ensureServerEntryExports"])([
     addToBasket,
@@ -567,7 +581,8 @@ async function makeOrder() {
     addToFavourites,
     removeFromFavourites,
     makeTemporaryOrder,
-    makeOrder
+    makeOrder,
+    getFavoriteProducts
 ]);
 (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$build$2f$webpack$2f$loaders$2f$next$2d$flight$2d$loader$2f$server$2d$reference$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["registerServerReference"])(addToBasket, "40e1439d139434a6a0981a1f66939369b0da0ddd3f", null);
 (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$build$2f$webpack$2f$loaders$2f$next$2d$flight$2d$loader$2f$server$2d$reference$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["registerServerReference"])(removeFromBasket, "402fa5e5bb4d424a3be8b07de53bdee9987c344fb0", null);
@@ -576,6 +591,7 @@ async function makeOrder() {
 (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$build$2f$webpack$2f$loaders$2f$next$2d$flight$2d$loader$2f$server$2d$reference$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["registerServerReference"])(removeFromFavourites, "40c143e65a9fbba309b7fcf7cd5374446723cdea84", null);
 (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$build$2f$webpack$2f$loaders$2f$next$2d$flight$2d$loader$2f$server$2d$reference$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["registerServerReference"])(makeTemporaryOrder, "7fcdd70ba4c45344fe57bf12dd4ba44fefabe92628", null);
 (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$build$2f$webpack$2f$loaders$2f$next$2d$flight$2d$loader$2f$server$2d$reference$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["registerServerReference"])(makeOrder, "00d155b082e3fba48cb0040387aeed432b9b58657c", null);
+(0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$build$2f$webpack$2f$loaders$2f$next$2d$flight$2d$loader$2f$server$2d$reference$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["registerServerReference"])(getFavoriteProducts, "00ea07deee1142d91f03a2ae3aad09462574ebbf02", null);
 }),
 "[project]/.next-internal/server/app/basket/page/actions.js { ACTIONS_MODULE0 => \"[project]/src/actions/products.ts [app-rsc] (ecmascript)\" } [app-rsc] (server actions loader, ecmascript) <locals>", ((__turbopack_context__) => {
 "use strict";

@@ -337,11 +337,13 @@ async function verifyCode(input) {
 "[project]/src/actions/products.ts [app-rsc] (ecmascript)", ((__turbopack_context__) => {
 "use strict";
 
-/* __next_internal_action_entry_do_not_use__ [{"00d155b082e3fba48cb0040387aeed432b9b58657c":"makeOrder","4013e0daf469d3865f7b94b22a946e5cee5aae3d7f":"isInFavourites","402fa5e5bb4d424a3be8b07de53bdee9987c344fb0":"removeFromBasket","40596e90704641ed916cf409dfaadb626b570f8b6a":"addToFavourites","40c143e65a9fbba309b7fcf7cd5374446723cdea84":"removeFromFavourites","40e1439d139434a6a0981a1f66939369b0da0ddd3f":"addToBasket","7fcdd70ba4c45344fe57bf12dd4ba44fefabe92628":"makeTemporaryOrder"},"",""] */ __turbopack_context__.s([
+/* __next_internal_action_entry_do_not_use__ [{"00d155b082e3fba48cb0040387aeed432b9b58657c":"makeOrder","00ea07deee1142d91f03a2ae3aad09462574ebbf02":"getFavoriteProducts","4013e0daf469d3865f7b94b22a946e5cee5aae3d7f":"isInFavourites","402fa5e5bb4d424a3be8b07de53bdee9987c344fb0":"removeFromBasket","40596e90704641ed916cf409dfaadb626b570f8b6a":"addToFavourites","40c143e65a9fbba309b7fcf7cd5374446723cdea84":"removeFromFavourites","40e1439d139434a6a0981a1f66939369b0da0ddd3f":"addToBasket","7fcdd70ba4c45344fe57bf12dd4ba44fefabe92628":"makeTemporaryOrder"},"",""] */ __turbopack_context__.s([
     "addToBasket",
     ()=>addToBasket,
     "addToFavourites",
     ()=>addToFavourites,
+    "getFavoriteProducts",
+    ()=>getFavoriteProducts,
     "isInFavourites",
     ()=>isInFavourites,
     "makeOrder",
@@ -437,7 +439,7 @@ async function addToFavourites(id) {
         user_id: user.id,
         product_id: id
     }).executeTakeFirst();
-    (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$cache$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["revalidatePath"])("products");
+    (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$cache$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["revalidatePath"])("/products");
 }
 async function removeFromFavourites(id) {
     const db = (0, __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$db$2e$ts__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["default"])();
@@ -450,7 +452,7 @@ async function removeFromFavourites(id) {
         return;
     }
     await db.deleteFrom("favorite_products").where("product_id", "=", id).where("user_id", "=", user.id).executeTakeFirst();
-    (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$cache$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["revalidatePath"])("products");
+    (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$cache$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["revalidatePath"])("/products");
 }
 async function makeTemporaryOrder(ulica, popisne_cislo_domu, mesto, zip_code, krajina, telefon, email, meno, priezvisko) {
     const keksiky = await (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$headers$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["cookies"])();
@@ -486,7 +488,8 @@ async function makeOrder() {
     if (!orderCookie) return;
     const order = JSON.parse(orderCookie);
     const user = await (0, __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$actions$2f$user$2e$ts__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["getUser"])();
-    if (user == null) return;
+    let user_id = null;
+    if (user) user_id = user.id;
     const result = await db.insertInto("orders").values({
         name: order.meno,
         surname: order.priezvisko,
@@ -498,7 +501,7 @@ async function makeOrder() {
         phone_number: order.telefon,
         email: order.email,
         confirmed: 0,
-        user_id: user.id
+        user_id: user_id
     }).executeTakeFirst();
     const orderId = Number(result.insertId);
     if (!orderId) {
@@ -559,6 +562,16 @@ async function makeOrder() {
     cookieStore.delete("order");
     (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$client$2f$components$2f$navigation$2e$react$2d$server$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["redirect"])("/confirmed");
 }
+async function getFavoriteProducts() {
+    const db = (0, __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$db$2e$ts__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["default"])();
+    const user = await (0, __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$actions$2f$user$2e$ts__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["getUser"])();
+    if (!user) return [];
+    const favorites = await db.selectFrom("products").innerJoin("favorite_products", "products.id", "favorite_products.product_id").where("favorite_products.user_id", "=", user.id).selectAll("products").execute();
+    return favorites.map((p)=>({
+            ...p,
+            is_in_fav: true
+        }));
+}
 ;
 (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$build$2f$webpack$2f$loaders$2f$next$2d$flight$2d$loader$2f$action$2d$validate$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["ensureServerEntryExports"])([
     addToBasket,
@@ -567,7 +580,8 @@ async function makeOrder() {
     addToFavourites,
     removeFromFavourites,
     makeTemporaryOrder,
-    makeOrder
+    makeOrder,
+    getFavoriteProducts
 ]);
 (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$build$2f$webpack$2f$loaders$2f$next$2d$flight$2d$loader$2f$server$2d$reference$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["registerServerReference"])(addToBasket, "40e1439d139434a6a0981a1f66939369b0da0ddd3f", null);
 (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$build$2f$webpack$2f$loaders$2f$next$2d$flight$2d$loader$2f$server$2d$reference$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["registerServerReference"])(removeFromBasket, "402fa5e5bb4d424a3be8b07de53bdee9987c344fb0", null);
@@ -576,6 +590,7 @@ async function makeOrder() {
 (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$build$2f$webpack$2f$loaders$2f$next$2d$flight$2d$loader$2f$server$2d$reference$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["registerServerReference"])(removeFromFavourites, "40c143e65a9fbba309b7fcf7cd5374446723cdea84", null);
 (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$build$2f$webpack$2f$loaders$2f$next$2d$flight$2d$loader$2f$server$2d$reference$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["registerServerReference"])(makeTemporaryOrder, "7fcdd70ba4c45344fe57bf12dd4ba44fefabe92628", null);
 (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$build$2f$webpack$2f$loaders$2f$next$2d$flight$2d$loader$2f$server$2d$reference$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["registerServerReference"])(makeOrder, "00d155b082e3fba48cb0040387aeed432b9b58657c", null);
+(0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$build$2f$webpack$2f$loaders$2f$next$2d$flight$2d$loader$2f$server$2d$reference$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["registerServerReference"])(getFavoriteProducts, "00ea07deee1142d91f03a2ae3aad09462574ebbf02", null);
 }),
 "[project]/.next-internal/server/app/shipping_info/page/actions.js { ACTIONS_MODULE0 => \"[project]/src/actions/user.ts [app-rsc] (ecmascript)\", ACTIONS_MODULE1 => \"[project]/src/actions/products.ts [app-rsc] (ecmascript)\" } [app-rsc] (server actions loader, ecmascript) <locals>", ((__turbopack_context__) => {
 "use strict";
@@ -679,279 +694,11 @@ __turbopack_context__.v({
   "title": "form-module__V6Rn0a__title",
 });
 }),
-"[project]/src/app/shipping_info/page.tsx [app-rsc] (ecmascript)", ((__turbopack_context__) => {
-"use strict";
+"[project]/src/app/shipping_info/page.tsx [app-rsc] (ecmascript)", ((__turbopack_context__, module, exports) => {
 
-__turbopack_context__.s([
-    "default",
-    ()=>ShippingInfoPage
-]);
-var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$rsc$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/node_modules/next/dist/server/route-modules/app-page/vendored/rsc/react-jsx-dev-runtime.js [app-rsc] (ecmascript)");
-var __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$db$2e$ts__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/src/lib/db.ts [app-rsc] (ecmascript)");
-var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$headers$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/node_modules/next/headers.js [app-rsc] (ecmascript)");
-var __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$app$2f$shipping_info$2f$LinkToConfirmation$2e$tsx__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/src/app/shipping_info/LinkToConfirmation.tsx [app-rsc] (ecmascript)");
-var __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$actions$2f$user$2e$ts__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/src/actions/user.ts [app-rsc] (ecmascript)");
-var __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$app$2f$form$2e$module$2e$css__$5b$app$2d$rsc$5d$__$28$css__module$29$__ = __turbopack_context__.i("[project]/src/app/form.module.css [app-rsc] (css module)"); // Adjust path as necessary
-;
-;
-;
-;
-;
-;
-async function ShippingInfoPage() {
-    const db = (0, __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$db$2e$ts__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["default"])();
-    const keksiky = await (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$headers$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["cookies"])();
-    const sessionId = keksiky.get("session")?.value;
-    let userData = {};
-    if (sessionId) {
-        const session = await db.selectFrom("session").selectAll().where("session_id", "=", sessionId).executeTakeFirst();
-        if (session) {
-            const user = await db.selectFrom("users").selectAll().where("id", "=", session.user_id).executeTakeFirst();
-            const address = await db.selectFrom("user_address").selectAll().where("user_id", "=", session.user_id).executeTakeFirst();
-            if (user || address) {
-                userData = {
-                    email: user?.email ?? "",
-                    street: address?.street ?? "",
-                    house_number: address?.house_number ?? "",
-                    city: address?.city ?? "",
-                    zip_code: address?.zip_code ?? "",
-                    country: address?.country ?? "",
-                    phone_number: address?.phone_number ?? "",
-                    name: address?.name ?? "",
-                    surname: address?.surname ?? ""
-                };
-            }
-        }
-    }
-    return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$rsc$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-        className: __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$app$2f$form$2e$module$2e$css__$5b$app$2d$rsc$5d$__$28$css__module$29$__["default"].container,
-        children: [
-            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$rsc$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["jsxDEV"])("h1", {
-                className: __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$app$2f$form$2e$module$2e$css__$5b$app$2d$rsc$5d$__$28$css__module$29$__["default"].title,
-                children: "Shipping info"
-            }, void 0, false, {
-                fileName: "[project]/src/app/shipping_info/page.tsx",
-                lineNumber: 62,
-                columnNumber: 7
-            }, this),
-            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$rsc$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["jsxDEV"])("form", {
-                className: __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$app$2f$form$2e$module$2e$css__$5b$app$2d$rsc$5d$__$28$css__module$29$__["default"].form,
-                action: __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$actions$2f$user$2e$ts__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["updateAddress"],
-                children: [
-                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$rsc$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["jsxDEV"])("label", {
-                        className: __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$app$2f$form$2e$module$2e$css__$5b$app$2d$rsc$5d$__$28$css__module$29$__["default"].field,
-                        children: [
-                            "Ulica",
-                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$rsc$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["jsxDEV"])("input", {
-                                name: "street",
-                                id: "ulica",
-                                type: "text",
-                                className: __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$app$2f$form$2e$module$2e$css__$5b$app$2d$rsc$5d$__$28$css__module$29$__["default"].input,
-                                defaultValue: userData.street
-                            }, void 0, false, {
-                                fileName: "[project]/src/app/shipping_info/page.tsx",
-                                lineNumber: 67,
-                                columnNumber: 11
-                            }, this)
-                        ]
-                    }, void 0, true, {
-                        fileName: "[project]/src/app/shipping_info/page.tsx",
-                        lineNumber: 65,
-                        columnNumber: 9
-                    }, this),
-                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$rsc$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["jsxDEV"])("label", {
-                        className: __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$app$2f$form$2e$module$2e$css__$5b$app$2d$rsc$5d$__$28$css__module$29$__["default"].field,
-                        children: [
-                            "Popisne cislo domu",
-                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$rsc$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["jsxDEV"])("input", {
-                                name: "house_number",
-                                type: "text",
-                                id: "popisne_cislo_domu",
-                                className: __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$app$2f$form$2e$module$2e$css__$5b$app$2d$rsc$5d$__$28$css__module$29$__["default"].input,
-                                defaultValue: userData.house_number
-                            }, void 0, false, {
-                                fileName: "[project]/src/app/shipping_info/page.tsx",
-                                lineNumber: 78,
-                                columnNumber: 11
-                            }, this)
-                        ]
-                    }, void 0, true, {
-                        fileName: "[project]/src/app/shipping_info/page.tsx",
-                        lineNumber: 76,
-                        columnNumber: 9
-                    }, this),
-                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$rsc$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["jsxDEV"])("label", {
-                        className: __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$app$2f$form$2e$module$2e$css__$5b$app$2d$rsc$5d$__$28$css__module$29$__["default"].field,
-                        children: [
-                            "Mesto",
-                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$rsc$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["jsxDEV"])("input", {
-                                name: "city",
-                                type: "text",
-                                id: "mesto",
-                                className: __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$app$2f$form$2e$module$2e$css__$5b$app$2d$rsc$5d$__$28$css__module$29$__["default"].input,
-                                defaultValue: userData.city
-                            }, void 0, false, {
-                                fileName: "[project]/src/app/shipping_info/page.tsx",
-                                lineNumber: 89,
-                                columnNumber: 11
-                            }, this)
-                        ]
-                    }, void 0, true, {
-                        fileName: "[project]/src/app/shipping_info/page.tsx",
-                        lineNumber: 87,
-                        columnNumber: 9
-                    }, this),
-                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$rsc$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["jsxDEV"])("label", {
-                        className: __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$app$2f$form$2e$module$2e$css__$5b$app$2d$rsc$5d$__$28$css__module$29$__["default"].field,
-                        children: [
-                            "ZIP code",
-                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$rsc$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["jsxDEV"])("input", {
-                                name: "zip_code",
-                                type: "text",
-                                id: "zip_code",
-                                className: __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$app$2f$form$2e$module$2e$css__$5b$app$2d$rsc$5d$__$28$css__module$29$__["default"].input,
-                                defaultValue: userData.zip_code
-                            }, void 0, false, {
-                                fileName: "[project]/src/app/shipping_info/page.tsx",
-                                lineNumber: 100,
-                                columnNumber: 11
-                            }, this)
-                        ]
-                    }, void 0, true, {
-                        fileName: "[project]/src/app/shipping_info/page.tsx",
-                        lineNumber: 98,
-                        columnNumber: 9
-                    }, this),
-                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$rsc$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["jsxDEV"])("label", {
-                        className: __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$app$2f$form$2e$module$2e$css__$5b$app$2d$rsc$5d$__$28$css__module$29$__["default"].field,
-                        children: [
-                            "Krajina",
-                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$rsc$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["jsxDEV"])("input", {
-                                name: "country",
-                                type: "text",
-                                id: "krajina",
-                                className: __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$app$2f$form$2e$module$2e$css__$5b$app$2d$rsc$5d$__$28$css__module$29$__["default"].input,
-                                defaultValue: userData.country
-                            }, void 0, false, {
-                                fileName: "[project]/src/app/shipping_info/page.tsx",
-                                lineNumber: 111,
-                                columnNumber: 11
-                            }, this)
-                        ]
-                    }, void 0, true, {
-                        fileName: "[project]/src/app/shipping_info/page.tsx",
-                        lineNumber: 109,
-                        columnNumber: 9
-                    }, this),
-                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$rsc$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["jsxDEV"])("label", {
-                        className: __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$app$2f$form$2e$module$2e$css__$5b$app$2d$rsc$5d$__$28$css__module$29$__["default"].field,
-                        children: [
-                            "Telefonne cislo",
-                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$rsc$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["jsxDEV"])("input", {
-                                name: "phone_number",
-                                type: "text",
-                                id: "telefon",
-                                className: __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$app$2f$form$2e$module$2e$css__$5b$app$2d$rsc$5d$__$28$css__module$29$__["default"].input,
-                                defaultValue: userData.phone_number
-                            }, void 0, false, {
-                                fileName: "[project]/src/app/shipping_info/page.tsx",
-                                lineNumber: 122,
-                                columnNumber: 11
-                            }, this)
-                        ]
-                    }, void 0, true, {
-                        fileName: "[project]/src/app/shipping_info/page.tsx",
-                        lineNumber: 120,
-                        columnNumber: 9
-                    }, this),
-                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$rsc$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["jsxDEV"])("label", {
-                        className: __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$app$2f$form$2e$module$2e$css__$5b$app$2d$rsc$5d$__$28$css__module$29$__["default"].field,
-                        children: [
-                            "Email",
-                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$rsc$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["jsxDEV"])("input", {
-                                name: "email",
-                                type: "email",
-                                id: "email",
-                                className: __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$app$2f$form$2e$module$2e$css__$5b$app$2d$rsc$5d$__$28$css__module$29$__["default"].input,
-                                defaultValue: userData.email
-                            }, void 0, false, {
-                                fileName: "[project]/src/app/shipping_info/page.tsx",
-                                lineNumber: 133,
-                                columnNumber: 11
-                            }, this)
-                        ]
-                    }, void 0, true, {
-                        fileName: "[project]/src/app/shipping_info/page.tsx",
-                        lineNumber: 131,
-                        columnNumber: 9
-                    }, this),
-                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$rsc$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["jsxDEV"])("label", {
-                        className: __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$app$2f$form$2e$module$2e$css__$5b$app$2d$rsc$5d$__$28$css__module$29$__["default"].field,
-                        children: [
-                            "Meno",
-                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$rsc$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["jsxDEV"])("input", {
-                                name: "name",
-                                type: "text",
-                                id: "meno",
-                                className: __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$app$2f$form$2e$module$2e$css__$5b$app$2d$rsc$5d$__$28$css__module$29$__["default"].input,
-                                defaultValue: userData.name
-                            }, void 0, false, {
-                                fileName: "[project]/src/app/shipping_info/page.tsx",
-                                lineNumber: 144,
-                                columnNumber: 11
-                            }, this)
-                        ]
-                    }, void 0, true, {
-                        fileName: "[project]/src/app/shipping_info/page.tsx",
-                        lineNumber: 142,
-                        columnNumber: 9
-                    }, this),
-                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$rsc$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["jsxDEV"])("label", {
-                        className: __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$app$2f$form$2e$module$2e$css__$5b$app$2d$rsc$5d$__$28$css__module$29$__["default"].field,
-                        children: [
-                            "Priezvisko",
-                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$rsc$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["jsxDEV"])("input", {
-                                name: "surname",
-                                type: "text",
-                                id: "priezvisko",
-                                className: __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$app$2f$form$2e$module$2e$css__$5b$app$2d$rsc$5d$__$28$css__module$29$__["default"].input,
-                                defaultValue: userData.surname
-                            }, void 0, false, {
-                                fileName: "[project]/src/app/shipping_info/page.tsx",
-                                lineNumber: 155,
-                                columnNumber: 11
-                            }, this)
-                        ]
-                    }, void 0, true, {
-                        fileName: "[project]/src/app/shipping_info/page.tsx",
-                        lineNumber: 153,
-                        columnNumber: 9
-                    }, this),
-                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$rsc$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                        className: __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$app$2f$form$2e$module$2e$css__$5b$app$2d$rsc$5d$__$28$css__module$29$__["default"].buttonContainer,
-                        children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$rsc$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$app$2f$shipping_info$2f$LinkToConfirmation$2e$tsx__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["default"], {}, void 0, false, {
-                            fileName: "[project]/src/app/shipping_info/page.tsx",
-                            lineNumber: 165,
-                            columnNumber: 11
-                        }, this)
-                    }, void 0, false, {
-                        fileName: "[project]/src/app/shipping_info/page.tsx",
-                        lineNumber: 164,
-                        columnNumber: 9
-                    }, this)
-                ]
-            }, void 0, true, {
-                fileName: "[project]/src/app/shipping_info/page.tsx",
-                lineNumber: 64,
-                columnNumber: 7
-            }, this)
-        ]
-    }, void 0, true, {
-        fileName: "[project]/src/app/shipping_info/page.tsx",
-        lineNumber: 61,
-        columnNumber: 5
-    }, this);
-}
+const e = new Error("Could not parse module '[project]/src/app/shipping_info/page.tsx'\n\nExpected ',', got 'className'");
+e.code = 'MODULE_UNPARSABLE';
+throw e;
 }),
 "[project]/src/app/shipping_info/page.tsx [app-rsc] (ecmascript, Next.js Server Component)", ((__turbopack_context__) => {
 
